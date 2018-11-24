@@ -1,0 +1,53 @@
+        <link linkend="goodata-simplecurve-example">Example: Simple Curve</link>
+<xi:include href="example_simplecurve.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-curve_markers-example">Example: Line Graph With Markers</link>
+<xi:include href="example_curve_markers.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-curve_areas-example">Example: Areas</link>
+<xi:include href="example_curve_areas.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-curve_perpens-example">Example: 3D Effect</link>
+<xi:include href="example_curve_perpens.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-curve_helix-example">Example: Smooth Lines</link>
+<xi:include href="example_curve_helix.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-curve_portfolio-example">Example: Portfolio</link>
+<xi:include href="example_curve_portfolio.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-curve_slope-example">Example: Slope Field</link>
+<xi:include href="example_curve_slope.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+
+        <link linkend="goodata-bar-example">Example: Simple Bar Graph</link>
+<xi:include href="example_bar.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-bar_stacked-example">Example: Horizontal Stacked Bar Graph</link>
+<xi:include href="example_bar_stacked.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-box_simple-example">Example: Box Plot</link>
+<xi:include href="example_box_simple.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-box_outliers-example">Example: Tailed Box Plot</link>
+<xi:include href="example_box_outliers.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+
+        <link linkend="goodata-pie_simple-example">Example: Simple Pie Graph</link>
+<xi:include href="example_pie_simple.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-pie_rings-example">Example: Multiple Columns Pie Graph</link>
+<xi:include href="example_pie_rings.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-pie_segmented-example">Example: Segmented Pie Graph</link>
+<xi:include href="example_pie_segmented.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-pie_stacked-example">Example: Stacked Pie Bars</link>
+<xi:include href="example_pie_stacked.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-pie_percent-example">Example: Stacked Pie Bars</link>
+<xi:include href="example_pie_percent.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>
+        <link linkend="goodata-pie_avarage-example">Example: Avaraged Pie Bars</link>
+<xi:include href="example_pie_avarage.bas.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+      </para></listitem><listitem><para>

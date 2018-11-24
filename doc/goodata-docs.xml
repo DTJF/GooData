@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<book id="index">
+  <bookinfo>
+    <title>GooData Reference Manual</title>
+    <releaseinfo>
+      for GooData 0.0.
+      The latest version of this documentation can be found on-line at
+      <ulink role="online-location" url="http://users.freebasic-portal.de/tjf/GooData/doc/html/index.html">the GooData project page</ulink>.
+    </releaseinfo>
+  </bookinfo>
+
+  <part id="part-Introduction">
+    <title>Introduction</title>
+    <xi:include href="MyXml/_overview.xml"/>
+    <xi:include href="MyXml/_gallery.xml" />
+    <xi:include href="MyXml/_example.xml"/>
+    <xi:include href="xml/Goo_Data.xml"/>
+     <xi:include href="MyXml/hints.xml"/>
+  </part>
+
+  <part id="part-2dgraphs">
+    <title>Graphs 2D</title>
+
+    <chapter id="rectangular-coordinates">
+      <title>Rectangular coordinates</title>
+        <xi:include href="xml/Goo_Axis.xml"/>
+        <xi:include href="xml/Goo_Simplecurve2d.xml"/>
+        <xi:include href="xml/Goo_Curve2d.xml"/>
+        <xi:include href="xml/Goo_Bar2d.xml"/>
+        <xi:include href="xml/Goo_Box2d.xml"/>
+    </chapter>
+
+    <chapter id="polar-coordinates">
+      <title>Polar coordinates</title>
+        <xi:include href="xml/Goo_Polax.xml"/>
+        <xi:include href="xml/Goo_Pie2d.xml"/>
+    </chapter>
+  </part>
+
+  <part id="part-3dgraphs">
+    <title>Graphs 3D</title>
+  </part>
+
+  <part id="object-tree">
+    <title>Object Hierarchy</title>
+     <xi:include href="xml/tree_index.sgml"/>
+  </part>
+
+  <part id="part-examples">
+    <title>Examples</title>
+     <xi:include href="MyXml/_examples2d.xml"/>
+     <xi:include href="MyXml/_examples3d.xml"/>
+  </part>
+
+  <index id="api-index-full">
+    <title>API Index</title>
+    <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+
+  <index id="deprecated-api-index" role="deprecated">
+    <title>Index of deprecated API</title>
+    <xi:include href="xml/api-index-deprecated.xml"><xi:fallback /></xi:include>
+  </index>
+
+  <xi:include href="xml/annotation-glossary.xml"><xi:fallback /></xi:include>
+</book>

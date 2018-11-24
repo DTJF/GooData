@@ -1,0 +1,62 @@
+All
+  add methods ...
+  move string evaluation from ..._draw to set_property, add variables in *.bi
+
+Axis
+  autoscale from Dat values
+  centering axis on another (which first?, new function?)
+
+Bar2d
+  color index offset for filler
+  GooCanvasPaths for rectangles (one color in one path)
+  channels startletter 'f' = free positioning (x, y, w, h, color)
+
+Curve2d
+  polax implementation
+  autoscaling of axis
+
+Examples:
+  pie_gantt
+  bar_stacked
+  bar_percent
+  bar_avarage
+  bar_
+  bar_
+  bar_
+  bar_gantt
+
+Labels
+  goo_label_new(gchar *Format, Position)
+
+Legend
+  goo_legend_new(gchar *Title, Position)
+  goo_legend_add_curve(GooCurve2d *Curve, gchar *Title)
+  goo_legend_add_bar(GooBar2d *Bar, gchar *Title)
+  goo_legend_add_pie(GooPie2d *Pie, gchar *Title)
+
+Pie2d
+  properties x, y, width, height (+ Polax2d)
+  color index offset for filler
+  channels startletter 'f' = free positioning (x, y, w, h, color)
+  nogaps switch radial / angular on / off
+  property fill-function: color, pattern, pixbuf
+  background filling
+
+Polar
+  bounds calculation including center
+  no bounds calculation at all (GOO_FIT_NONE, GOO_FIT_CENTER, GOO_FIT_ALL)
+
+Polax2d
+  properties x, y, width, height (+ Pie2d)
+  grid
+  ticks
+  labels
+  scaling
+  offset
+
+Simplecurve2d
+  polax implementation
+  autoscaling of axis
+
+GooDataTree
+  tree structure for bar2d, pie2d

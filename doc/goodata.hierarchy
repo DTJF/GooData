@@ -1,0 +1,30 @@
+GObject
+  GooCanvasItemSimple
+    GooCanvasGroup
+      GooAxis
+      GooPolax
+      GooCurve2d
+      GooBar2d
+      GooBox2d
+      GooPie2d
+  GtkTooltip
+  GInitiallyUnowned
+    GtkObject
+      GtkWidget
+  AtkRegistry
+  AtkObjectFactory
+    AtkNoOpObjectFactory
+  GdkPixbuf
+GInterface
+  GTypePlugin
+  GooCanvasItem
+  AtkImplementorIface
+  GtkBuildable
+  GIcon
+GooDataPoints
+GooAxis
+GooPolax
+GooCurve2d
+GooBar2d
+GooBox2d
+GooPie2d

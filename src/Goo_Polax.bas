@@ -176,10 +176,10 @@ END SUB
 @Parent: the parent item, or %NULL. If a parent is specified, it will assume
  ownership of the item, and the item will automatically be freed when it is
  removed from the parent. Otherwise call g_object_unref() to free it.
-     @X: the x coordinate of the left top corner of the area for the pie chart.
-     @Y: the y coordinate of the left top corner of the area for the pie chart
-@Width_: the width of the area for the pie chart
-@Height: the height of the area for the pie chart
+     @X: the x coordinate of the left top corner of the area for the polar coordinate system.
+     @Y: the y coordinate of the left top corner of the area for the polar coordinate system
+@Width_: the width of the area for the polar coordinate system
+@Height: the height of the area for the polar coordinate system
   @Text: the label text for the axis. You can use Pango markup language to
          format the text.
    @...: optional pairs of property names and values, and a terminating %NULL.
