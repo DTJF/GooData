@@ -2,7 +2,7 @@
 '~A library to present technical data
 '~
 '~Licence: LGPLv2
-'~(C) 2012 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 /'*
 SECTION:Goo_Data
@@ -193,7 +193,7 @@ freed while the #GooDataPoints struct is in usage (its reference counter
 is greater than zero) and when the calling code has to free it after
 the #GooDataPoints struct memory gets freed.
 
-In the first case the memory gets handled by the functions of the 
+In the first case the memory gets handled by the functions of the
 goo_data_points family and the content (values) can be manipulated by
 goo_data_points_set_point() and goo_data_points_get_point().
 
@@ -347,8 +347,8 @@ END FUNCTION
 
 Set one #GooFiller property and value. All fill properties of
 #GooCanvasItemSimple can be used (
-#GooCanvasItemSimple:fill-color, 
-#GooCanvasItemSimple:fill-color-rgba, 
+#GooCanvasItemSimple:fill-color,
+#GooCanvasItemSimple:fill-color-rgba,
 #GooCanvasItemSimple:fill-color-gdk-rgba,
 #GooCanvasItemSimple:fill-pattern,
 #GooCanvasItemSimple:fill-pixbuf).
@@ -666,7 +666,7 @@ FUNCTION _GooPolar.init(BYVAL Obj AS gpointer, _
                         BYVAL A AS GooType, BYVAL R AS GooType, _
                         BYVAL C AS GooType = 0.0) AS gboolean
 
-  Ws = A '~                             start angle 
+  Ws = A '~                             start angle
   Wr = IIF(R > GOO_EPS, R, _2GOO_PI) '~ angle range
 
   DIM AS gdouble xn, xm, yn, ym, v, e = Ws + Wr, lw
@@ -796,13 +796,13 @@ END SUB
 '[
 #MACRO _GOO_DEFINE_PROP_(_M_,_W_,_T_,_I_,_L_,_C_)
  TRIN("")
- 
+
    g_return_if_fail(GOO_IS_##_I_(_T_))
- 
+
    VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
    IF arg THEN _
      g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, VA_NEXT(va, ANY PTR))
- 
+
  TROUT("")
  END SUB
 #ENDMACRO

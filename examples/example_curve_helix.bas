@@ -2,6 +2,9 @@
 '
 ' Two <link linkend="GooCurve2d">GooCurve2d</link> items, smooth line and straight line with markers
 ' points can get connected by smooth curves with quadratic or cubic bezier lines.
+'
+'~Licence: GPLv3
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 CONST cols = 1, az = 7, l = 10 * ATN(1)
 DIM AS GooType datas(az, cols)

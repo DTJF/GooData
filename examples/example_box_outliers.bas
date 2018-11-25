@@ -2,6 +2,9 @@
 '
 ' A <link linkend="GooBox2d">GooBox2d</link> item from six channels
 ' some text here !!!
+'
+'~Licence: GPLv3
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 '~ create the data
 RANDOMIZE TIMER

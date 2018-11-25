@@ -2,6 +2,9 @@
 '
 ' A <link linkend="GooPie2d">GooPie2d</link> item type "default"
 ' in case of more than one channel the pie segments are drawn as rings.
+'
+'~Licence: GPLv3
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 ' create the data
 CONST cols = 5

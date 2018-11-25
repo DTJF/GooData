@@ -2,6 +2,9 @@
 '
 ' A <link linkend="GooSimplecurve2d">GooSimplecurve2d</link> with points and lines
 ' the GooSinmplecurve is used for drawing lines or points.
+'
+'~Licence: GPLv3
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 '~ create the data
 RANDOMIZE TIMER

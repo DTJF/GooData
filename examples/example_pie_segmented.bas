@@ -2,6 +2,9 @@
 '
 ' A <link linkend="GooPie2d">GooPie2d</link> item type "default"
 ' pie charts can can get reduced to a limited area by <link linkend="GooPie2d--segmented">>setting a start ankle and an ankle range</link>.
+'
+'~Licence: GPLv3
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 '~ create the data
 CONST cols = 5

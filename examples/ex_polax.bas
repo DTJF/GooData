@@ -1,7 +1,7 @@
 '~This is file example_curve_slope.bas
 '
 '~Licence: GPLv3
-'~(C) 2012 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 
 ' generate data

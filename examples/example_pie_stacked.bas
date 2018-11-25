@@ -2,6 +2,9 @@
 '
 ' A <link linkend="GooPie2d">GooPie2d</link> item type "stacked"
 ' pie segments are stacked like the recangles in a stacked bar chart.
+'
+'~Licence: GPLv3
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 '~ create the data
 CONST cols = 5

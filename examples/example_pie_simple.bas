@@ -2,6 +2,9 @@
 '
 ' A <link linkend="GooPie2d">GooPie2d</link> item type "default"
 ' a classic pie chart from one channel in Dat.
+'
+'~Licence: GPLv3
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 '~ create the data
 CONST cols = 5

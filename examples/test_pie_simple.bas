@@ -1,7 +1,7 @@
 '~This is file example_pie_simple.bas
 '
 '~Licence: GPLv3
-'~(C) 2012 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 
 '~ create the data
