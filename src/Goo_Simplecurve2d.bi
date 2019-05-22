@@ -1,3 +1,6 @@
+#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Axis.bi"
+
 /'* GooSimplecurve2d:
 
 The #GooSimplecurve2d-struct struct contains private data only.

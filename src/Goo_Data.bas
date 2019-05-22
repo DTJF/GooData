@@ -18,79 +18,6 @@ bla, bla, bla
 
 #INCLUDE ONCE "Goo_Data.bi"
 
-#DEFINE __(_T_) _T_
-'~ #DEFINE DBL_MAX 1.79e308
-'~ #IFDEF GOO_DEBUG
-#IF 0
- #DEFINE TRIN(_T_) ?!"\n"; LCASE(__FUNCTION__);_T_;
- #DEFINE TROUT(_T_) ?" -> out ";_T_;
-#ELSE
- ?"";
- #DEFINE TRIN(_T_)
- #DEFINE TROUT(_T_)
-#ENDIF
-
-#DEFINE GOO_DEFAULT_FORM @"%g"
-#DEFINE GOO_SINF CVS(MKI(&b01111111100000000000000000000000uL))
-#DEFINE GOO_DINF CVD(MKLONGINT(&b0111111111110000000000000000000000000000000000000000000000000000uLL))
-
-CONST GOO_PI = 4 * ATN(1)
-CONST _2GOO_PI = GOO_PI * 2
-CONST GOO_PI_2 = GOO_PI / 2
-CONST GOO_PI_32 = GOO_PI_2 * 3
-CONST DEG_RAD = GOO_PI / 180
-
-STATIC SHARED AS _GooFillerValue _goo_fillers(15)
-_goo_fillers( 0) = TYPE(@"fill-color", @"red1")
-_goo_fillers( 1) = TYPE(@"fill-color", @"blue1")
-_goo_fillers( 2) = TYPE(@"fill-color", @"green1")
-_goo_fillers( 3) = TYPE(@"fill-color", @"yellow1")
-_goo_fillers( 4) = TYPE(@"fill-color", @"gray1")
-_goo_fillers( 5) = TYPE(@"fill-color", @"orange1")
-_goo_fillers( 6) = TYPE(@"fill-color", @"brown1")
-_goo_fillers( 7) = TYPE(@"fill-color", @"pink1")
-_goo_fillers( 8) = TYPE(@"fill-color", @"red3")
-_goo_fillers( 9) = TYPE(@"fill-color", @"blue3")
-_goo_fillers(10) = TYPE(@"fill-color", @"green3")
-_goo_fillers(11) = TYPE(@"fill-color", @"yellow3")
-_goo_fillers(12) = TYPE(@"fill-color", @"gray3")
-_goo_fillers(13) = TYPE(@"fill-color", @"orange3")
-_goo_fillers(14) = TYPE(@"fill-color", @"brown3")
-_goo_fillers(15) = TYPE(@"fill-color", @"pink3")
-'~ STATIC SHARED AS guint _GOO_COLORS(...) => { _
-  '~ &hFF0000FF, &h00FF00FF, &h0000FFFF, &hFF00FFFF, _
-  '~ &hFFFF00FF, &h00FFFFFF, &hC0C0C0FF, &hFF8000FF, _
-  '~ &h00FFB0FF, &h407F40FF, &h800080FF, &hC0FFC0FF, _
-  '~ &hA08060FF, &h40F0C0FF, &h80A060FF, &h6080A0FF}
-'~ _goo_fillers( 0) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&hFF0000FFu))
-'~ _goo_fillers( 1) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&h00FF00FFu))
-'~ _goo_fillers( 2) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&h0000FFFFu))
-'~ _goo_fillers( 3) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&hFF00FFFFu))
-'~ _goo_fillers( 4) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&hFFFF00FFu))
-'~ _goo_fillers( 5) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&h00FFFFFFu))
-'~ _goo_fillers( 6) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&hC0C0C0FFu))
-'~ _goo_fillers( 7) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&hFF8000FFu))
-'~ _goo_fillers( 8) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&h00FFB0FFu))
-'~ _goo_fillers( 9) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&h407F40FFu))
-'~ _goo_fillers(10) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&hC0FFC0FFu))
-'~ _goo_fillers(11) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&hC0FFC0FFu))
-'~ _goo_fillers(12) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&hA08060FFu))
-'~ _goo_fillers(13) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&h40F0C0FFu))
-'~ _goo_fillers(14) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&h80A060FFu))
-'~ _goo_fillers(15) = TYPE(@"fill-color-rgba", GSIZE_TO_POINTER(&h6080A0FFu))
-STATIC SHARED AS GooFiller _goo_filler_default
-WITH _goo_filler_default
-  .Values = @_goo_fillers(0)
-  .Entries = UBOUND(_goo_fillers) + 1
-  .RefCount = 1
-END WITH
-
-
-'~ don't change the order, important for _goo_value()!
-STATIC SHARED AS STRING*23 _GOO_NO_CHR = ".0123456789DEdeABCFabcf"
-STATIC SHARED AS UBYTE _GOO_NO_VAL(...) = {0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, _
-                                          13, 14, 13, 14, 10, 11, 12, 15, 10, 11, 12, 15}
-
 /'* goo_set_decimal_separator:
 @V: the new value for the decimal separator.
 
@@ -380,12 +307,12 @@ G_DEFINE_BOXED_TYPE(GooFiller, _goo_filler, _
                                 goo_filler_unref)
 
 
-'~ analyse a line, calculate angle and length
-TYPE _GooLine
-  AS GooType x, y, dx, dy, l, w
-  DECLARE SUB init(BYVAL Xn AS GooType, BYVAL Yn AS GooType, _
-                   BYVAL Xa AS GooType, BYVAL Ya AS GooType)
-END TYPE
+''~ analyse a line, calculate angle and length
+'TYPE _GooLine
+  'AS GooType x, y, dx, dy, l, w
+  'DECLARE SUB init(BYVAL Xn AS GooType, BYVAL Yn AS GooType, _
+                   'BYVAL Xa AS GooType, BYVAL Ya AS GooType)
+'END TYPE
 
 SUB _GooLine.init(BYVAL Xn AS GooType, BYVAL Yn AS GooType, _
                   BYVAL Xa AS GooType, BYVAL Ya AS GooType)
@@ -643,22 +570,22 @@ SUB _Goo_Sort(BYVAL V AS GooType PTR PTR, BYVAL N AS UINTEGER)
   LOOP
 END SUB
 
-'~ struct for polax and pie segments
-TYPE _GooPolar
-  AS GooType Cx, Cy, Rr, Rv, Ws, Wr, Gap, Cent
-  AS gboolean GapFlag
-  DECLARE FUNCTION init(BYVAL Obj AS gpointer, _
-                        BYVAL X AS GooType, BYVAL Y AS GooType, _
-                        BYVAL W AS GooType, BYVAL H AS GooType, _
-                        BYVAL A AS GooType, BYVAL E AS GooType, _
-                        BYVAL C AS GooType = 0.0) AS gboolean
-  DECLARE FUNCTION init_gaps(BYVAL G AS GooType, BYVAL N AS UINTEGER) AS gboolean
-  DECLARE SUB line(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
-  DECLARE SUB circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
-  DECLARE SUB segment(BYVAL Path AS GArray PTR, _
-                      BYVAL Ri AS GooType, BYVAL Rd AS GooType, _
-                      BYVAL Wa AS GooType, BYVAL Wd AS GooType)
-END TYPE
+''~ struct for polax and pie segments
+'TYPE _GooPolar
+  'AS GooType Cx, Cy, Rr, Rv, Ws, Wr, Gap, Cent
+  'AS gboolean GapFlag
+  'DECLARE FUNCTION init(BYVAL Obj AS gpointer, _
+                        'BYVAL X AS GooType, BYVAL Y AS GooType, _
+                        'BYVAL W AS GooType, BYVAL H AS GooType, _
+                        'BYVAL A AS GooType, BYVAL E AS GooType, _
+                        'BYVAL C AS GooType = 0.0) AS gboolean
+  'DECLARE FUNCTION init_gaps(BYVAL G AS GooType, BYVAL N AS UINTEGER) AS gboolean
+  'DECLARE SUB line(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
+  'DECLARE SUB circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
+  'DECLARE SUB segment(BYVAL Path AS GArray PTR, _
+                      'BYVAL Ri AS GooType, BYVAL Rd AS GooType, _
+                      'BYVAL Wa AS GooType, BYVAL Wd AS GooType)
+'END TYPE
 
 '~ set the drawing area
 FUNCTION _GooPolar.init(BYVAL Obj AS gpointer, _
@@ -786,48 +713,3 @@ SUB _GooPolar.segment(BYVAL Pa AS GArray PTR, _
   _goo_add_path(Pa, ASC("z"))
 END SUB
 
-
-#MACRO _GOO_DEFINE_PROP(_W_,_T_,_I_,_L_,_C_)
- SUB goo_##_W_##_get_##_L_##_properties CDECL(BYVAL _T_ AS Goo##_T_ PTR, ...)
- _GOO_DEFINE_PROP_(get,_W_,_T_,_I_,_L_,_C_)
- SUB goo_##_W_##_set_##_L_##_properties CDECL(BYVAL _T_ AS Goo##_T_ PTR, ...)
- _GOO_DEFINE_PROP_(set,_W_,_T_,_I_,_L_,_C_)
-#ENDMACRO
-
-'[
-#MACRO _GOO_DEFINE_PROP_(_M_,_W_,_T_,_I_,_L_,_C_)
- TRIN("")
-
-   g_return_if_fail(GOO_IS_##_I_(_T_))
-
-   VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-   IF arg THEN _
-     g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, VA_NEXT(va, ANY PTR))
-
- TROUT("")
- END SUB
-#ENDMACRO
-']
-
-'{
-#MACRO _GOO_EVAL_SEGMENT(_P_,_A_,_R_)
- VAR _A_ = 0.0, _R_ = 0.0
- IF _P_ ANDALSO _P_[0] <> 0 THEN
-   VAR p = _P_
-   _A_ = ABS(_goo_value(p)) * DEG_RAD
-   IF p THEN
-     IF _A_ >= _2GOO_PI THEN _A_ = FRAC(_A_ / _2GOO_PI) * _2GOO_PI
-     _R_ = ABS(_goo_value(p)) * DEG_RAD
-     IF p THEN IF _R_ >= _2GOO_PI THEN _R_ = FRAC(_R_ / _2GOO_PI) * _2GOO_PI
-   END IF
- END IF
-#ENDMACRO
-'}
-
-#INCLUDE ONCE "Goo_Axis.bas"
-#INCLUDE ONCE "Goo_Polax.bas"
-#INCLUDE ONCE "Goo_Curve2d.bas"
-#INCLUDE ONCE "Goo_Simplecurve2d.bas"
-#INCLUDE ONCE "Goo_Pie2d.bas"
-#INCLUDE ONCE "Goo_Bar2d.bas"
-#INCLUDE ONCE "Goo_Box2d.bas"

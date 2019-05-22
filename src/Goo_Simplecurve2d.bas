@@ -127,9 +127,9 @@ TROUT("")
 END SUB
 
 SUB _simplecurve2d_paint CDECL( _
-	BYVAL Simple AS GooCanvasItemSimple PTR, _
-	BYVAL Cr AS cairo_t PTR, _
-	BYVAL Bounds AS CONST GooCanvasBounds PTR)
+  BYVAL Simple AS GooCanvasItemSimple PTR, _
+  BYVAL Cr AS cairo_t PTR, _
+  BYVAL Bounds AS CONST GooCanvasBounds PTR)
 
   WITH *GOO_CANVAS_POLYLINE(Simple)->polyline_data
 
@@ -137,10 +137,10 @@ SUB _simplecurve2d_paint CDECL( _
     IF .num_points = 0 THEN EXIT SUB
 
     VAR style = GOO_CANVAS_ITEM_SIMPLE(Simple)->simple_data->style
-    VAR svalue = IIF(style, goo_canvas_style_get_property(style, goo_canvas_style_line_dash_id), NULL)
-    VAR dash = IIF(svalue, CAST(GooCanvasLineDash PTR, svalue->data(0).v_pointer), NULL)
-    var curve = GOO_SIMPLECURVE2D(Simple)
-  
+    VAR svalue = IIF(style, goo_canvas_style_get_property(style, goo_canvas_style_line_dash_id), 0)
+    VAR dash = IIF(svalue, CAST(GooCanvasLineDash PTR, svalue->data(0).v_pointer), 0)
+    VAR curve = GOO_SIMPLECURVE2D(Simple)
+
 '~ we don't support arrows at the line ends
     VAR p = .coords
     cairo_move_to (Cr, p[0], p[1])
@@ -150,15 +150,15 @@ SUB _simplecurve2d_paint CDECL( _
        dash->dashes[0] <> 0.0 ORELSE _
        dash->dashes[1] < curve->Bb + curve->Bh THEN '~             lines
       FOR p = p TO p + 2 * (.num_points - 3) STEP 2
-	      cairo_line_to (Cr, p[0], p[1])
+        cairo_line_to (Cr, p[0], p[1])
       NEXT
     ELSE '~                                                  points only
       FOR p = p TO p + 2 * (.num_points - 2) STEP 2
-	      cairo_line_to(Cr, p[0], p[1])
-	      cairo_rel_move_to(Cr, 0.0, 0.0)
+        cairo_line_to(Cr, p[0], p[1])
+        cairo_rel_move_to(Cr, 0.0, 0.0)
       NEXT
     END IF
-  
+
     IF .close_path THEN cairo_close_path(Cr)
   END WITH
   goo_canvas_item_simple_paint_path (Simple, Cr)
@@ -202,7 +202,7 @@ END SUB
 
 Creates a new simple curve item.
 
-The simple curve does support points scaled by one or two axis. If 
+The simple curve does support points scaled by one or two axis. If
 you need smooth lines, markers, error-markers, areas, perpendiculars
 or vectors, have a look at #GooCurve2d.
 
@@ -228,14 +228,14 @@ Since: 0.0
 '~ *                                  "fill_color", "blue",
 '~ *                                   NULL);
 '~ * </programlisting></informalexample>
-FUNCTION goo_simplecurve2d_new CDECL( _
+FUNCTION goo_simplecurve2d_new CDECL ALIAS "goo_simplecurve2d_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL AxisX AS GooAxis PTR, _
   BYVAL AxisY AS GooAxis PTR, _
   BYVAL Dat AS GooDataPoints PTR, _
   BYVAL ChX AS guint, _
   BYVAL ChY AS guint, _
-  ...) AS GooCanvasItem PTR
+  ...) AS GooCanvasItem PTR EXPORT
 TRIN("")
 
   VAR poly = g_object_new(GOO_TYPE_SIMPLECURVE2D, NULL)

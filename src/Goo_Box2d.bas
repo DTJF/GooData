@@ -34,6 +34,8 @@ is contolled directly by the #GooBox2d properties.
 
 '/
 
+#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Axis.bi"
 #INCLUDE ONCE "Goo_Box2d.bi"
 
 STATIC SHARED _Box2d__update AS SUB CDECL( _
@@ -455,21 +457,21 @@ TRIN("")
   END WITH
 
   g_object_class_install_property(klass, GOO_BOX2D_PROP_CHAN, _
-     g_param_spec_string_("channels", _
+     g_param_spec_string("channels", _
            __("ColumnsInDat"), _
            __("The columns in Dat to draw the box plot from."), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_BOX2D_PROP_BOXS, _
-     g_param_spec_string_("boxes", _
+     g_param_spec_string("boxes", _
            __("BoxesStyle"), _
            __("The style of the box and whisker lines."), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_BOX2D_PROP_OUTL, _
-     g_param_spec_string_("outliers", _
+     g_param_spec_string("outliers", _
            __("OutliersStyle"), _
            __("The style of the points outside the whiskers."), _
            NULL, _
@@ -543,11 +545,11 @@ one box, the boxes are all the same wide.
 Since: 0.0
 Returns: (transfer full): a new bar item.
 '/
-FUNCTION goo_box2d_new CDECL( _
+FUNCTION goo_box2d_new CDECL ALIAS "goo_box2d_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL Axis AS GooAxis PTR, _
   BYVAL Dat AS GooDataPoints PTR, _
-  ...) AS GooBox2d PTR
+  ...) AS GooBox2d PTR EXPORT
 TRIN("")
 
   g_return_val_if_fail(Dat > 0, NULL)

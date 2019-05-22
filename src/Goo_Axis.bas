@@ -35,6 +35,7 @@ after creating the #GooAxis. Instead put the background box and the
 #GooAxis in to a #GooCanvasGroup and move the entire group.
 
 '/
+#INCLUDE ONCE "Goo_Data.bi"
 #INCLUDE ONCE "Goo_Axis.bi"
 
 STATIC SHARED _axis__update AS SUB CDECL( _
@@ -700,7 +701,7 @@ Since: 0.0
       VAR f = CVD(MID(Nn, i, 8))
       IF AXIS_VERTICAL THEN ty = .Pos(f) + o ELSE tx = .Pos(f) + o
       IF l THEN
-        t = _axis_next_label(p, e)
+        t = _axis_next_label(CAST(UBYTE PTR, p), e)
       ELSE
         g_string_printf(x, y, f) : t = x->str
       END IF
@@ -857,98 +858,98 @@ TRIN("")
   END WITH
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_TEXT, _
-     g_param_spec_string_("label", _
+     g_param_spec_string("label", _
            __("Label text"), _
            __("Some text to descripe the sense of the axis."), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_TEXT_ALIGN, _
-     g_param_spec_enum_("label-align", _
+     g_param_spec_enum("label-align", _
            __("Alignment of label"), _
            __("How to align the label text at the axis."), _
            PANGO_TYPE_ALIGNMENT, PANGO_ALIGN_CENTER, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_LOGBAS, _
-     g_param_spec_double_("logbasis", _
+     g_param_spec_double("logbasis", _
            __("Logarythmic Basis"), _
            __("The basis value of a logarithmic axis."), _
            0.0, G_MAXDOUBLE, 0.0, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_TICKS, _
-     g_param_spec_string_("ticks", _
+     g_param_spec_string("ticks", _
            __("TicksValue"), _
            __("The distance or the place of main ticks at the axis"), _
            "0", _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_TICKLEN, _
-     g_param_spec_string_("tick-length", _
+     g_param_spec_string("tick-length", _
            __("TicksLengths out/in"), _
            __("How long are the ticks outwards and inwards"), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_TICKS_ANGLE, _
-     g_param_spec_double_("angle-ticklabel", _
+     g_param_spec_double("angle-ticklabel", _
            __("TickAngleValue"), _
            __("The rotation of the tick texts at the axis"), _
            -90.0, 90.0, 0.0, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_TICK_OFFSET, _
-     g_param_spec_double_("offset-ticklabel", _
+     g_param_spec_double("offset-ticklabel", _
            __("TicksDistance"), _
            __("Variable distance for tick texts at the axis"), _
            -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_TEXT_OFFSET, _
-     g_param_spec_double_("offset-label", _
+     g_param_spec_double("offset-label", _
            __("TextDistance"), _
            __("Variable distance for the text of the axis"), _
            -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_SUBTICK, _
-     g_param_spec_uint_("subticks", _
+     g_param_spec_uint("subticks", _
            __("InTick"), _
            __("The number of subticks"), _
            0, 9, 0, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_OFFSET, _
-     g_param_spec_string_("offset", _
+     g_param_spec_string("offset", _
            __("AxisOffset"), _
            __("The distance between axis and background item along (and maybe across) the axis direction"), _
            NULL, _
            G_PARAM_WRITABLE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_OFFS_ALONG, _
-     g_param_spec_double_("offset-along", _
+     g_param_spec_double("offset-along", _
            __("AxisOffsetAlong"), _
            __("The distance between the axis and the background item along the axis direction"), _
            -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_OFFS_ACROSS, _
-     g_param_spec_double_("offset-across", _
+     g_param_spec_double("offset-across", _
            __("AxisOffsetAcross"), _
            __("The distance between the axis and the background item across the axis direction"), _
            -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_BORDERS, _
-     g_param_spec_string_("range", _
+     g_param_spec_string("range", _
            __("AxisBorders"), _
            __("The right/down and left/up border of the axis"), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_AXIS_PROP_FORMAT, _
-     g_param_spec_string_("format", _
+     g_param_spec_string("format", _
            __("TicksFormat"), _
            __("How to format the ticks"), _
            NULL, _
@@ -1100,12 +1101,12 @@ Since: 0.0
 '~ *                                           "fill-color", "blue",
 '~ *                                           NULL);
 '~ * </programlisting></informalexample>
-FUNCTION goo_axis_new CDECL( _
+FUNCTION goo_axis_new CDECL ALIAS "goo_axis_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL Back AS GooCanvasItem PTR, _
   BYVAL Modus AS GooAxisType, _
   BYVAL Text AS gchar PTR, _
-  ...) AS GooAxis PTR
+  ...) AS GooAxis PTR EXPORT
 TRIN("")
 
   g_return_val_if_fail(Back > 0, NULL)
