@@ -2,7 +2,20 @@
 #INCLIB "Goo_Data"
 #ENDIF
 
-#INCLUDE ONCE "goocanvas.bi"
+'#INCLUDE ONCE "goocanvas.bi"
+#INCLUDE ONCE "cairo/cairo.bi"
+#INCLUDE ONCE "Gir/GooCanvas-2.0.bi"
+#INCLUDE ONCE "Gir/_GObjectMacros-2.0.bi"
+#INCLUDE ONCE "Gir/_GLibMacros-2.0.bi"
+
+' fixing headers:
+#IFNDEF G_MAXDOUBLE
+#DEFINE G_MAXDOUBLE 1.797693134862316e+308
+#ENDIF
+#UNDEF G_IMPLEMENT_INTERFACE
+#DEFINE G_IMPLEMENT_INTERFACE(TYPE_IFACE, iface_init) g_type_add_interface_static (g_define_type_id, TYPE_IFACE, @TYPE<const GInterfaceInfo>( CAST(GInterfaceInitFunc, @iface_init), NULL, NULL ))
+EXTERN AS GQuark goo_canvas_style_line_dash_id ALIAS "goo_canvas_style_line_dash_id"
+
 
 #DEFINE GOO_EPS (1e-7)
 TYPE AS gdouble GooType
@@ -51,8 +64,8 @@ DECLARE FUNCTION goo_set_decimal_separator CDECL(BYVAL V AS UByte = 0) AS UBYTE
 '@Dat: the data values to draw
 /'* GooDataPoints:
 
-#GooDataPoints represents an array of numerical values as the source 
-for all the graph types. It contains private data only. Use the 
+#GooDataPoints represents an array of numerical values as the source
+for all the graph types. It contains private data only. Use the
 functions of the goo_data_points family to set the content.
 
 The data array may contain more data (more columns)

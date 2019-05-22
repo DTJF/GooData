@@ -529,41 +529,41 @@ TRIN("")
   END WITH
 
   g_object_class_install_property(klass, GOO_PIE2D_PROP_CHAN, _
-     g_param_spec_string_("channels", _
+     g_param_spec_string("channels", _
            __("PieDataChannel"), _
            __("The channels in the data array for the pie chart."), _
            NULL, _
            G_PARAM_READWRITE))
 
   '~ g_object_class_install_property(klass, GOO_PIE2D_PROP_ALPH, _
-     '~ g_param_spec_uint_("alpha", _
+     '~ g_param_spec_uint("alpha", _
            '~ __("TransparencyAlpha"), _
            '~ __("The alpa value for transparency of the pie graph."), _
            '~ 0, 255, 0, _
            '~ G_PARAM_READWRITE))
-'~ 
+'~
   g_object_class_install_property(klass, GOO_PIE2D_PROP_FILL, _
-     g_param_spec_pointer_("filler", _
+     g_param_spec_pointer("filler", _
            __("FillerObject"), _
            __("The filler object to set color/pattern/pixbuf for pie segments."), _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_PIE2D_PROP_FORM, _
-     g_param_spec_string_("format", _
+     g_param_spec_string("format", _
            __("LabelFormat"), _
            __("The format for the segment labels."), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_PIE2D_PROP_GAPS, _
-     g_param_spec_string_("gaps", _
+     g_param_spec_string("gaps", _
            __("GapsBetweenPieSegments"), _
            __("The gap between the pie segments and at the center."), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_PIE2D_PROP_SEGM, _
-     g_param_spec_string_("segmented", _
+     g_param_spec_string("segmented", _
            __("AreaSegment"), _
            __("The start angle and the angle area for the graph."), _
            NULL, _

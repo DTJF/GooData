@@ -455,28 +455,28 @@ TRIN("")
   END WITH
 
   g_object_class_install_property(klass, GOO_BAR2D_PROP_CHAN, _
-     g_param_spec_string_("channels", _
+     g_param_spec_string("channels", _
            __("ColumnsInDat"), _
            __("The columns in Dat to draw the bars from."), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_BAR2D_PROP_GAPS, _
-     g_param_spec_string_("gaps", _
+     g_param_spec_string("gaps", _
            __("GapsBetweenBars"), _
            __("The gaps between the bars (1. bargroups, 2. single bars)."), _
            NULL, _
            G_PARAM_READWRITE))
 
   '~ g_object_class_install_property(klass, GOO_BAR2D_PROP_ALPH, _
-     '~ g_param_spec_uint_("alpha", _
+     '~ g_param_spec_uint("alpha", _
            '~ __("TransparencyAlpha"), _
            '~ __("The alpa value for transparency of the bars."), _
            '~ 0, 255, 255, _
            '~ G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_BAR2D_PROP_FILL, _
-     g_param_spec_pointer_("filler", _
+     g_param_spec_pointer("filler", _
            __("FillerObject"), _
            __("The filler object to set color/pattern/pixbuf for bars."), _
            G_PARAM_READWRITE))

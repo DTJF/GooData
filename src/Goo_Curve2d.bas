@@ -856,56 +856,56 @@ TRIN("")
   END WITH
 
   g_object_class_install_property(klass, GOO_CURVE2D_PROP_CHAN, _
-     g_param_spec_string_("channels", _
+     g_param_spec_string("channels", _
            __("CurveDataChannels"), _
            __("The channels in the data array for the values of the curve."), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_CURVE2D_PROP_LTYP, _
-     g_param_spec_string_("line_type", _
+     g_param_spec_string("line_type", _
            __("TypeOfLine"), _
            __("The type of the line"), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_CURVE2D_PROP_ATYP, _
-     g_param_spec_string_("area_linetype", _
+     g_param_spec_string("area_linetype", _
            __("AreaLineType"), _
            __("The line type for the area."), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_CURVE2D_PROP_ADIR, _
-     g_param_spec_string_("area_direction", _
+     g_param_spec_string("area_direction", _
            __("AreaDirectionValue"), _
            __("The direction and an optional value to set the area bottom line."), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_CURVE2D_PROP_PERS, _
-     g_param_spec_string_("perpendiculars", _
+     g_param_spec_string("perpendiculars", _
            __("ValueForPerpendiculars"), _
            __("The type and value for perpendiculars"), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_CURVE2D_PROP_ERRS, _
-     g_param_spec_string_("errors", _
+     g_param_spec_string("errors", _
            __("DefOfErrorLines"), _
            __("The size and the channels for error lines"), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_CURVE2D_PROP_VECT, _
-     g_param_spec_string_("vectors", _
+     g_param_spec_string("vectors", _
            __("VectorsChannels"), _
            __("The channels for vector lines"), _
            NULL, _
            G_PARAM_READWRITE))
 
   g_object_class_install_property(klass, GOO_CURVE2D_PROP_MARK, _
-     g_param_spec_string_("markers", _
+     g_param_spec_string("markers", _
            __("MarkersSizeType"), _
            __("The size and the type of the markers"), _
            NULL, _

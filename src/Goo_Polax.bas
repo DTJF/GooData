@@ -54,7 +54,7 @@ TRIN("")
 TROUT("")
 END SUB
 
-ENUM 
+ENUM
   GOO_POLAX_PROP_0
   GOO_POLAX_PROP_SEGM
 END ENUM
@@ -151,7 +151,7 @@ TRIN("")
   END WITH
 
   g_object_class_install_property(klass, GOO_POLAX_PROP_SEGM, _
-     g_param_spec_string_("segmented", _
+     g_param_spec_string("segmented", _
            __("SegmentOfPolarAxis"), _
            __("The segment where to place the polar axis in."), _
            NULL, _
@@ -186,7 +186,7 @@ END SUB
 
 Creates a new simple curve item.
 
-The simple curve does support points scaled by one or two axis. If 
+The simple curve does support points scaled by one or two axis. If
 you need smooth lines, markers, error-markers, areas, perpendiculars
 or vectors, have a look at #GooCurve2d.
 
