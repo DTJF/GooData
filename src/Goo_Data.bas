@@ -2,7 +2,7 @@
 '~A library to present technical data
 '~
 '~Licence: LGPLv2
-'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 /'*
 SECTION:Goo_Data
@@ -469,6 +469,7 @@ END FUNCTION
 
 '~ add drawing statements to an GArray (GooCanvasPath)
 SUB _goo_add_path(BYVAL Path AS GArray PTR, BYVAL Mo AS UBYTE, ...)
+  DIM AS cva_list args : CVA_START(args, Mo)
   STATIC AS GooCanvasPathCommand cmd
   STATIC AS ANY PTR va
   SELECT CASE AS CONST Mo

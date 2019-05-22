@@ -1,7 +1,7 @@
 '~This is file ex_bar.bas
 '
 '~Licence: GPLv3
-'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 VAR root = goo_canvas_group_new(Glob, _
             "line_width", line_group / 2, _

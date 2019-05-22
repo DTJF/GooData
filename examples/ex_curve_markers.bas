@@ -1,7 +1,7 @@
 '~This is file example_curve_markers.bas
 '
 '~Licence: GPLv3
-'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 CONST cols = 2, az = 30, l = 4 * ATN(1), line_group = 2.0
 DIM AS GooType datas(az, cols)

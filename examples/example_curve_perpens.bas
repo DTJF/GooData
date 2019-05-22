@@ -4,7 +4,7 @@
 ' perpendiculars can be drawn to a fixed value in any direction or between two curves.
 '
 '~Licence: GPLv3
-'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 CONST cols = 2, az = 30, l = 4 * ATN(1)
 DIM AS GooType datas(az, cols)

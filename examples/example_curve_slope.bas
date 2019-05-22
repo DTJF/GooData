@@ -4,7 +4,7 @@
 ' the slope datas are red from a channel in Dat (inf is used for vertical slope).
 '
 '~Licence: GPLv3
-'~(C) 2012-2018 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 ' generate data
 CONST cols = 2, l = 4 * ATN(1)

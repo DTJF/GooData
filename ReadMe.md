@@ -26,7 +26,7 @@ Have fun!
 Licence:
 ========
 
-Copyright &copy; 2012-2018 by Thomas{ doT ]Freiherr[ At ]gmx[ DoT }net
+Copyright &copy; 2012-2019 by Thomas{ doT ]Freiherr[ At ]gmx[ DoT }net
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the Lesser GNU General Public License version 2 as
