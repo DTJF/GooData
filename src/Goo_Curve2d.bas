@@ -41,6 +41,8 @@ after creating the #GooCurve2d. Instead put the background box, the #GooAxis and
  #GooCurve2d in to a #GooCanvasGroup and move the entire group.
 '/
 
+#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Axis.bi"
 #INCLUDE ONCE "Goo_Curve2d.bi"
 
 STATIC SHARED _curve2d__update AS SUB CDECL( _
@@ -1058,12 +1060,12 @@ Since: 0.0
 '~ *                                  "fill_color", "blue",
 '~ *                                   NULL);
 '~ * </programlisting></informalexample>
-FUNCTION goo_curve2d_new CDECL( _
+FUNCTION goo_curve2d_new CDECL ALIAS "goo_curve2d_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL AxisX AS GooAxis PTR, _
   BYVAL AxisY AS GooAxis PTR, _
   BYVAL Dat AS GooDataPoints PTR, _
-  ...) AS GooCurve2d PTR
+  ...) AS GooCurve2d PTR EXPORT
 TRIN("")
 
   g_return_val_if_fail(GOO_IS_AXIS(AxisX), NULL)

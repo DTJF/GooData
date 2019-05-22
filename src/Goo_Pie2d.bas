@@ -29,6 +29,8 @@ The #GooPie2d group contains these childs:
 '~ '* for area, perpens, markers, errors and vectors. The remaining item (pie line)
 '~ '* is contolled directly by the #GooPie2d properties.
 
+#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Polax.bi"
 #INCLUDE ONCE "Goo_Pie2d.bi"
 
 STATIC SHARED _Pie2d__update AS SUB CDECL( _
@@ -621,14 +623,14 @@ Returns: (transfer full): a new pie item.
 '~ *                                  "start-angle", 45.0,
 '~ *                                   NULL);
 '~ * </programlisting></informalexample>
-FUNCTION goo_pie2d_new CDECL( _
+FUNCTION goo_pie2d_new CDECL ALIAS "goo_pie2d_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL Dat AS GooDataPoints PTR, _
   BYVAL X AS GooType, _
   BYVAL Y AS GooType, _
   BYVAL Width_ AS GooType, _
   BYVAL Height AS GooType, _
-  ...) AS GooPie2d PTR
+  ...) AS GooPie2d PTR EXPORT
 TRIN("")
 
   g_return_val_if_fail(Width_ > 0, NULL)

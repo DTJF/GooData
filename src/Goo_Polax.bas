@@ -212,14 +212,14 @@ Since: 0.0
 '~ *                                  "fill_color", "blue",
 '~ *                                   NULL);
 '~ * </programlisting></informalexample>
-FUNCTION goo_polax_new CDECL( _
+FUNCTION goo_polax_new CDECL ALIAS "goo_polax_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL X AS GooType, _
   BYVAL Y AS GooType, _
   BYVAL Width_ AS GooType, _
   BYVAL Height AS GooType, _
   BYVAL Text AS gchar PTR, _
-  ...) AS GooCanvasItem PTR
+  ...) AS GooCanvasItem PTR EXPORT
 TRIN("")
 
   VAR polax = g_object_new(GOO_TYPE_POLAX, NULL)

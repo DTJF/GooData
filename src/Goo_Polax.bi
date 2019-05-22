@@ -1,3 +1,5 @@
+#INCLUDE ONCE "Goo_Data.bi"
+
 /'* GooPolax:
 
 The #GooPolax-struct struct contains private data only.

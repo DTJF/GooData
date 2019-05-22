@@ -2,7 +2,9 @@ $ cat .gitignore
 
 # Can ignore specific files
 *.geany
-src/*.so
+Makefile
+**/cmake_install.cmake
+**/CMakeCache.txt
 
 # Use wildcards as well
 doc/*.bak
@@ -10,6 +12,8 @@ doc/*.stamp
 
 # Can also ignore all directories and files in a directory.
 
+**/*.so*
+**/CMakeFiles*/**/*
 test*/**/*
 doc/xml*/**/*
 doc/html*/**/*

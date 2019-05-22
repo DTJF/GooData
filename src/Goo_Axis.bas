@@ -35,6 +35,7 @@ after creating the #GooAxis. Instead put the background box and the
 #GooAxis in to a #GooCanvasGroup and move the entire group.
 
 '/
+#INCLUDE ONCE "Goo_Data.bi"
 #INCLUDE ONCE "Goo_Axis.bi"
 
 STATIC SHARED _axis__update AS SUB CDECL( _
@@ -1100,12 +1101,12 @@ Since: 0.0
 '~ *                                           "fill-color", "blue",
 '~ *                                           NULL);
 '~ * </programlisting></informalexample>
-FUNCTION goo_axis_new CDECL( _
+FUNCTION goo_axis_new CDECL ALIAS "goo_axis_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL Back AS GooCanvasItem PTR, _
   BYVAL Modus AS GooAxisType, _
   BYVAL Text AS gchar PTR, _
-  ...) AS GooAxis PTR
+  ...) AS GooAxis PTR EXPORT
 TRIN("")
 
   g_return_val_if_fail(Back > 0, NULL)

@@ -228,14 +228,14 @@ Since: 0.0
 '~ *                                  "fill_color", "blue",
 '~ *                                   NULL);
 '~ * </programlisting></informalexample>
-FUNCTION goo_simplecurve2d_new CDECL( _
+FUNCTION goo_simplecurve2d_new CDECL ALIAS "goo_simplecurve2d_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL AxisX AS GooAxis PTR, _
   BYVAL AxisY AS GooAxis PTR, _
   BYVAL Dat AS GooDataPoints PTR, _
   BYVAL ChX AS guint, _
   BYVAL ChY AS guint, _
-  ...) AS GooCanvasItem PTR
+  ...) AS GooCanvasItem PTR EXPORT
 TRIN("")
 
   VAR poly = g_object_new(GOO_TYPE_SIMPLECURVE2D, NULL)

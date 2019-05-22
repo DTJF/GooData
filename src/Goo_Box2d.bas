@@ -34,6 +34,8 @@ is contolled directly by the #GooBox2d properties.
 
 '/
 
+#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Axis.bi"
 #INCLUDE ONCE "Goo_Box2d.bi"
 
 STATIC SHARED _Box2d__update AS SUB CDECL( _
@@ -543,11 +545,11 @@ one box, the boxes are all the same wide.
 Since: 0.0
 Returns: (transfer full): a new bar item.
 '/
-FUNCTION goo_box2d_new CDECL( _
+FUNCTION goo_box2d_new CDECL ALIAS "goo_box2d_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL Axis AS GooAxis PTR, _
   BYVAL Dat AS GooDataPoints PTR, _
-  ...) AS GooBox2d PTR
+  ...) AS GooBox2d PTR EXPORT
 TRIN("")
 
   g_return_val_if_fail(Dat > 0, NULL)

@@ -1,3 +1,5 @@
+#INCLUDE ONCE "Goo_Data.bi"
+
 /'* GooBox2d:
 
 The #GooBox2d-struct struct contains private data only.

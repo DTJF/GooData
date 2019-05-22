@@ -23,6 +23,8 @@ The #GooBar2d group contains these childs:
 
 '/
 
+#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Axis.bi"
 #INCLUDE ONCE "Goo_Bar2d.bi"
 
 STATIC SHARED _Bar2d__update AS SUB CDECL( _
@@ -527,11 +529,11 @@ Returns: (transfer full): a new bar item.
  '~ *                                  "start-angle", 45.0,
  '~ *                                   NULL);
  '~ * </programlisting></informalexample>
-FUNCTION goo_bar2d_new CDECL( _
+FUNCTION goo_bar2d_new CDECL ALIAS "goo_bar2d_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL Axis AS GooAxis PTR, _
   BYVAL Dat AS GooDataPoints PTR, _
-  ...) AS GooBar2d PTR
+  ...) AS GooBar2d PTR EXPORT
 TRIN("")
 
   '~ g_return_val_if_fail(GOO_IS_DATA_POINTS(Dat), NULL)
