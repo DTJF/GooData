@@ -24,7 +24,7 @@ SET(SRC_BI
 
 ADD_LIBRARY(GooDatafbcode OBJECT ${SRC_BAS})
 SET_TARGET_PROPERTIES(GooDatafbcode PROPERTIES
-  COMPILE_FLAGS "-Wc -fPIC"
+  COMPILE_FLAGS "-Wc -fPIC -arch 32"
   )
 ADD_Fbc_SRC_DEPS(GooDatafbcode)
 

@@ -32,7 +32,7 @@ ADD_SUBDIRECTORY(src)
 ADD_LIBRARY(goodata SHARED $<TARGET_OBJECTS:GooDatafbcode>)
 ADD_DEPENDENCIES(goodata GooDatafbcode)
 SET_TARGET_PROPERTIES(goodata PROPERTIES
-  LINK_FLAGS "-Wl -z,relro"
+  LINK_FLAGS "-Wl -z,relro -arch 32"
   SOVERSION "o" # adapt <Package: ...> in debian/control
   #NO_SONAME "YES"
   )
