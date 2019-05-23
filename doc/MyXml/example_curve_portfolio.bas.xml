@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="goodata-curve_portfolio-example">
+  <refmeta>
+    <refentrytitle>Example: Portfolio</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>
+      
+      <inlinegraphic fileref='img/example_curve_portfolio.bas.png' format='PNG'/>
+    </refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>A <link linkend="GooCurve2d">GooCurve2d</link> item with variable sized markers</refname>
+    <refpurpose>the data of a channel is used to scale the markers.</refpurpose>
+  </refnamediv>
+
+  <refsect3 id="source-curve_portfolio">
+    <title>Source Code</title>
+
+    <programlisting>
+<xi:include href="example_curve_portfolio.bas" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </programlisting>
+
+  </refsect3>
+</refentry>

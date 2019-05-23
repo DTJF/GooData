@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="goodata-simple-example">
+  <refmeta>
+    <refentrytitle>Example</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>GooData Library</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>Example: Simple Line Graph</refname>
+    <refpurpose>how to create a simple rectangle line graph.</refpurpose>
+  </refnamediv>
+
+  <refsect1 id="simple-goodata-example">
+    <title>Curves with areas in a rectangle background box</title>
+    <para>
+      Here's a complete example application that creates a
+      #GooCanvas with a rectangle graph and two curves in it. The
+      curves are drawn with areas to the Y-value 0.0 (zero)). Due to
+      transparency (alpha &lt; 255) the cross section is high-lighted.
+    </para>
+
+    <figure id="example-curve-area">
+      <title>Curves with areas in a rectangle grid</title>
+      <graphic fileref="img/example_curve_areas.bas.png" format="PNG"/>
+    </figure>
+
+    <programlisting>
+<xi:include href="_example.c" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </programlisting>
+
+    <para>
+      And here's the same example code in FreeBasic syntax
+    </para>
+
+    <programlisting>
+<xi:include href="_example_1.bas" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="_example_curve_areas.bas" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="_example_2.bas" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </programlisting>
+
+    <para>
+      As you can see there're very little differences between the
+      two syntaxes. It's easier to read the FreeBasic Syntax so
+      further examples will be shown in this language. Find more
+      examples in the chapter <link linkend="part-examples">Examples
+      </link> (or by clicking on the images in the <link linkend=
+      "GooData-gallery">Gallery </link>). Just remove the GooData
+      code and replace it by the new one.
+    </para>
+
+  </refsect1>
+</refentry>

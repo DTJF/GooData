@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="goodata-hints">
+  <refmeta>
+    <refentrytitle>Hints</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>GooData Library</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>Hints</refname>
+    <refpurpose>Some hints on using GooData.</refpurpose>
+  </refnamediv>
+
+  <refsect1 id="property-strings">
+    <title>Properties using a string for numerical input</title>
+    <para>
+      In some properties like #GooAxis:offset or #GooCurve:errors a string is used to input numerical values. That's because
+    </para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          a string can contain one or more values at a time
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          easy to learn characters can be used to specify an additional feature
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          a string can contain no value to reset a feature
+        </para>
+      </listitem>
+    </itemizedlist>
+    <para>
+      So using a string for that purpose is a very flexible instrument, acting similar to variadic parameter list in a function. It shortens the learning curve because the user needs to learn just one property name and can adress several features at once.
+    </para>
+    <para>
+      In case of additional features they're allways specified by the first letter of the string (= start letter). Only the first letter gets checked and the evaluation is not case sensitive. Ie in case of #GooCurve:line-type that means "b" is equal to "B" or "bezier" or "Bezier".
+    </para>
+    <para>
+      A numerical value is identified by its characters. Valid characters depend on the type of the numerical value. Values can be in decimal, octal, hexadecimal or in binary format. The format is evaluated by the first or the first two characters:
+    </para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          one of [1-9.] starts the evaluation of a decimal value, valid digits [0123456789.ed-]. 'e' + 'd' once for exponents, '-' once in the exponent, '.' once for the fractional part. (A second '.' is evaluated as the start of the next value = decimal number). Example: "12.34" or ".987d-45".
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          "0." starts the evaluation of a decimal value, valid digits [0123456789.ed-]. Example: "0.123e45".
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          "0x" starts the evaluation of a hexadecimal value, valid digits [0123456789abcdef.]. Example: "0xabf2".
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          "0" and one of [01234567] starts the evaluation of an octal value, valid digits [01234567.]. Example: "0123" or "00.123".
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          "&amp;h" starts the evaluation of an hexadecimal value, valid digits [0123456789abcdef.]. Example: "&amp;hABF0FFEE".
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          "&amp;o" starts the evaluation of an octal value, valid digits [01234567.]. Example: "&amp;o7704.11".
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          "&amp;b" starts the evaluation of a binary value, valid digits [01.]. Example: "&amp;b110111001111001.001".
+        </para>
+      </listitem>
+    </itemizedlist>
+    <para>
+      A negative value must start with a '-' before the first character of the value. If other characters are between the '-' and the value the '-' is not evaluated as a part of the value. Ie "-&amp;hff" is equal to -255, but "- &amp;hff" is equal to +255.
+    </para>
+    <para>
+      All numerical values can have a fractional part in the given basis. The decimal separator is allways the '.' character. Ie the decimal value 0.125 is equal to the binary value &amp;b0.001 or the octal value &amp;o0.1 (=00.1) or the hexadecimal value &amp;h0.2 (=0x0.2).
+    </para>
+    <para>
+      In some properties (ie #GooCurve:channels) values are used for integer input like channel numbers. The channel numbers start at 0 and counts to the number of columns in @Dat - 1. Negative values are allowed. They reset a feature, ie in #GooCurve:errors an error line won't be drawn if the corresponding channel is set to -1. If the value has a fractional part it gets rounded using the round-to-even method. Ie 1.5 rounds to 2 because 1 is odd and 2.5 also rounds to 2 because 2 is even. (It's recommended to avoid fractional numbers for integer input.)
+    </para>
+    <para>
+      To separate the values all characters can be used, exept the valid digits and the zero character ('\0'). Ie "0.7e8" is one value but "0 7 8" are three values. The later is equal to "0, 7,     8" or "0;7;8". But "078" are two values, an octal 07 and a decimal 8 because 8 in no valid digit in an octal number. So be careful with leading zeros and make sure to separate your numbers faithful. (A date gets evaluated as two decimal values: "12.31.2012" evaluates to 12.31 and 0.2012).
+    </para>
+  </refsect1>
+</refentry>

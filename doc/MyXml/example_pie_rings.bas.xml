@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="goodata-pie_rings-example">
+  <refmeta>
+    <refentrytitle>Example: Multiple Columns Pie Graph</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>
+      
+      <inlinegraphic fileref='img/example_pie_rings.bas.png' format='PNG'/>
+    </refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>A <link linkend="GooPie2d">GooPie2d</link> items type "default"</refname>
+    <refpurpose>in case of more than one channel the pie segments are drawn as rings.</refpurpose>
+  </refnamediv>
+
+  <refsect3 id="source-pie_rings">
+    <title>Source Code</title>
+
+    <programlisting>
+<xi:include href="example_pie_rings.bas" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </programlisting>
+
+  </refsect3>
+</refentry>

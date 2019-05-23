@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="GooData-gallery">
+  <refmeta>
+    <refentrytitle>Gallery</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>GooData Gallery</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>Overview</refname>
+    <refpurpose>some example output from GooData.</refpurpose>
+  </refnamediv>
+
+  <para>
+    This is an overview of some diagrams made with GooData. It's not a complete set, just some examples. Click on the thumbnail to see an larger image and the source code to create it.
+  </para>
+
+  <refsect1 id="Rectangle-Coordinates">
+    <title>Rectangle Coordinates</title>
+
+    <refsect2 id="GalleryCurve2d">
+      <title>GooCurve2d</title>
+      <para>
+
+        <link linkend="goodata-simplecurve-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_simplecurve.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Simple Curve</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-curve_markers-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_curve_markers.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Line Graph With Markers</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-curve_areas-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_curve_areas.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Areas</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-curve_perpens-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_curve_perpens.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: 3D Effect</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-curve_helix-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_curve_helix.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Smooth Lines</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-curve_portfolio-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_curve_portfolio.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Portfolio</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-curve_slope-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_curve_slope.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Slope Field</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+
+      </para>
+    </refsect2>
+
+    <refsect2 id="GalleryGooBar2d">
+      <title>GooBar2d</title>
+      <para>
+
+        <link linkend="goodata-bar-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_bar.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Simple Bar Graph</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-bar_stacked-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_bar_stacked.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Horizontal Stacked Bar Graph</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+
+      </para>
+    </refsect2>
+
+    <refsect2 id="GalleryGooBox2d">
+      <title>GooBox2d</title>
+      <para>
+
+        <link linkend="goodata-box_simple-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_box_simple.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Box Plot</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-box_outliers-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_box_outliers.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Tailed Box Plot</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+
+      </para>
+    </refsect2>
+  </refsect1>
+
+  <refsect1 id="GalleryPolar-Coordinates">
+    <title>Polar Coordinates</title>
+    <refsect2 id="GalleryGooPie2d">
+      <title>GooPie2d</title>
+      <para>
+
+        <link linkend="goodata-pie_simple-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_pie_simple.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Simple Pie Graph</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-pie_rings-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_pie_rings.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Multiple Columns Pie Graph</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-pie_segmented-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_pie_segmented.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Segmented Pie Graph</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-pie_stacked-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_pie_stacked.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Stacked Pie Bars</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-pie_percent-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_pie_percent.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Stacked Pie Bars</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+        <link linkend="goodata-pie_avarage-example">
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="img/t_example_pie_avarage.bas.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>Example: Avaraged Pie Bars</phrase>
+            </textobject>
+          </inlinemediaobject>
+        </link>
+
+      </para>
+    </refsect2>
+  </refsect1>
+</refentry>

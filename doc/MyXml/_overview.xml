@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="GooData-overview">
+  <refmeta>
+    <refentrytitle>Overview</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>GooData Library</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>Overview</refname>
+    <refpurpose>a quick tour of GooData.</refpurpose>
+  </refnamediv>
+
+  <refsect1 id="features">
+    <title>Features</title>
+    <para>
+    GooData is a grafic library for drawing data graphs in a
+    technical style. It's based on GooCanvas, which is based on GTK+
+    and cairo.
+    </para>
+    <para>
+    A GooCanvas is used to create a page for output on screen, file
+    or printer. On this canvas GooCanvas items and GooData items can
+    be aranged to create the desired page design.
+    </para>
+    <para>
+    To use GooData items you have to calculate the data first. Store them in an two-dimensional array of gdouble values. Each row (first index) is a set of data. Depending on the desired type of graph the array needs one or more columns. The array may have more columns than needed, you can pick the desired channels (columns) when setting up your graph.
+    </para>
+
+    <itemizedlist>
+    <listitem><para>
+      Axis item for rectangle background
+    </para></listitem><listitem><para>
+      Bar item for bar graphs (standard, avarage based, stacked, gantt, percentage)
+    </para></listitem><listitem><para>
+      Pie item for pie graphs (standard, gaped, ...)
+    </para></listitem><listitem><para>
+      Curve item for rectangle backgroud
+    </para></listitem><listitem><para>
+      curves by line, markers, filled area
+    </para></listitem><listitem><para>
+      curves by straight lines, quadratic beziers and cubic beziers
+    </para></listitem><listitem><para>
+      additional vectors at the curve points
+    </para></listitem><listitem><para>
+      additional error lines at the curve points
+    </para></listitem><listitem><para>
+      additional perpendiculars at the curve points
+    </para></listitem><listitem><para>
+      variable marker size at the curve points
+    </para></listitem><listitem><para>
+      perpendiculars and filled areas to a fixed value / border and
+      to another curve
+    </para></listitem><listitem><para>
+      ...
+    </para></listitem><listitem><para>
+      ...
+    </para></listitem>
+    </itemizedlist>
+  </refsect1>
+
+  <refsect2 id="future-features">
+    <title>Features that may come in future code</title>
+    <itemizedlist>
+    <listitem><para>
+      New 2D items - box charts, polar coordinates
+    </para></listitem><listitem><para>
+      New 3D items - curves, areas, bars graphs, polar graphs, pie charts
+    </para></listitem><listitem><para>
+      ...
+    </para></listitem><listitem><para>
+      ...
+    </para></listitem>
+    </itemizedlist>
+  </refsect2>
+</refentry>

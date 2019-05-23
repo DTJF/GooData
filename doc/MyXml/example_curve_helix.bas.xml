@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="goodata-curve_helix-example">
+  <refmeta>
+    <refentrytitle>Example: Smooth Lines</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>
+      
+      <inlinegraphic fileref='img/example_curve_helix.bas.png' format='PNG'/>
+    </refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>Two <link linkend="GooCurve2d">GooCurve2d</link> items, smooth line and straight line with markers</refname>
+    <refpurpose>points can get connected by smooth curves with quadratic or cubic bezier lines.</refpurpose>
+  </refnamediv>
+
+  <refsect3 id="source-curve_helix">
+    <title>Source Code</title>
+
+    <programlisting>
+<xi:include href="example_curve_helix.bas" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </programlisting>
+
+  </refsect3>
+</refentry>

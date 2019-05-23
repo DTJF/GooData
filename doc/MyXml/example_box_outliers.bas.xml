@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="goodata-box_outliers-example">
+  <refmeta>
+    <refentrytitle>Example: Tailed Box Plot</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>
+      
+      <inlinegraphic fileref='img/example_box_outliers.bas.png' format='PNG'/>
+    </refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>A <link linkend="GooBox2d">GooBox2d</link> item from six channels</refname>
+    <refpurpose>some text here !!!</refpurpose>
+  </refnamediv>
+
+  <refsect3 id="source-box_outliers">
+    <title>Source Code</title>
+
+    <programlisting>
+<xi:include href="example_box_outliers.bas" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </programlisting>
+
+  </refsect3>
+</refentry>

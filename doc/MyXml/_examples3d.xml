@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="GooData-examples3d">
+  <refmeta>
+    <refentrytitle>Graphs 3D</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>GooData Source Code Examples</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>Graphs 3D</refname>
+    <refpurpose>Example source code for GooData.</refpurpose>
+  </refnamediv>
+
+  <para>
+    This is an overview of some source code for GooData. It's not a complete set, just some examples. Find a thumbnail overview in the <link linkend="GooData-gallery">gallery</link>.
+  </para>
+
+  <refsect1 id="Example3dRectangle-Coordinates">
+    <title>Rectangle Coordinates</title>
+
+    <refsect2 id="Example3dCurve3d">
+      <title>GooCurve3d</title>
+    </refsect2>
+
+    <refsect2 id="Example3dExampleGooBar3d">
+      <title>GooBar3d</title>
+    </refsect2>
+
+    <refsect2 id="Example3dGooBox3d">
+      <title>GooBox3d</title>
+    </refsect2>
+  </refsect1>
+
+  <refsect1 id="Example3dPolar-Coordinates">
+    <title>Polar Coordinates</title>
+    <refsect2 id="ExampleGooPie3d">
+      <title>GooPie3d</title>
+    </refsect2>
+  </refsect1>
+</refentry>

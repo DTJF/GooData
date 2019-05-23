@@ -17,5 +17,4 @@ doc/*.stamp
 test*/**/*
 doc/xml*/**/*
 doc/html*/**/*
-doc/MyXml*/**/*
 doc/c_src*/**/*

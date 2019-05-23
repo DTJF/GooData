@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="goodata-curve_markers-example">
+  <refmeta>
+    <refentrytitle>Example: Line Graph With Markers</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>
+      
+      <inlinegraphic fileref='img/example_curve_markers.bas.png' format='PNG'/>
+    </refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>Two <link linkend="GooCurve2d">GooCurve2d</link> items with markers</refname>
+    <refpurpose>a curve can have markers in a fixed or variable scaling. Style properties can be applied to the marker group.</refpurpose>
+  </refnamediv>
+
+  <refsect3 id="source-curve_markers">
+    <title>Source Code</title>
+
+    <programlisting>
+<xi:include href="example_curve_markers.bas" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </programlisting>
+
+  </refsect3>
+</refentry>

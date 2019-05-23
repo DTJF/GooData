@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id="goodata-curve_perpens-example">
+  <refmeta>
+    <refentrytitle>Example: 3D Effect</refentrytitle>
+    <manvolnum>3</manvolnum>
+    <refmiscinfo>
+      
+      <inlinegraphic fileref='img/example_curve_perpens.bas.png' format='PNG'/>
+    </refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>Two <link linkend="GooCurve2d">GooCurve2d</link> items connected by perpendiculars</refname>
+    <refpurpose>perpendiculars can be drawn to a fixed value in any direction or between two curves.</refpurpose>
+  </refnamediv>
+
+  <refsect3 id="source-curve_perpens">
+    <title>Source Code</title>
+
+    <programlisting>
+<xi:include href="example_curve_perpens.bas" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </programlisting>
+
+  </refsect3>
+</refentry>
