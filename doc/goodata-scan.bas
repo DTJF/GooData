@@ -2,7 +2,7 @@
 #INCLUDE ONCE "crt/stdlib.bi"
 '#include once "crt/stdio.bi"
 #INCLUDE ONCE "crt/errno.bi"
-#INCLUDE ONCE "glib-object.bi"
+'#INCLUDE ONCE "glib-object.bi"
 
 ' run with
 ' LD_LIBRARY_PATH="../src" ./goodata-scan
@@ -13,7 +13,15 @@
 
 #LIBPATH "../src"
 #INCLUDE ONCE "../src/Goo_Data.bas"
+#INCLUDE ONCE "../src/Goo_Axis.bas"
+#INCLUDE ONCE "../src/Goo_Bar2d.bas"
+#INCLUDE ONCE "../src/Goo_Box2d.bas"
+#INCLUDE ONCE "../src/Goo_Curve2d.bas"
+#INCLUDE ONCE "../src/Goo_Pie2d.bas"
+#INCLUDE ONCE "../src/Goo_Polax.bas"
+#INCLUDE ONCE "../src/Goo_Simplecurve2d.bas"
 
+#INCLUDE ONCE "Gir/_GObjectMacros-2.0.bi"
 DIM SHARED AS GType object_types(7)
 
 FUNCTION get_object_types CDECL() AS GType PTR 'static
@@ -237,7 +245,7 @@ SUB output_object_signal CDECL( _
 
   '/* Output the signal parameters. */
   FOR param AS INTEGER = 0 TO query_info.n_params - 1
-    type_name = get_type_name (query_info.param_types[param] AND NOT G_SIGNAL_TYPE_STATIC_SCOPE, @is_pointer)
+    type_name = get_type_name(query_info.param_types(param) AND NOT G_SIGNAL_TYPE_STATIC_SCOPE, @is_pointer)
 
     '/* Most arguments to the callback are called "arg1", "arg2", etc.
        'GtkWidgets are called "widget", "widget2", ...
@@ -349,14 +357,12 @@ FUNCTION get_type_name CDECL( _
     *is_pointer = TRUE
     RETURN @"GParamSpec"
 
-#IF GLIB_CHECK_VERSION (2, 25, 9)
+#IF GLIB_CHECK_VERSION_(2, 25, 9)
   CASE G_TYPE_VARIANT
     *is_pointer = TRUE
     RETURN @"GVariant"
 #ENDIF
 
-'default:
-    'break;
   END SELECT
 
   '/* For all GObject subclasses we can use the class name with a "*",
@@ -522,7 +528,7 @@ SUB output_prerequisites CDECL( _
   BYVAL fp AS FILE PTR, _
   BYVAL type_ AS GType) 'static
 
-#IF GLIB_CHECK_VERSION(2,1,0)
+#IF GLIB_CHECK_VERSION_(2,1,0)
   DIM AS GType PTR children, prerequisites
   DIM AS guint n_children, n_prerequisites
 
@@ -660,12 +666,9 @@ FUNCTION describe_signed_constant CDECL( _
       ELSEIF (value = G_MININT64) THEN
         desc = g_strdup ("G_MININT64")
       END IF
-
-    'default:
-      'break;
   END SELECT
   IF (0 = desc) THEN _
-    desc = g_strdup_printf ("%" G_GINT64_FORMAT, value)
+    desc = g_strdup_printf ("%li", value)
 
   RETURN desc
 END FUNCTION
@@ -704,11 +707,9 @@ FUNCTION describe_unsigned_constant CDECL( _
       ELSEIF (value = G_MAXUINT64) THEN
         desc = g_strdup ("G_MAXUINT64")
       END IF
-    'default:
-      'break;
   END SELECT
   IF (0 = desc) THEN _
-    desc = g_strdup_printf ("%" G_GUINT64_FORMAT, value)
+    desc = g_strdup_printf ("%li", value)
 
   RETURN desc
 END FUNCTION
@@ -722,7 +723,7 @@ FUNCTION describe_type CDECL( _
 
   IF (G_IS_PARAM_SPEC_CHAR (spec)) THEN
     DIM AS GParamSpecChar PTR pspec
-    pspec = G_PARAM_SPEC_CHAR (spec)
+    pspec = G_PARAM_SPEC_CHAR_(spec)
 
     lower = describe_signed_constant (SIZEOF(gchar), pspec->minimum)
     upper = describe_signed_constant (SIZEOF(gchar), pspec->maximum)
@@ -739,7 +740,7 @@ FUNCTION describe_type CDECL( _
     g_free (upper)
   ELSEIF (G_IS_PARAM_SPEC_UCHAR (spec)) THEN
     DIM AS GParamSpecUChar PTR pspec
-    pspec = G_PARAM_SPEC_UCHAR (spec)
+    pspec = G_PARAM_SPEC_UCHAR_(spec)
 
     lower = describe_unsigned_constant (SIZEOF(guchar), pspec->minimum)
     upper = describe_unsigned_constant (SIZEOF(guchar), pspec->maximum)
@@ -756,7 +757,7 @@ FUNCTION describe_type CDECL( _
     g_free (upper)
   ELSEIF (G_IS_PARAM_SPEC_INT (spec)) THEN
     DIM AS GParamSpecInt PTR pspec
-    pspec = G_PARAM_SPEC_INT (spec)
+    pspec = G_PARAM_SPEC_INT_(spec)
 
     lower = describe_signed_constant (SIZEOF(gint), pspec->minimum)
     upper = describe_signed_constant (SIZEOF(gint), pspec->maximum)
@@ -773,7 +774,7 @@ FUNCTION describe_type CDECL( _
     g_free (upper)
   ELSEIF (G_IS_PARAM_SPEC_UINT (spec)) THEN
     DIM AS GParamSpecUInt PTR pspec
-    pspec = G_PARAM_SPEC_UINT (spec)
+    pspec = G_PARAM_SPEC_UINT_(spec)
 
     lower = describe_unsigned_constant (SIZEOF(guint), pspec->minimum)
     upper = describe_unsigned_constant (SIZEOF(guint), pspec->maximum)
@@ -790,7 +791,7 @@ FUNCTION describe_type CDECL( _
     g_free (upper)
   ELSEIF (G_IS_PARAM_SPEC_LONG (spec)) THEN
     DIM AS GParamSpecLong PTR pspec
-    pspec = G_PARAM_SPEC_LONG (spec)
+    pspec = G_PARAM_SPEC_LONG_(spec)
 
     lower = describe_signed_constant (SIZEOF(glong), pspec->minimum)
     upper = describe_signed_constant (SIZEOF(glong), pspec->maximum)
@@ -807,7 +808,7 @@ FUNCTION describe_type CDECL( _
     g_free (upper)
   ELSEIF (G_IS_PARAM_SPEC_ULONG (spec)) THEN
     DIM AS GParamSpecULong PTR pspec
-    pspec = G_PARAM_SPEC_ULONG (spec)
+    pspec = G_PARAM_SPEC_ULONG_(spec)
 
     lower = describe_unsigned_constant (SIZEOF(gulong), pspec->minimum)
     upper = describe_unsigned_constant (SIZEOF(gulong), pspec->maximum)
@@ -824,7 +825,7 @@ FUNCTION describe_type CDECL( _
     g_free (upper)
   ELSEIF (G_IS_PARAM_SPEC_INT64 (spec)) THEN
     DIM AS GParamSpecInt64 PTR pspec
-    pspec = G_PARAM_SPEC_INT64 (spec)
+    pspec = G_PARAM_SPEC_INT64_(spec)
 
     lower = describe_signed_constant (SIZEOF(gint64), pspec->minimum)
     upper = describe_signed_constant (SIZEOF(gint64), pspec->maximum)
@@ -841,7 +842,7 @@ FUNCTION describe_type CDECL( _
     g_free (upper)
   ELSEIF (G_IS_PARAM_SPEC_UINT64 (spec)) THEN
     DIM AS GParamSpecUInt64 PTR pspec
-    pspec = G_PARAM_SPEC_UINT64 (spec)
+    pspec = G_PARAM_SPEC_UINT64_(spec)
 
     lower = describe_unsigned_constant (SIZEOF(guint64), pspec->minimum)
     upper = describe_unsigned_constant (SIZEOF(guint64), pspec->maximum)
@@ -858,7 +859,7 @@ FUNCTION describe_type CDECL( _
     g_free (upper)
   ELSEIF (G_IS_PARAM_SPEC_FLOAT (spec)) THEN
     DIM AS GParamSpecFloat PTR pspec
-    pspec = G_PARAM_SPEC_FLOAT (spec)
+    pspec = G_PARAM_SPEC_FLOAT_(spec)
 
     lower = describe_double_constant (pspec->minimum)
     upper = describe_double_constant (pspec->maximum)
@@ -877,7 +878,7 @@ FUNCTION describe_type CDECL( _
     g_free (upper)
   ELSEIF (G_IS_PARAM_SPEC_DOUBLE (spec)) THEN
     DIM AS GParamSpecDouble PTR pspec
-    pspec = G_PARAM_SPEC_DOUBLE (spec)
+    pspec = G_PARAM_SPEC_DOUBLE_(spec)
 
     lower = describe_double_constant (pspec->minimum)
     upper = describe_double_constant (pspec->maximum)
@@ -894,18 +895,18 @@ FUNCTION describe_type CDECL( _
     END IF
     g_free (lower)
     g_free (upper)
-#IF GLIB_CHECK_VERSION (2, 12, 0)
+#IF GLIB_CHECK_VERSION_ (2, 12, 0)
   ELSEIF (G_IS_PARAM_SPEC_GTYPE (spec)) THEN
     DIM AS GParamSpecGType PTR pspec
-    pspec = G_PARAM_SPEC_GTYPE (spec)
+    pspec = G_PARAM_SPEC_GTYPE_(spec)
     DIM AS gboolean is_pointer
 
     desc = g_strdup (get_type_name (pspec->is_a_type, @is_pointer))
 #ENDIF
-#IF GLIB_CHECK_VERSION (2, 25, 9)
+#IF GLIB_CHECK_VERSION_ (2, 25, 9)
   ELSEIF (G_IS_PARAM_SPEC_VARIANT (spec)) THEN
     DIM AS GParamSpecVariant PTR pspec
-    pspec = G_PARAM_SPEC_VARIANT (spec)
+    pspec = G_PARAM_SPEC_VARIANT_(spec)
     DIM AS gchar PTR variant_type
 
     variant_type = g_variant_type_dup_string (pspec->type)
@@ -925,52 +926,52 @@ FUNCTION describe_default CDECL( _
 
   IF (G_IS_PARAM_SPEC_CHAR (spec)) THEN
     DIM AS GParamSpecChar PTR pspec
-    pspec = G_PARAM_SPEC_CHAR (spec)
+    pspec = G_PARAM_SPEC_CHAR_(spec)
 
     desc = g_strdup_printf ("%d", pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_UCHAR (spec)) THEN
     DIM AS GParamSpecUChar PTR pspec
-    pspec = G_PARAM_SPEC_UCHAR (spec)
+    pspec = G_PARAM_SPEC_UCHAR_(spec)
 
     desc = g_strdup_printf ("%u", pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_BOOLEAN (spec)) THEN
     DIM AS GParamSpecBoolean PTR pspec
-    pspec = G_PARAM_SPEC_BOOLEAN (spec)
+    pspec = G_PARAM_SPEC_BOOLEAN_(spec)
 
     desc = g_strdup_printf ("%s", *IIF(pspec->default_value, @"TRUE", @"FALSE"))
   ELSEIF (G_IS_PARAM_SPEC_INT (spec)) THEN
     DIM AS GParamSpecInt PTR pspec
-    pspec = G_PARAM_SPEC_INT (spec)
+    pspec = G_PARAM_SPEC_INT_(spec)
 
     desc = g_strdup_printf ("%d", pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_UINT (spec)) THEN
     DIM AS GParamSpecUInt PTR pspec
-    pspec = G_PARAM_SPEC_UINT (spec)
+    pspec = G_PARAM_SPEC_UINT_(spec)
 
     desc = g_strdup_printf ("%u", pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_LONG (spec)) THEN
     DIM AS GParamSpecLong PTR pspec
-    pspec = G_PARAM_SPEC_LONG (spec)
+    pspec = G_PARAM_SPEC_LONG_(spec)
 
     desc = g_strdup_printf ("%ld", pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_LONG (spec)) THEN
     DIM AS GParamSpecULong PTR pspec
-    pspec = G_PARAM_SPEC_ULONG (spec)
+    pspec = G_PARAM_SPEC_ULONG_(spec)
 
     desc = g_strdup_printf ("%lu", pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_INT64 (spec)) THEN
     DIM AS GParamSpecInt64 PTR pspec
-    pspec = G_PARAM_SPEC_INT64 (spec)
+    pspec = G_PARAM_SPEC_INT64_(spec)
 
-    desc = g_strdup_printf ("%" G_GINT64_FORMAT, pspec->default_value)
+    desc = g_strdup_printf ("%li", pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_UINT64 (spec)) THEN
     DIM AS GParamSpecUInt64 PTR pspec
-    pspec = G_PARAM_SPEC_UINT64 (spec)
+    pspec = G_PARAM_SPEC_UINT64_(spec)
 
-    desc = g_strdup_printf ("%" G_GUINT64_FORMAT, pspec->default_value)
+    desc = g_strdup_printf ("%li", pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_UNICHAR (spec)) THEN
     DIM AS GParamSpecUnichar PTR pspec
-    pspec = G_PARAM_SPEC_UNICHAR (spec)
+    pspec = G_PARAM_SPEC_UNICHAR_(spec)
 
     IF (g_unichar_isprint (pspec->default_value)) THEN
       desc = g_strdup_printf ("'%c'", pspec->default_value)
@@ -979,7 +980,7 @@ FUNCTION describe_default CDECL( _
     END IF
   ELSEIF (G_IS_PARAM_SPEC_ENUM (spec)) THEN
     DIM AS GParamSpecEnum PTR pspec
-    pspec = G_PARAM_SPEC_ENUM (spec)
+    pspec = G_PARAM_SPEC_ENUM_(spec)
 
     DIM AS GEnumValue PTR value
     value = g_enum_get_value (pspec->enum_class, pspec->default_value)
@@ -990,7 +991,7 @@ FUNCTION describe_default CDECL( _
     END IF
   ELSEIF (G_IS_PARAM_SPEC_FLAGS (spec)) THEN
     DIM AS GParamSpecFlags PTR pspec
-    pspec = G_PARAM_SPEC_FLAGS (spec)
+    pspec = G_PARAM_SPEC_FLAGS_(spec)
     DIM AS guint default_value
     DIM AS GString PTR acc
 
@@ -1018,7 +1019,7 @@ FUNCTION describe_default CDECL( _
     END IF
   ELSEIF (G_IS_PARAM_SPEC_FLOAT (spec)) THEN
     DIM AS GParamSpecFloat PTR pspec
-    pspec = G_PARAM_SPEC_FLOAT (spec)
+    pspec = G_PARAM_SPEC_FLOAT_(spec)
 
     '/* make sure floats are output with a decimal dot irrespective of
      '* current locale. Use formatd since we want human-readable numbers
@@ -1028,7 +1029,7 @@ FUNCTION describe_default CDECL( _
         pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_DOUBLE (spec)) THEN
     DIM AS GParamSpecDouble PTR pspec
-    pspec = G_PARAM_SPEC_DOUBLE (spec)
+    pspec = G_PARAM_SPEC_DOUBLE_(spec)
 
     '/* make sure floats are output with a decimal dot irrespective of
      '* current locale. Use formatd since we want human-readable numbers
@@ -1038,7 +1039,7 @@ FUNCTION describe_default CDECL( _
         pspec->default_value)
   ELSEIF (G_IS_PARAM_SPEC_STRING (spec)) THEN
     DIM AS GParamSpecString PTR pspec
-    pspec = G_PARAM_SPEC_STRING (spec)
+    pspec = G_PARAM_SPEC_STRING_(spec)
 
     DIM AS gchar PTR esc
     IF (pspec->default_value) THEN
@@ -1050,10 +1051,10 @@ FUNCTION describe_default CDECL( _
     ELSE
       desc = g_strdup_printf ("NULL")
     END IF
-#IF GLIB_CHECK_VERSION (2, 25, 9)
+#IF GLIB_CHECK_VERSION_ (2, 25, 9)
   ELSEIF (G_IS_PARAM_SPEC_VARIANT (spec)) THEN
     DIM AS GParamSpecVariant PTR pspec
-    pspec = G_PARAM_SPEC_VARIANT (spec)
+    pspec = G_PARAM_SPEC_VARIANT_(spec)
 
     IF (pspec->default_value) THEN
       desc = g_variant_print (pspec->default_value, TRUE)
@@ -1190,6 +1191,6 @@ SUB output_object_args CDECL( _
 #ENDIF
 #ENDIF
 
-    EXIT WHILE 'break;
+    EXIT WHILE
   WEND
 END SUB
