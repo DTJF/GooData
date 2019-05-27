@@ -23,7 +23,7 @@ The #GooBar2d group contains these childs:
 
 '/
 
-#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Glob.bi"
 #INCLUDE ONCE "Goo_Axis.bi"
 #INCLUDE ONCE "Goo_Bar2d.bi"
 

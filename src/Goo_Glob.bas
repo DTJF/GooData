@@ -1,4 +1,4 @@
-'~This is file Goo_Data.bas
+'~This is file Goo_Glob.bas
 '~A library to present technical data
 '~
 '~Licence: LGPLv2
@@ -16,7 +16,7 @@ bla, bla, bla
 #LIBPATH "C:\opt\GTK\lib" '~                             your paths here
 #ENDIF
 
-#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Glob.bi"
 
 /'* goo_set_decimal_separator:
 @V: the new value for the decimal separator.

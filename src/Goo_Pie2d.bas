@@ -29,7 +29,7 @@ The #GooPie2d group contains these childs:
 '~ '* for area, perpens, markers, errors and vectors. The remaining item (pie line)
 '~ '* is contolled directly by the #GooPie2d properties.
 
-#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Glob.bi"
 #INCLUDE ONCE "Goo_Polax.bi"
 #INCLUDE ONCE "Goo_Pie2d.bi"
 

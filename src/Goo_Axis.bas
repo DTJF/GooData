@@ -35,7 +35,7 @@ after creating the #GooAxis. Instead put the background box and the
 #GooAxis in to a #GooCanvasGroup and move the entire group.
 
 '/
-#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Glob.bi"
 #INCLUDE ONCE "Goo_Axis.bi"
 
 STATIC SHARED _axis__update AS SUB CDECL( _

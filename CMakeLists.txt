@@ -1,10 +1,10 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+#SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 SET(CMAKE_VERBOSE_MAKEFILE 1)
 
 # constants
-SET(PROJ_NAME "libpruio" CACHE STRING "project name" FORCE)
+SET(PROJ_NAME "libGooData" CACHE STRING "project name" FORCE)
 SET(PROJ_DESC "Fast and easy Input/Output for digital/analog on Beagleboard" CACHE STRING "project description" FORCE)
 SET(PROJ_VERS "0.0.2"   CACHE STRING "project version" FORCE)
 SET(PROJ_AUTH "DTJF"    CACHE STRING "project authors" FORCE)
@@ -29,15 +29,17 @@ ENDIF()
 
 ADD_SUBDIRECTORY(src)
 
-ADD_LIBRARY(goodata SHARED $<TARGET_OBJECTS:GooDatafbcode>)
-ADD_DEPENDENCIES(goodata GooDatafbcode)
-SET_TARGET_PROPERTIES(goodata PROPERTIES
+ADD_LIBRARY(GooData SHARED $<TARGET_OBJECTS:GooDatafbcode>)
+ADD_DEPENDENCIES(GooData GooDatafbcode)
+SET_TARGET_PROPERTIES(GooData PROPERTIES
   LINK_FLAGS "-Wl -z,relro -arch 32"
   SOVERSION "o" # adapt <Package: ...> in debian/control
   #NO_SONAME "YES"
   )
-INSTALL(TARGETS goodata
+INSTALL(TARGETS GooData
   #LIBRARY DESTINATION lib/${PROJ_NAME}-${PROJ_VERS}
   LIBRARY DESTINATION lib/
   COMPONENT bin
   )
+
+ADD_SUBDIRECTORY(doc)

@@ -3,7 +3,7 @@ SET(SRC_BAS
   "Goo_Bar2d.bas"
   "Goo_Box2d.bas"
   "Goo_Curve2d.bas"
-  "Goo_Data.bas"
+  "Goo_Glob.bas"
   "Goo_Pie2d.bas"
   "Goo_Polax.bas"
   "Goo_Simplecurve2d.bas"
@@ -16,6 +16,7 @@ SET(SRC_BI
   "Goo_Box2d.bi"
   "Goo_Curve2d.bi"
   "Goo_Data.bi"
+  "Goo_Glob.bi"
   "Goo_Pie2d.bi"
   "Goo_Polax.bi"
   "Goo_Simplecurve2d.bi"
@@ -28,9 +29,9 @@ SET_TARGET_PROPERTIES(GooDatafbcode PROPERTIES
   )
 ADD_Fbc_SRC_DEPS(GooDatafbcode)
 
-GET_FILENAME_COMPONENT(fbpath ${CMAKE_Fbc_COMPILER} PATH)
-INSTALL(FILES ${SRC_BI}}
-  DESTINATION ${fbpath}/../include/freebasic/GooData
+STRING(SUBSTRING ${CMAKE_Fbc_INST_PATH} 3 -1 fbpath)
+INSTALL(FILES ${SRC_BI}
+  DESTINATION ${fbpath}/GooData
   COMPONENT dev
   )
 

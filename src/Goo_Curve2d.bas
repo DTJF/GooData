@@ -41,7 +41,7 @@ after creating the #GooCurve2d. Instead put the background box, the #GooAxis and
  #GooCurve2d in to a #GooCanvasGroup and move the entire group.
 '/
 
-#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Glob.bi"
 #INCLUDE ONCE "Goo_Axis.bi"
 #INCLUDE ONCE "Goo_Curve2d.bi"
 

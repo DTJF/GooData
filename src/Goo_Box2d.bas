@@ -34,7 +34,7 @@ is contolled directly by the #GooBox2d properties.
 
 '/
 
-#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Glob.bi"
 #INCLUDE ONCE "Goo_Axis.bi"
 #INCLUDE ONCE "Goo_Box2d.bi"
 

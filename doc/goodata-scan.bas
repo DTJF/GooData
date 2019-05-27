@@ -64,16 +64,12 @@ END FUNCTION
  '*/
 
 '/* The output files */
-'~ DIM SHARED AS ZSTRING PTR signals_filename = @"./goodata.signals.new"
-'~ DIM SHARED AS ZSTRING PTR hierarchy_filename = @"./goodata.hierarchy.new"
-'~ DIM SHARED AS ZSTRING PTR interfaces_filename = @"./goodata.interfaces.new"
-'~ DIM SHARED AS ZSTRING PTR prerequisites_filename = @"./goodata.prerequisites.new"
-'~ DIM SHARED AS ZSTRING PTR args_filename = @"./goodata.args.new"
-DIM SHARED AS ZSTRING PTR signals_filename = @"./goodata.signals"
-DIM SHARED AS ZSTRING PTR hierarchy_filename = @"./goodata.hierarchy"
-DIM SHARED AS ZSTRING PTR interfaces_filename = @"./goodata.interfaces"
-DIM SHARED AS ZSTRING PTR prerequisites_filename = @"./goodata.prerequisites"
-DIM SHARED AS ZSTRING PTR args_filename = @"./goodata.args"
+DIM SHARED AS ZSTRING PTR _
+          signals_filename = @"./goodata.signals" _
+      , hierarchy_filename = @"./goodata.hierarchy" _
+     , interfaces_filename = @"./goodata.interfaces" _
+  , prerequisites_filename = @"./goodata.prerequisites" _
+           , args_filename = @"./goodata.args"
 
 DECLARE SUB output_signals CDECL()
 DECLARE SUB output_object_signals CDECL( _

@@ -1,4 +1,4 @@
-#INCLUDE ONCE "Goo_Data.bi"
+#INCLUDE ONCE "Goo_Glob.bi"
 
 /'* GooPolax:
 
