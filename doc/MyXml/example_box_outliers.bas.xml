@@ -6,14 +6,14 @@
     <refentrytitle>Example: Tailed Box Plot</refentrytitle>
     <manvolnum>3</manvolnum>
     <refmiscinfo>
-      
+
       <inlinegraphic fileref='img/example_box_outliers.bas.png' format='PNG'/>
     </refmiscinfo>
   </refmeta>
 
   <refnamediv>
     <refname>A <link linkend="GooBox2d">GooBox2d</link> item from six channels</refname>
-    <refpurpose>some text here !!!</refpurpose>
+    <refpurpose>The tailed boxes shows the avarage value (tail) and the 70 % range (boxes). The T-lines mark the 90 % range and dots mark further values outside the ranges.</refpurpose>
   </refnamediv>
 
   <refsect3 id="source-box_outliers">

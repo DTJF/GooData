@@ -62,7 +62,7 @@ SUB _curve2d_item_interface_init CDECL( _
   iface->update = @_curve2d_update
 END SUB
 
-G_DEFINE_TYPE_WITH_CODE(GooCurve2d, _goo_curve2d, GOO_TYPE_CANVAS_GROUP, _
+G_DEFINE_TYPE_WITH_CODE(GooCurve2d, goo_curve2d, GOO_TYPE_CANVAS_GROUP, _
        G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _curve2d_item_interface_init))
 
 SUB _curve2d_finalize CDECL( _
@@ -82,7 +82,7 @@ TRIN("")
     goo_data_points_unref(.Dat)
   END WITH
 
-  G_OBJECT_CLASS(_goo_curve2d_parent_class)->finalize(Obj)
+  G_OBJECT_CLASS(goo_curve2d_parent_class)->finalize(Obj)
 
 TROUT("")
 END SUB
@@ -430,7 +430,8 @@ SUB _curve2d CDECL( _
   END WITH
 END SUB
 
-/'* GooCurve2d:line-type:
+/'*
+GooCurve2d:line-type:
 
 The type of the curve line. This may contain:
 - no value to draw the curve by straight lines between the points in @Dat.
@@ -470,7 +471,7 @@ TRIN("")
       CASE ASC("H"), ASC("h") : _curve2d(curve2d, .CLine, CURVE2D_LINE_HISTO_H)
       CASE ASC("V"), ASC("v") : _curve2d(curve2d, .CLine, CURVE2D_LINE_HISTO_V)
       CASE ASC("B"), ASC("b")
-        VAR v = _goo_value(p)
+        VAR v = goo_value(p)
         IF p THEN _curve2d(curve2d, .CLine, CURVE2D_CUBIC, v) _
              ELSE _curve2d(curve2d, .CLine, CURVE2D_QUADR)
       CASE ELSE
@@ -482,7 +483,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* GooCurve2d:area-linetype:
+/'*
+GooCurve2d:area-linetype:
 
 The type of the areas curve line (ignored if #GooData:area-direction is unset).
 This may contain:
@@ -503,7 +505,8 @@ This may contain:
 Since: 0.0
 '/
 
-/'* GooCurve2d:area-direction:
+/'*
+GooCurve2d:area-direction:
 
 Draw a colored area from the curve to a given line.
 This may contain
@@ -530,7 +533,7 @@ SUB _curve2d_area(BYVAL Curve2d AS GooCurve2d PTR)
 
     VAR typ = CURVE2D_LINE, befa = 0.0
     IF .ATyp <> 0 ANDALSO .ATyp[0] <> 0 THEN
-      VAR p = .ATyp : befa = _goo_value(p)
+      VAR p = .ATyp : befa = goo_value(p)
       SELECT CASE AS CONST .ATyp[0]
       CASE ASC("H"), ASC("h") : typ = CURVE2D_LINE_HISTO_H
       CASE ASC("V"), ASC("v") : typ = CURVE2D_LINE_HISTO_V
@@ -539,7 +542,7 @@ SUB _curve2d_area(BYVAL Curve2d AS GooCurve2d PTR)
     END IF
     _curve2d(curve2d, .CArea, typ, befa)
 
-    VAR d = 2 * .Dat->Row, p = .ADir, v = _goo_value(p)
+    VAR d = 2 * .Dat->Row, p = .ADir, v = goo_value(p)
     VAR path = GOO_CANVAS_PATH(.CArea)->path_data->path_commands
     SELECT CASE AS CONST .ADir[0]
     CASE ASC("H"), ASC("h"), ASC("V"), ASC("v")
@@ -575,7 +578,8 @@ SUB _curve2d_area(BYVAL Curve2d AS GooCurve2d PTR)
 TROUT("")
 END SUB
 
-/'* GooCurve2d:perpendiculars:
+/'*
+GooCurve2d:perpendiculars:
 
 Draw perpendiculars from the curve points to a given direction and value.
 This may contain
@@ -601,7 +605,7 @@ TRIN("")
     g_object_set(.CPerp, "data", NULL, NULL)
     IF 0 = .Pers ORELSE .Pers[0] = 0 THEN EXIT SUB
 
-    VAR x = .Pers, v = _goo_value(x)
+    VAR x = .Pers, v = goo_value(x)
     SELECT CASE AS CONST .Pers[0]
     CASE ASC("H"), ASC("h") : _curve2d(curve2d, .CPerp, CURVE2D_VAR_PERPENS_H, CUINT(v))
     CASE ASC("V"), ASC("v") : _curve2d(curve2d, .CPerp, CURVE2D_VAR_PERPENS_V, CUINT(v))
@@ -619,7 +623,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* GooCurve2d:errors:
+/'*
+GooCurve2d:errors:
 
 The size and the channels for error markers. An error marker is a
 T-shaped line drawn in positive or negative X- or Y-direction to
@@ -664,10 +669,10 @@ TRIN("")
     g_object_set(.CErrs, "data", NULL, NULL)
     IF 0 = .Erro ORELSE .Erro[0] = 0 THEN EXIT SUB
 
-    VAR fl = 0, p = .Erro, v = ABS(_goo_value(p))
+    VAR fl = 0, p = .Erro, v = ABS(goo_value(p))
     DIM AS gint c(3)
     FOR i AS INTEGER = 0 TO 3
-      c(i) = IIF(p, CINT(_goo_value(p)), -1)
+      c(i) = IIF(p, CINT(goo_value(p)), -1)
       IF p THEN IF c(i) < .Dat->Col THEN fl += 1 ELSE c(i) = -1
     NEXT
     SELECT CASE AS CONST fl
@@ -683,7 +688,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* GooCurve2d:vectors:
+/'*
+GooCurve2d:vectors:
 
 The channels for vectors. A vector can either be a vector or a slope
 line. A vector is a straight line drawn from a point to a second point,
@@ -713,15 +719,15 @@ TRIN("")
 
     VAR p = .Vect
     DIM AS gint c(1)
-    c(0) = CINT(_goo_value(p))
+    c(0) = CINT(goo_value(p))
     IF c(0) < .Dat->Col THEN
       SELECT CASE AS CONST .Vect[0]
       CASE ASC("S"), ASC("s")
-        VAR l = _goo_value(p) : IF l <= 0 THEN l = 8.0
+        VAR l = goo_value(p) : IF l <= 0 THEN l = 8.0
         _curve2d(curve2d, .CVect, CURVE2D_SLOPE, @c(0), l)
         EXIT SUB
       CASE ELSE
-        c(1) = CINT(_goo_value(p)) : IF c(1) >= .Dat->Col THEN EXIT SELECT
+        c(1) = CINT(goo_value(p)) : IF c(1) >= .Dat->Col THEN EXIT SELECT
         _curve2d(curve2d, .CVect, CURVE2D_VECTORS, @c(0))
         EXIT SUB
       END SELECT
@@ -732,7 +738,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* GooCurve2d:markers:
+/'*
+GooCurve2d:markers:
 
 The size and the type of the markers.
 This may contain
@@ -773,17 +780,17 @@ TRIN("")
     VAR p = .Mark
     SELECT CASE AS CONST .Mark[0]
     CASE ASC("C"), ASC("c")
-      VAR ch = CINT(_goo_value(p)) : g_return_if_fail(ch >= 0)
-      .MType = IIF(p, CINT(_goo_value(p)), GOO_MARKER_CIRCLE)
-      .MScal = IIF(p, ABS(_goo_value(p)), 1.0)
+      VAR ch = CINT(goo_value(p)) : g_return_if_fail(ch >= 0)
+      .MType = IIF(p, CINT(goo_value(p)), GOO_MARKER_CIRCLE)
+      .MScal = IIF(p, ABS(goo_value(p)), 1.0)
       IF p = 0 THEN .MScal = 1.0 ELSE g_return_if_fail(.MScal > GOO_EPS)
       _curve2d(curve2d, .CMark, CURVE2D_VAR_MARKERS, ch)
     CASE ASC("D"), ASC("d")
-      .MType = CINT(_goo_value(p))
+      .MType = CINT(goo_value(p))
       _curve2d(curve2d, .CMark, CURVE2D_MARKERS, 8.0)
     CASE ELSE
-      VAR size = ABS(_goo_value(p))
-      IF p THEN .MType = CINT(_goo_value(p)) ELSE size = 8.0
+      VAR size = ABS(goo_value(p))
+      IF p THEN .MType = CINT(goo_value(p)) ELSE size = 8.0
       g_return_if_fail(size > GOO_EPS)
       _curve2d(curve2d, .CMark, CURVE2D_MARKERS, size)
     END SELECT
@@ -802,7 +809,8 @@ TRIN("")
   VAR curve2d = GOO_CURVE2D(item)
   VAR simple = GOO_CANVAS_ITEM_SIMPLE(item)
 
-/'* GooCurve2d:channels:
+/'*
+GooCurve2d:channels:
 
 The channels (columns) in the @Dat array for the values of the curve.
 The first value is for X channel, the second is Y.
@@ -825,8 +833,8 @@ Since: 0.0
       IF 0 = p ORELSE 0 = p[0] THEN '~                           default
         IF .Dat->Col = 1 THEN .ChX = -1 : .ChY = 0 ELSE .ChX = 0 : .ChY = 1
       ELSE
-        .ChY = CINT(_goo_value(p))
-        .ChX = IIF(p, CINT(_goo_value(p)), -1)
+        .ChY = CINT(goo_value(p))
+        .ChX = IIF(p, CINT(goo_value(p)), -1)
         IF p THEN SWAP .ChX, .ChY
       END IF
 
@@ -846,7 +854,7 @@ Since: 0.0
 TROUT("")
 END SUB
 
-SUB _goo_curve2d_class_init CDECL( _
+SUB goo_curve2d_class_init CDECL( _
   BYVAL Curve2d_class AS GooCurve2dClass PTR)
 TRIN("")
 
@@ -917,7 +925,7 @@ TROUT("")
 END SUB
 
 '~The standard object initialization function.
-SUB _goo_curve2d_init CDECL( _
+SUB goo_curve2d_init CDECL( _
   BYVAL Curve2d AS GooCurve2d PTR)
 TRIN("")
 
@@ -943,7 +951,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* goo_curve2d_get_area_properties:
+/'*
+goo_curve2d_get_area_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -951,7 +960,8 @@ Get one or more properties of the areas #GooCanvasPath.
 
 Since: 0.0
 '/
-/'* goo_curve2d_set_area_properties:
+/'*
+goo_curve2d_set_area_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -961,7 +971,8 @@ Since: 0.0
 '/
 _GOO_DEFINE_PROP(curve2d,Curve2d,CURVE2D,area,CArea)
 
-/'* goo_curve2d_get_perpens_properties:
+/'*
+goo_curve2d_get_perpens_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -969,7 +980,8 @@ Get one or more properties of the perpendiculars #GooCanvasPath.
 
 Since: 0.0
 '/
-/'* goo_curve2d_set_perpens_properties:
+/'*
+goo_curve2d_set_perpens_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -979,7 +991,8 @@ Since: 0.0
 '/
 _GOO_DEFINE_PROP(curve2d,Curve2d,CURVE2D,perpens,CPerp)
 
-/'* goo_curve2d_get_markers_properties:
+/'*
+goo_curve2d_get_markers_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -987,7 +1000,8 @@ Get one or more properties of the markers #GooCanvasPath.
 
 Since: 0.0
 '/
-/'* goo_curve2d_set_markers_properties:
+/'*
+goo_curve2d_set_markers_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -997,7 +1011,8 @@ Since: 0.0
 '/
 _GOO_DEFINE_PROP(curve2d,Curve2d,CURVE2D,markers,CMark)
 
-/'* goo_curve2d_get_errors_properties:
+/'*
+goo_curve2d_get_errors_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1005,7 +1020,8 @@ Get one or more properties of the errors #GooCanvasPath.
 
 Since: 0.0
 '/
-/'* goo_curve2d_set_errors_properties:
+/'*
+goo_curve2d_set_errors_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1015,7 +1031,8 @@ Since: 0.0
 '/
 _GOO_DEFINE_PROP(curve2d,Curve2d,CURVE2D,errors,CErrs)
 
-/'* goo_curve2d_get_vectors_properties:
+/'*
+goo_curve2d_get_vectors_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1023,7 +1040,8 @@ Get one or more properties of the vectors #GooCanvasPath.
 
 Since: 0.0
 '/
-/'* goo_curve2d_set_vectors_properties:
+/'*
+goo_curve2d_set_vectors_properties:
 @Curve2d: a #GooCurve2d
     @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1034,7 +1052,8 @@ Since: 0.0
 _GOO_DEFINE_PROP(curve2d,Curve2d,CURVE2D,vectors,CVect)
 
 
-/'* goo_curve2d_new:
+/'*
+goo_curve2d_new:
 @Parent: the parent item, or %NULL. If a parent is specified, it will assume
  ownership of the item, and the item will automatically be freed when it is
  removed from the parent. Otherwise call g_object_unref() to free it.

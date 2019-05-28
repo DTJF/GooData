@@ -33,12 +33,13 @@ CONST DEG_RAD = GOO_PI / 180
 
 
 
-'~ don't change the order, important for _goo_value()!
+'~ don't change the order, important for goo_value()!
 STATIC SHARED AS STRING*23 _GOO_NO_CHR = ".0123456789DEdeABCFabcf"
 STATIC SHARED AS UBYTE _GOO_NO_VAL(...) = {0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, _
                                           13, 14, 13, 14, 10, 11, 12, 15, 10, 11, 12, 15}
 
-/'* GooDataMarkers:
+/'*
+GooDataMarkers:
 @GOO_MARKER_NONE: no markers for the curve
 @GOO_MARKER_CIRCLE: a filled circle
 @GOO_MARKER_CROSS: a cross like an 'X'
@@ -80,7 +81,8 @@ DECLARE FUNCTION goo_set_decimal_separator CDECL(BYVAL V AS UByte = 0) AS UBYTE
 '@Row: the number of rows for the array.
 '@Col: the number of columns for the array.
 '@Dat: the data values to draw
-/'* GooDataPoints:
+/'*
+GooDataPoints:
 
 #GooDataPoints represents an array of numerical values as the source
 for all the graph types. It contains private data only. Use the
@@ -91,12 +93,11 @@ than used in a graph, so one structs can be used for multiple graphs.
 
 Since: 0.0
 '/
-TYPE _GooDataPoints
+TYPE GooDataPoints
   AS guint Row, Col
   AS GooType PTR Dat
   AS gint RefCount, m_flag : 1
 END TYPE
-TYPE AS _GooDataPoints GooDataPoints
 
 DECLARE FUNCTION goo_data_points_new CDECL( _
   BYVAL Rows AS guint, _
@@ -114,52 +115,52 @@ DECLARE FUNCTION goo_data_points_get_point CDECL( _
   BYVAL Points AS GooDataPoints PTR, _
   BYVAL Row AS guint, _
   BYVAL Column AS guint) AS GooType
-DECLARE FUNCTION _goo_data_points_get_type CDECL() AS GType
-#DEFINE GOO_TYPE_DATA_POINTS (_goo_data_points_get_type())
+DECLARE FUNCTION goo_data_points_get_type CDECL() AS GType
+#DEFINE GOO_TYPE_DATA_POINTS (goo_data_points_get_type())
 '~ #DEFINE GOO_DATA_POINTS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GOO_TYPE_DATA_POINTS, GooDataPoints))
 '~ #DEFINE GOO_IS_DATA_POINTS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GOO_TYPE_DATA_POINTS))
 
 
-/'* GooFillerValue:
+/'*
+GooFillerValue:
 
-This struct represents a set of a #GooCanvasItemSimple filling methods.
-It contains private data only. Use the functions of the goo_filler family
-to set the content.
+The #GooFillerValue-struct struct represents a #GooCanvasItemSimple
+filling method. It contains private data only. Use the functions of the
+goo_filler family to set the content.
 
 Since: 0.0
 '/
-TYPE _GooFillerValue
+TYPE GooFillerValue
   AS gchar PTR Prop
   AS gpointer Value
 END TYPE
-TYPE AS _GooFillerValue GooFillerValue
 
-/'* GooFiller:
+/'*
+GooFiller:
 
-This struct is used to set the #GooCanvasItemSimple filling methods
-for graphs with multiple colored items like #GooBar2d or #GooPie2d.
-It contains private data only. Use the functions below to set the
-content.
+The #GooFiller-struct struct is used to set the #GooCanvasItemSimple
+filling methods for graphs with multiple colored items like #GooBar2d
+or #GooPie2d. It contains private data only. Use the functions below to
+set the content.
 
 Since: 0.0
 '/
-TYPE _GooFiller
+TYPE GooFiller
   AS GooFillerValue PTR Values
   AS gint RefCount, Entries
   DECLARE PROPERTY Prop(BYVAL Index AS guint) AS gchar PTR
   DECLARE PROPERTY Value(BYVAL Index AS guint) AS gpointer
 END TYPE
-TYPE AS _GooFiller GooFiller
 
-#DEFINE GOO_TYPE_FILLER (_goo_filler_get_type())
-DECLARE FUNCTION _goo_value(BYREF AS UBYTE PTR) AS GooType
+#DEFINE GOO_TYPE_FILLER (goo_filler_get_type())
+DECLARE FUNCTION goo_value(BYREF AS UBYTE PTR) AS GooType
 DECLARE SUB _goo_add_path(BYVAL AS GArray PTR, BYVAL AS UBYTE, ...)
 DECLARE SUB _Goo_Sort(BYVAL AS GooType PTR PTR, BYVAL AS UINTEGER)
 DECLARE SUB _goo_add_marker(BYVAL AS GArray PTR, _
   BYVAL AS gdouble, BYVAL AS gdouble, _
   BYVAL AS GooDataMarkers = GOO_MARKER_CIRCLE, _
   BYVAL AS gdouble = 8.0)
-DECLARE FUNCTION _goo_filler_get_type CDECL() AS GType
+DECLARE FUNCTION goo_filler_get_type CDECL() AS GType
 DECLARE FUNCTION goo_filler_new CDECL(BYVAL Entries AS guint = 1) AS GooFiller PTR
 DECLARE SUB goo_filler_unref CDECL(BYVAL Filler AS GooFiller PTR)
 DECLARE FUNCTION goo_filler_ref CDECL(BYVAL Filler AS GooFiller PTR) AS GooFiller PTR
@@ -177,7 +178,7 @@ TYPE _GooLine
 END TYPE
 
 '~ struct for polax and pie segments
-TYPE _GooPolar
+TYPE GooPolar
   AS GooType Cx, Cy, Rr, Rv, Ws, Wr, Gap, Cent
   AS gboolean GapFlag
   DECLARE FUNCTION init(BYVAL Obj AS gpointer, _
@@ -196,7 +197,8 @@ END TYPE
 
 
 
-/'* goo_palette_function:
+/'*
+goo_palette_function:
  @Scale: the scale of the color in the integval [0,1]. Values outside
   this interval gets fitted to the next border.
 @Alpha_: optional alpha value, if the color should be translucent (default
@@ -224,7 +226,7 @@ goo_palette_set_function(NULL)
 '#INCLUDE ONCE "Goo_Pie2d.bi"
 '#INCLUDE ONCE "Goo_Bar2d.bi"
 '#INCLUDE ONCE "Goo_Box2d.bi"
-STATIC SHARED AS _GooFillerValue _goo_fillers(15)
+STATIC SHARED AS GooFillerValue _goo_fillers(15)
 _goo_fillers( 0) = TYPE(@"fill-color", @"red1")
 _goo_fillers( 1) = TYPE(@"fill-color", @"blue1")
 _goo_fillers( 2) = TYPE(@"fill-color", @"green1")
@@ -296,10 +298,10 @@ END WITH
  VAR _A_ = 0.0, _R_ = 0.0
  IF _P_ ANDALSO _P_[0] <> 0 THEN
    VAR p = _P_
-   _A_ = ABS(_goo_value(p)) * DEG_RAD
+   _A_ = ABS(goo_value(p)) * DEG_RAD
    IF p THEN
      IF _A_ >= _2GOO_PI THEN _A_ = FRAC(_A_ / _2GOO_PI) * _2GOO_PI
-     _R_ = ABS(_goo_value(p)) * DEG_RAD
+     _R_ = ABS(goo_value(p)) * DEG_RAD
      IF p THEN IF _R_ >= _2GOO_PI THEN _R_ = FRAC(_R_ / _2GOO_PI) * _2GOO_PI
    END IF
  END IF

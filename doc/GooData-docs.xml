@@ -3,6 +3,8 @@
                "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
 [
   <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+  <!ENTITY % gtkdocentities SYSTEM "xml/gtkdocentities.ent">
+  %gtkdocentities;
 ]>
 <book id="index">
   <bookinfo>
@@ -19,7 +21,7 @@
     <xi:include href="MyXml/_overview.xml"/>
     <xi:include href="MyXml/_gallery.xml" />
     <xi:include href="MyXml/_example.xml"/>
-    <xi:include href="xml/Goo_Data.xml"/>
+    <xi:include href="xml/Goo_Glob.xml"/>
      <xi:include href="MyXml/hints.xml"/>
   </part>
 
@@ -48,7 +50,7 @@
 
   <part id="object-tree">
     <title>Object Hierarchy</title>
-     <xi:include href="xml/tree_index.sgml"/>
+     <xi:include href="xml/api-index-full.xml"/>
   </part>
 
   <part id="part-examples">
@@ -57,6 +59,12 @@
      <xi:include href="MyXml/_examples3d.xml"/>
   </part>
 
+  <!-- enable this when you use gobject types
+  <chapter id="object-tree">
+    <title>Object Hierarchy</title>
+    <xi:include href="xml/tree_index.sgml"/>
+  </chapter>
+  -->
   <index id="api-index-full">
     <title>API Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
@@ -67,5 +75,7 @@
     <xi:include href="xml/api-index-deprecated.xml"><xi:fallback /></xi:include>
   </index>
 
+  <!-- enable this when you use gobject introspection annotations
   <xi:include href="xml/annotation-glossary.xml"><xi:fallback /></xi:include>
+  -->
 </book>

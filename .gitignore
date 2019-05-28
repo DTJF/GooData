@@ -14,7 +14,7 @@ doc/*.stamp
 
 **/*.so*
 **/CMakeFiles*/**/*
-build*/**/*
+**/build*/**/*
 test*/**/*
 doc/xml*/**/*
 doc/html*/**/*

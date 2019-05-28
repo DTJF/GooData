@@ -50,7 +50,7 @@ SUB _pie2d_item_interface_init CDECL( _
   iface->update = @_pie2d_update
 END SUB
 
-G_DEFINE_TYPE_WITH_CODE(GooPie2d, _goo_pie2d, GOO_TYPE_CANVAS_GROUP, _
+G_DEFINE_TYPE_WITH_CODE(GooPie2d, goo_pie2d, GOO_TYPE_CANVAS_GROUP, _
        G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _pie2d_item_interface_init))
 
 SUB _pie2d_finalize CDECL( _
@@ -65,7 +65,7 @@ TRIN("")
     goo_data_points_unref(.Dat)
   END WITH
 
-  G_OBJECT_CLASS(_goo_pie2d_parent_class)->finalize(Obj)
+  G_OBJECT_CLASS(goo_pie2d_parent_class)->finalize(Obj)
 TROUT("")
 END SUB
 
@@ -145,7 +145,8 @@ TRIN(Prop_id)
 TROUT("")
 END SUB
 
-/'* GooPie2d:alpha:
+/'*
+GooPie2d:alpha:
 
 The alpha value of transparency for the pie graph, defaults to no
 transparency (= 255). This is useful to make the background shine
@@ -178,7 +179,8 @@ TRIN("")
  '~ '*
  '~ '* Since: 0.0
  '~ '/
-/'* GooPie2d:segmented:
+/'*
+GooPie2d:segmented:
 
 The area of the pie chart. The string can contain one or two values.
 By default the pie segments are started at the mathematical zero angle
@@ -201,7 +203,8 @@ Since: 0.0
 '/
     _GOO_EVAL_SEGMENT(.PSeg, angle, range)
 
-/'* GooPie2d:channels:
+/'*
+GooPie2d:channels:
 
 The channels in @Dat to read the data from. By default the first channel
 (0 = zero) is used.
@@ -282,14 +285,14 @@ Since: 0.0
       CASE ASC("A"), ASC("a") : mo = GOO_PIE2D_MIDDLE
       CASE ASC("B"), ASC("b") : mo = GOO_PIE2D_BAR
       CASE ASC("C"), ASC("c") : mo = GOO_PIE2D_CHANNEL
-        ch = CUINT(_goo_value(p)) : g_return_if_fail(ch < .Dat->Col)
+        ch = CUINT(goo_value(p)) : g_return_if_fail(ch < .Dat->Col)
       CASE ASC("G"), ASC("g") : mo = GOO_PIE2D_GANTT
       CASE ASC("P"), ASC("p") : mo = GOO_PIE2D_PERCENT
       CASE ASC("S"), ASC("s") : mo = GOO_PIE2D_STACK
-      CASE ASC("V"), ASC("v") : mo = GOO_PIE2D_VALUE : offset = _goo_value(p)
+      CASE ASC("V"), ASC("v") : mo = GOO_PIE2D_VALUE : offset = goo_value(p)
       END SELECT
       WHILE p
-        VAR channel = CUINT(_goo_value(p)) : IF 0 = p THEN EXIT WHILE
+        VAR channel = CUINT(goo_value(p)) : IF 0 = p THEN EXIT WHILE
         g_return_if_fail(channel < .Dat->Col)
         IF mo = GOO_PIE2D_GANTT THEN g_return_if_fail(channel > 0)
         chno &= MKI(channel)
@@ -298,7 +301,8 @@ Since: 0.0
     END IF
     g_return_if_fail(nchannels >= 0)
 
-/'* GooPie2d:gaps:
+/'*
+GooPie2d:gaps:
 
 The gaps between pie segments and optional free space in the center.
 By default the pie segments are placed side by side. A gap can be set
@@ -320,15 +324,15 @@ Since: 0.0
     p = .Gaps
     VAR gap = 0.0, cent = 0.0
     IF p ANDALSO p[0] <> 0 THEN
-      gap = _goo_value(p)
+      gap = goo_value(p)
       gap = CLAMP(gap, 0.0, 0.08)
-      cent = IIF(p, ABS(_goo_value(p)), 0.0)
+      cent = IIF(p, ABS(goo_value(p)), 0.0)
       cent = CLAMP(cent, 0.0, 1.0)
     END IF
 
     VAR filler = IIF(.GoFi, .GoFi, @_goo_filler_default)
 
-    DIM AS _GooPolar pie
+    DIM AS GooPolar pie
     IF pie.init(Pie2d, .Bx, .By, .Bb, .Bh, angle, range, cent) THEN EXIT SUB
 
     VAR az = IIF(mo = GOO_PIE2D_SIMPLE, .Dat->Row, nchannels)
@@ -471,7 +475,8 @@ Since: 0.0
       NEXT
     END SELECT
 
-/'* GooPie2d:format:
+/'*
+GooPie2d:format:
 
 By default only the pie segments are drawn.
 
@@ -519,7 +524,7 @@ TRIN("")
 TROUT("")
 END SUB
 
-SUB _goo_pie2d_class_init CDECL( _
+SUB goo_pie2d_class_init CDECL( _
   BYVAL pie2d_class AS GooPie2dClass PTR)
 TRIN("")
 
@@ -575,7 +580,7 @@ TROUT("")
 END SUB
 
 '~The standard object initialization function.
-SUB _goo_pie2d_init CDECL( _
+SUB goo_pie2d_init CDECL( _
   BYVAL Pie2d AS GooPie2d PTR)
 TRIN("")
 
@@ -591,7 +596,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* goo_pie2d_new:
+/'*
+goo_pie2d_new:
 @Parent: the parent item, or %NULL. If a parent is specified, it will assume
  ownership of the item, and the item will automatically be freed when it is
  removed from the parent. Otherwise call g_object_unref() to free it.

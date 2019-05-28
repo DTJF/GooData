@@ -47,7 +47,7 @@ SUB _simplecurve2d_item_interface_init CDECL( _
   iface->update = @_simplecurve2d_update
 END SUB
 
-G_DEFINE_TYPE_WITH_CODE(GooSimplecurve2d, _goo_simplecurve2d, GOO_TYPE_CANVAS_POLYLINE, _
+G_DEFINE_TYPE_WITH_CODE(GooSimplecurve2d, goo_simplecurve2d, GOO_TYPE_CANVAS_POLYLINE, _
        G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _simplecurve2d_item_interface_init))
 
 SUB _simplecurve2d_finalize CDECL( _
@@ -60,7 +60,7 @@ TRIN("")
     goo_data_points_unref(.Dat)
   END WITH
 
-  G_OBJECT_CLASS(_goo_simplecurve2d_parent_class)->finalize(Obj)
+  G_OBJECT_CLASS(goo_simplecurve2d_parent_class)->finalize(Obj)
 
 TROUT("")
 END SUB
@@ -166,7 +166,7 @@ SUB _simplecurve2d_paint CDECL( _
 '~ we don't support arrows at the line ends
 END SUB
 
-SUB _goo_simplecurve2d_class_init CDECL( _
+SUB goo_simplecurve2d_class_init CDECL( _
   BYVAL Simple2d_class AS GooSimplecurve2dClass PTR)
 TRIN("")
 
@@ -177,7 +177,7 @@ TROUT("")
 END SUB
 
 '~The standard object initialization function.
-SUB _goo_simplecurve2d_init CDECL( _
+SUB goo_simplecurve2d_init CDECL( _
   BYVAL Simple2d AS GooSimplecurve2d PTR)
 TRIN("")
 
@@ -189,7 +189,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* goo_simplecurve2d_new:
+/'*
+goo_simplecurve2d_new:
 @Parent: the parent item, or %NULL. If a parent is specified, it will assume
  ownership of the item, and the item will automatically be freed when it is
  removed from the parent. Otherwise call g_object_unref() to free it.

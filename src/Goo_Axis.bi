@@ -1,4 +1,5 @@
-/'* GooAxisType:
+/'*
+GooAxisType:
      @GOO_AXIS_WEST: the axis is on the left of the background box
     @GOO_AXIS_SOUTH: the axis is below the background box
      @GOO_AXIS_EAST: the axis is on the right of the background box
@@ -28,13 +29,14 @@ ENUM GooAxisType
   GOO_GRIDAXIS_NORTH
 END ENUM
 
-/'* GooAxis:
+/'*
+GooAxis:
 
 The #GooAxis-struct struct contains private data only.
 
 Since: 0.0
 '/
-TYPE _GooAxis
+TYPE GooAxis
   AS GooCanvasGroup parent_instance
 
   DECLARE FUNCTION Pos(BYVAL V AS GooType) AS GooType
@@ -59,26 +61,24 @@ TYPE _GooAxis
   AS guint PoMo
 END TYPE
 
-/'* GooAxisClass:
+/'*
+GooAxisClass:
 
 The #GooAxisClass-struct struct contains private data only.
 
 Since: 0.0
 '/
-TYPE _GooAxisClass
+TYPE GooAxisClass
   AS GooCanvasGroupClass parent_class
 END TYPE
 
-DECLARE FUNCTION _goo_axis_get_type CDECL() AS GType
-#DEFINE GOO_TYPE_AXIS (_goo_axis_get_type())
+DECLARE FUNCTION goo_axis_get_type CDECL() AS GType
+#DEFINE GOO_TYPE_AXIS (goo_axis_get_type())
 #DEFINE GOO_AXIS(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), GOO_TYPE_AXIS, GooAxis))
 #DEFINE GOO_IS_AXIS(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), GOO_TYPE_AXIS))
 #DEFINE GOO_AXIS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass), GOO_TYPE_AXIS, GooAxisClass))
 #DEFINE GOO_IS_AXIS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GOO_TYPE_AXIS))
 #DEFINE GOO_AXIS_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj), GOO_TYPE_AXIS, GooAxisClass))
-
-TYPE GooAxis AS _GooAxis
-TYPE GooAxisClass AS _GooAxisClass
 
 DECLARE FUNCTION goo_axis_new CDECL( _
   BYVAL Parent AS GooCanvasItem PTR, _

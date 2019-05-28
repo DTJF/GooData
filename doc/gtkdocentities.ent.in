@@ -1,0 +1,7 @@
+<!ENTITY package "@PROJ_NAME@">
+<!ENTITY package_bugreport "http://github.com/DTJF/GooData">
+<!ENTITY package_name "GooData">
+<!ENTITY package_string "---">
+<!ENTITY package_tarname "---">
+<!ENTITY package_url "@PROJ_WEBS@">
+<!ENTITY package_version "@PROJ_VERS@">

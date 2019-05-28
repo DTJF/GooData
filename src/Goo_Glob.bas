@@ -18,7 +18,8 @@ bla, bla, bla
 
 #INCLUDE ONCE "Goo_Glob.bi"
 
-/'* goo_set_decimal_separator:
+/'*
+goo_set_decimal_separator:
 @V: the new value for the decimal separator.
 
 Sets the decimal separator character. This can be either a '.' or a ','
@@ -54,7 +55,8 @@ FUNCTION _goo_palette CDECL(BYVAL Scale AS GooType, BYVAL Alpha_ AS UBYTE = &hFF
        RETURN  x + ((f1 * b(c1) + f2 * b(c2))) SHL 8 + Alpha_
 END FUNCTION
 
-/'* goo_palette_set_function:
+/'*
+goo_palette_set_function:
 @Func: A function that returns a color value for a rgba property
  (ie for #GooCanvasItemSimple:fill-color-rgba).
 
@@ -68,7 +70,8 @@ SUB goo_palette_set_function CDECL(BYVAL Func AS goo_palette_function)
 END SUB
 
 
-/'* goo_data_points_ref:
+/'*
+goo_data_points_ref:
 @Points: a #GooDataPoints struct.
 
 Increments the reference count of the given #GooDataPoints struct.
@@ -83,7 +86,8 @@ FUNCTION goo_data_points_ref CDECL( _
   RETURN Points
 END FUNCTION
 
-/'* goo_data_points_unref:
+/'*
+goo_data_points_unref:
 @Points: a #GooDataPoints struct.
 
 Decrements the reference count of the given #GooDataPoints struct,
@@ -101,11 +105,12 @@ SUB goo_data_points_unref CDECL(BYVAL Points AS GooDataPoints PTR)
   END WITH
 END SUB
 
-G_DEFINE_BOXED_TYPE(GooDataPoints, _goo_data_points, _
-                                    goo_data_points_ref, _
-                                    goo_data_points_unref)
+G_DEFINE_BOXED_TYPE(GooDataPoints, goo_data_points, _
+                                   goo_data_points_ref, _
+                                   goo_data_points_unref)
 
-/'* goo_data_points_new:
+/'*
+goo_data_points_new:
 @Rows : the number of rows to create in the array.
 @Columns: the number of columns to create in the array or nothing to create one column.
 @Array: an (optional) array with the given number of rows and columns
@@ -151,7 +156,8 @@ FUNCTION goo_data_points_new CDECL( _
   RETURN points
 END FUNCTION
 
-/'* goo_data_points_set_point:
+/'*
+goo_data_points_set_point:
 @Points: a #GooDataPoints struct.
 @Row: the row of the value to set.
 @Column: the column of the value to set.
@@ -171,7 +177,8 @@ SUB goo_data_points_set_point CDECL(BYVAL Points AS GooDataPoints PTR, _
   END WITH
 END SUB
 
-/'* goo_data_points_get_point:
+/'*
+goo_data_points_get_point:
 @Points: a #GooDataPoints struct.
 @Row: the row of the value to get.
 @Column: the column of the value to get.
@@ -202,7 +209,8 @@ PROPERTY GooFiller.Value(BYVAL Index AS guint) AS gpointer
   RETURN values[IIF(Index < Entries, Index, Index MOD Entries)].Value
 END PROPERTY
 
-/'* goo_filler_new:
+/'*
+goo_filler_new:
 @Entries: the number of entries in the #GooFiller.
 
 Creates a new #GooFiller struct to be used in properties like
@@ -231,7 +239,8 @@ FUNCTION goo_filler_new CDECL(BYVAL Entries AS guint = 1) AS GooFiller PTR
   RETURN filler
 END FUNCTION
 
-/'* goo_filler_unref:
+/'*
+goo_filler_unref:
 @Filler: a #GooFiller structure.
 
 Decrements the reference count of the given #GooFiller structure,
@@ -252,7 +261,8 @@ SUB goo_filler_unref CDECL(BYVAL Filler AS GooFiller PTR)
   END WITH
 END SUB
 
-/'* goo_filler_ref:
+/'*
+goo_filler_ref:
 @Filler: a #GooFiller structure.
 
 Increments the reference count of the given #GooFiller structure.
@@ -266,7 +276,8 @@ FUNCTION goo_filler_ref CDECL(BYVAL Filler AS GooFiller PTR) AS GooFiller PTR
   RETURN Filler
 END FUNCTION
 
-/'* goo_filler_set:
+/'*
+goo_filler_set:
 @Filler: a #GooFiller structure.
  @Index: the position where to set the new property.
   @Prop: a property name for a #GooCanvasItemSimple filling method.
@@ -302,9 +313,9 @@ FUNCTION goo_filler_set CDECL( _
   RETURN FALSE
 END FUNCTION
 
-G_DEFINE_BOXED_TYPE(GooFiller, _goo_filler, _
-                                goo_filler_ref, _
-                                goo_filler_unref)
+G_DEFINE_BOXED_TYPE(GooFiller, goo_filler, _
+                               goo_filler_ref, _
+                               goo_filler_unref)
 
 
 ''~ analyse a line, calculate angle and length
@@ -330,7 +341,7 @@ SUB _GooLine.init(BYVAL Xn AS GooType, BYVAL Yn AS GooType, _
 END SUB
 
 '~ read a value from a string (BIN, OCT, DEC, HEX with fractional digits)
-FUNCTION _goo_value(BYREF T AS UBYTE PTR) AS GooType
+FUNCTION goo_value(BYREF T AS UBYTE PTR) AS GooType
   STATIC AS INTEGER a, e, b, x, y, d, f, v, c_deci = 10
   STATIC AS UBYTE PTR n
   STATIC AS DOUBLE r
@@ -587,11 +598,11 @@ END SUB
 'END TYPE
 
 '~ set the drawing area
-FUNCTION _GooPolar.init(BYVAL Obj AS gpointer, _
-                        BYVAL X AS GooType, BYVAL Y AS GooType, _
-                        BYVAL W AS GooType, BYVAL H AS GooType, _
-                        BYVAL A AS GooType, BYVAL R AS GooType, _
-                        BYVAL C AS GooType = 0.0) AS gboolean
+FUNCTION GooPolar.init(BYVAL Obj AS gpointer, _
+                       BYVAL X AS GooType, BYVAL Y AS GooType, _
+                       BYVAL W AS GooType, BYVAL H AS GooType, _
+                       BYVAL A AS GooType, BYVAL R AS GooType, _
+                       BYVAL C AS GooType = 0.0) AS gboolean
 
   Ws = A '~                             start angle
   Wr = IIF(R > GOO_EPS, R, _2GOO_PI) '~ angle range
@@ -625,7 +636,7 @@ FUNCTION _GooPolar.init(BYVAL Obj AS gpointer, _
 END FUNCTION
 
 '~ set gaps for pie segments, if required
-FUNCTION _GooPolar.init_gaps(BYVAL G AS GooType, BYVAL N AS UINTEGER) AS gboolean
+FUNCTION GooPolar.init_gaps(BYVAL G AS GooType, BYVAL N AS UINTEGER) AS gboolean
   Gap = G * ((Cent + Rr) * (Rv + 1)) * Wr / 2 '~   gaps between segments
   GapFlag = IIF(N > 1, 1, 0) '~                              radial gaps
   g_return_val_if_fail(Gap * N < Rr, TRUE) '~             gaps too large
@@ -633,14 +644,14 @@ FUNCTION _GooPolar.init_gaps(BYVAL G AS GooType, BYVAL N AS UINTEGER) AS gboolea
 END FUNCTION
 
 '~ draw a radial line (polax grid)
-SUB _GooPolar.line(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
+SUB GooPolar.line(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
   VAR ri = Cent, ra = ri + Rr, w = Ws + P * Wr, s = SIN(W) * Rv, c = COS(W)
   _goo_add_path(Pa, ASC("M"), Cx + c * ri, Cy - s * ri)
   _goo_add_path(Pa, ASC("L"), Cx + c * ra, Cy - s * ra)
 END SUB
 
 '~ draw a circular line (polax grid)
-SUB _GooPolar.circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
+SUB GooPolar.circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
   VAR rx = Cent + P * Rr, ry = rx * Rv
   IF Wr < _2GOO_PI THEN
     VAR we = Ws + Wr
@@ -655,9 +666,9 @@ SUB _GooPolar.circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
 END SUB
 
 '~ draw an area (pie segment, polax background)
-SUB _GooPolar.segment(BYVAL Pa AS GArray PTR, _
-                      BYVAL Ri AS GooType, BYVAL Rd AS GooType, _
-                      BYVAL Wa AS GooType, BYVAL Wd AS GooType)
+SUB GooPolar.segment(BYVAL Pa AS GArray PTR, _
+                     BYVAL Ri AS GooType, BYVAL Rd AS GooType, _
+                     BYVAL Wa AS GooType, BYVAL Wd AS GooType)
   VAR xi = Cent + Ri * Rr, xa = xi + Rd * Rr
   IF GapFlag THEN IF xi > GOO_EPS THEN xi += Gap : IF xi > xa THEN EXIT SUB
   VAR ya = xa * Rv, yi = xi * Rv

@@ -37,7 +37,7 @@ SUB _polax_item_interface_init CDECL( _
   iface->update = @_polax_update
 END SUB
 
-G_DEFINE_TYPE_WITH_CODE(GooPolax, _goo_polax, GOO_TYPE_CANVAS_GROUP, _
+G_DEFINE_TYPE_WITH_CODE(GooPolax, goo_polax, GOO_TYPE_CANVAS_GROUP, _
        G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _polax_item_interface_init))
 
 SUB _polax_finalize CDECL( _
@@ -49,7 +49,7 @@ TRIN("")
     IF .PTxt THEN g_free(.PTxt)
   END WITH
 
-  G_OBJECT_CLASS(_goo_polax_parent_class)->finalize(Obj)
+  G_OBJECT_CLASS(goo_polax_parent_class)->finalize(Obj)
 
 TROUT("")
 END SUB
@@ -66,7 +66,7 @@ TRIN("")
   WITH *Polax
     _GOO_EVAL_SEGMENT(.PSeg, angle, range)
 
-    DIM AS _GooPolar back
+    DIM AS GooPolar back
     back.init(Polax, .Bx, .By, .Bb, .Bh, angle, range)
 
     VAR path = GOO_CANVAS_PATH(.Back)->path_data->path_commands
@@ -139,7 +139,7 @@ TRIN(Prop_id)
 TROUT("")
 END SUB
 
-SUB _goo_polax_class_init CDECL( _
+SUB goo_polax_class_init CDECL( _
   BYVAL Polax_class AS GooPolaxClass PTR)
 TRIN("")
 
@@ -160,7 +160,7 @@ TROUT("")
 END SUB
 
 '~The standard object initialization function.
-SUB _goo_polax_init CDECL( _
+SUB goo_polax_init CDECL( _
   BYVAL Polax AS GooPolax PTR)
 TRIN("")
 
@@ -172,7 +172,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* goo_polax_new:
+/'*
+goo_polax_new:
 @Parent: the parent item, or %NULL. If a parent is specified, it will assume
  ownership of the item, and the item will automatically be freed when it is
  removed from the parent. Otherwise call g_object_unref() to free it.

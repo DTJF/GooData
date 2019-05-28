@@ -55,7 +55,7 @@ SUB _box2d_item_interface_init CDECL( _
   iface->update = @_box2d_update
 END SUB
 
-G_DEFINE_TYPE_WITH_CODE(GooBox2d, _goo_box2d, GOO_TYPE_CANVAS_GROUP, _
+G_DEFINE_TYPE_WITH_CODE(GooBox2d, goo_box2d, GOO_TYPE_CANVAS_GROUP, _
        G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _box2d_item_interface_init))
 
 SUB _box2d_finalize CDECL( _
@@ -70,7 +70,7 @@ TRIN("")
     goo_data_points_unref(.Dat)
   END WITH
 
-  G_OBJECT_CLASS(_goo_box2d_parent_class)->finalize(Obj)
+  G_OBJECT_CLASS(goo_box2d_parent_class)->finalize(Obj)
 
 TROUT("")
 END SUB
@@ -159,7 +159,8 @@ TRIN("")
     VAR outli = GOO_CANVAS_PATH(.POut)->path_data->path_commands
     VAR az = .Dat->Row - 1 : g_return_if_fail(az >= 4)
 
-/'* GooBox2d:channels:
+/'*
+GooBox2d:channels:
 
 The channels (columns) in the @Dat array
 for the box chart.
@@ -180,7 +181,7 @@ Since: 0.0
       chno = MKI(0)
     ELSE
       WHILE p
-        VAR channel = CUINT(_goo_value(p)) : IF 0 = p THEN EXIT WHILE
+        VAR channel = CUINT(goo_value(p)) : IF 0 = p THEN EXIT WHILE
         g_return_if_fail(channel < .Dat->Col)
         chno &= MKI(channel)
         nchannels += 1
@@ -188,7 +189,8 @@ Since: 0.0
       nchannels -= 1
     END IF
 
-/'* GooBox2d:boxes:
+/'*
+GooBox2d:boxes:
 
 The style of the boxes and whiskers. By default the boxes fill 80
 percent of the natural width (the place in the graph for one box),
@@ -221,13 +223,14 @@ Since: 0.0
     VAR bb = 0.8 * o, bw = 0.0, wb = bb
     p = .Boxs
     IF p <> 0 ANDALSO p[0] <> 0 THEN
-      VAR v = _goo_value(p) : IF p THEN bb = o * CLAMP(v, 0.1, 1.0) : _
-      v = _goo_value(p) : IF p THEN bw = bb * (1 - CLAMP(v, 0.0, 1.0)) * 0.5 : _
-      v = _goo_value(p) : IF p THEN wb = bb * CLAMP(v, 0.0, 1.0)
+      VAR v = goo_value(p) : IF p THEN bb = o * CLAMP(v, 0.1, 1.0) : _
+      v = goo_value(p) : IF p THEN bw = bb * (1 - CLAMP(v, 0.0, 1.0)) * 0.5 : _
+      v = goo_value(p) : IF p THEN wb = bb * CLAMP(v, 0.0, 1.0)
       IF ABS(bw) < GOO_EPS THEN bw = 0.0
     END IF
 
-/'* GooBox2d:outliers:
+/'*
+GooBox2d:outliers:
 
 The style of the outliers. Outliers occur when the lengths of the
 whiskers are limited or when an amount of values is specified to be
@@ -275,10 +278,10 @@ Since: 0.0
     p = .Outl
     IF p <> 0 ANDALSO p[0] <> 0 THEN
       VAR f = IIF(p[0] = ASC("P") ORELSE p[0] = ASC("p"), 1, -1)
-      VAR v = _goo_value(p)
+      VAR v = goo_value(p)
       IF p THEN wf = IIF(ABS(v) > GOO_EPS, CLAMP(v, 0.0, 0.5) * f, 0.0) : _
-        v = _goo_value(p) : IF p THEN ms = bb * CLAMP(v, 0.0, 1.0) : _
-        mt = CINT(_goo_value(p))
+        v = goo_value(p) : IF p THEN ms = bb * CLAMP(v, 0.0, 1.0) : _
+        mt = CINT(goo_value(p))
     END IF
 
     VAR c = CAST(guint PTR, SADD(chno))
@@ -445,7 +448,7 @@ TRIN("")
 TROUT("")
 END SUB
 
-SUB _goo_box2d_class_init CDECL( _
+SUB goo_box2d_class_init CDECL( _
   BYVAL box2d_class AS GooBox2dClass PTR)
 TRIN("")
 
@@ -481,7 +484,7 @@ TROUT("")
 END SUB
 
 '~The standard object initialization function.
-SUB _goo_box2d_init CDECL( _
+SUB goo_box2d_init CDECL( _
   BYVAL Box2d AS GooBox2d PTR)
 TRIN("")
 
@@ -494,7 +497,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* goo_box2d_get_whiskers_properties:
+/'*
+goo_box2d_get_whiskers_properties:
 @Box2d: a #GooBox2d
   @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -502,7 +506,8 @@ Get one or more properties of the whiskers #GooCanvasPath.
 
 Since: 0.0
 '/
-/'* goo_box2d_set_whiskers_properties:
+/'*
+goo_box2d_set_whiskers_properties:
 @Box2d: a #GooBox2d
   @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -512,7 +517,8 @@ Since: 0.0
 '/
 _GOO_DEFINE_PROP(box2d,Box2d,BOX2D,whiskers,PWis)
 
-/'* goo_box2d_get_outliers_properties:
+/'*
+goo_box2d_get_outliers_properties:
 @Box2d: a #GooBox2d
   @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -520,7 +526,8 @@ Get one or more properties of the outliers #GooCanvasPath.
 
 Since: 0.0
 '/
-/'* goo_box2d_set_outliers_properties:
+/'*
+goo_box2d_set_outliers_properties:
 @Box2d: a #GooBox2d
   @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -530,7 +537,8 @@ Since: 0.0
 '/
 _GOO_DEFINE_PROP(box2d,Box2d,BOX2D,outliers,POut)
 
-/'* goo_box2d_new:
+/'*
+goo_box2d_new:
 @Parent: the parent item, or %NULL. If a parent is specified, it will assume
  ownership of the item, and the item will automatically be freed when it is
  removed from the parent. Otherwise call g_object_unref() to free it.

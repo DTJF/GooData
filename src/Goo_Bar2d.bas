@@ -1,5 +1,6 @@
 '~ See main file for licence information: GooData.bas
-/'* SECTION:Goo_Bar2d
+/'*
+SECTION:Goo_Bar2d
 @Title: GooBar2d
 @Short_Description: bar chart (scaled by a #GooAxis).
 @Image: img/example_bar_stacked.bas.png
@@ -44,7 +45,7 @@ SUB _bar2d_item_interface_init CDECL( _
   iface->update = @_bar2d_update
 END SUB
 
-G_DEFINE_TYPE_WITH_CODE(GooBar2d, _goo_bar2d, GOO_TYPE_CANVAS_GROUP, _
+G_DEFINE_TYPE_WITH_CODE(GooBar2d, goo_bar2d, GOO_TYPE_CANVAS_GROUP, _
        G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _bar2d_item_interface_init))
 
 SUB _bar2d_finalize CDECL( _
@@ -58,7 +59,7 @@ TRIN("")
     goo_data_points_unref(.Dat)
   END WITH
 
-  G_OBJECT_CLASS(_goo_bar2d_parent_class)->finalize(Obj)
+  G_OBJECT_CLASS(goo_bar2d_parent_class)->finalize(Obj)
 TROUT("")
 END SUB
 
@@ -156,7 +157,8 @@ ENUM
 END ENUM
 
 
-/'* GooBar2d:alpha:
+/'*
+GooBar2d:alpha:
 
 The alpha value of transparency for the bar graph, defaults to no
 transparency (= 255). This is useful to make the grid lines shine
@@ -178,7 +180,8 @@ TRIN("")
     '~ goo_canvas_item_remove(.BLabl)
     '~ .BLabl = goo_canvas_group_new(GOO_CANVAS_ITEM(Bar2d), NULL)
 
-/'* GooBar2d:gaps:
+/'*
+GooBar2d:gaps:
 
 The gaps between the bars of the graph as percentage of the width.
 The first value is the space between the bar groups (related to the
@@ -211,12 +214,13 @@ Note: in case of stacked graphs (#GooBar2d:channels with start letter
 Since: 0.0
 '/
     VAR p = .Gaps, nchannels = 0, chno = "", mo = GOO_BAR2D_SIMPLE, offset = 0.0
-    VAR gap1 = IIF(p, ABS(_goo_value(p)), 0.1)
+    VAR gap1 = IIF(p, ABS(goo_value(p)), 0.1)
     IF gap1 > 0.5 THEN gap1 = 0.5
-    VAR gap2 = IIF(p, ABS(_goo_value(p)), 0.0)
+    VAR gap2 = IIF(p, ABS(goo_value(p)), 0.0)
     IF gap2 > 0.5 THEN gap2 = 0.5
 
-/'* GooBar2d:channels:
+/'*
+GooBar2d:channels:
 
 The type of the bar graph and the channels (columns) in the @Dat array
 for the values of the bars.
@@ -267,10 +271,10 @@ Since: 0.0
       CASE ASC("G"), ASC("g") : mo = GOO_BAR2D_GANTT   : gap2 = 0.0
       CASE ASC("P"), ASC("p") : mo = GOO_BAR2D_PERCENT : gap2 = 0.0
       CASE ASC("S"), ASC("s") : mo = GOO_BAR2D_STACK   : gap2 = 0.0
-      CASE ASC("V"), ASC("v") : mo = GOO_BAR2D_VALUE : offset = _goo_value(p)
+      CASE ASC("V"), ASC("v") : mo = GOO_BAR2D_VALUE : offset = goo_value(p)
       END SELECT
       WHILE p
-        VAR channel = CUINT(_goo_value(p)) : IF 0 = p THEN EXIT WHILE
+        VAR channel = CUINT(goo_value(p)) : IF 0 = p THEN EXIT WHILE
         g_return_if_fail(channel < .Dat->Col)
         IF mo = GOO_BAR2D_GANTT THEN g_return_if_fail(channel > 0)
         chno &= MKI(channel)
@@ -445,7 +449,7 @@ TRIN("")
 TROUT("")
 END SUB
 
-SUB _goo_bar2d_class_init CDECL( _
+SUB goo_bar2d_class_init CDECL( _
   BYVAL bar2d_class AS GooBar2dClass PTR)
 TRIN("")
 
@@ -487,7 +491,7 @@ TROUT("")
 END SUB
 
 '~The standard object initialization function.
-SUB _goo_bar2d_init CDECL( _
+SUB goo_bar2d_init CDECL( _
   BYVAL Bar2d AS GooBar2d PTR)
 TRIN("")
 
@@ -501,7 +505,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* goo_bar2d_new:
+/'*
+goo_bar2d_new:
 @Parent: the parent item, or %NULL. If a parent is specified, it will assume
  ownership of the item, and the item will automatically be freed when it is
  removed from the parent. Otherwise call g_object_unref() to free it.

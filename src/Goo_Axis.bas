@@ -54,13 +54,13 @@ DECLARE SUB _axis_update CDECL( _
 #DEFINE AXIS_DIRECTION .Mo AND &b11
 #DEFINE AXIS_GRID .Mo > GOO_AXIS_NORTH
 
-FUNCTION _GooAxis.Pos(BYVAL V AS GooType) AS GooType
+FUNCTION GooAxis.Pos(BYVAL V AS GooType) AS GooType
   SELECT CASE AS CONST PoMo
     CASE 0, 1 : RETURN (V - VOffs) * VScale
   END SELECT  : RETURN (LOG(ABS(V)) - VOffs) * VScale
 END FUNCTION
 
-SUB _GooAxis.Geo(BYREF P AS GooType, BYREF L AS GooType)
+SUB GooAxis.Geo(BYREF P AS GooType, BYREF L AS GooType)
   SELECT CASE AS CONST Mo AND &b11
   CASE GOO_AXIS_NORTH, GOO_AXIS_SOUTH : P = Bx : L = Bb
   CASE ELSE                           : P = By : L = Bh
@@ -73,7 +73,7 @@ SUB _axis_item_interface_init CDECL( _
   iface->update = @_axis_update
 END SUB
 
-G_DEFINE_TYPE_WITH_CODE(GooAxis, _goo_axis, GOO_TYPE_CANVAS_GROUP, _
+G_DEFINE_TYPE_WITH_CODE(GooAxis, goo_axis, GOO_TYPE_CANVAS_GROUP, _
        G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _axis_item_interface_init))
 
 SUB _axis_finalize CDECL( _
@@ -90,7 +90,7 @@ TRIN("")
     g_object_unref(.Back)
   END WITH
 
-  G_OBJECT_CLASS(_goo_axis_parent_class)->finalize(Obj)
+  G_OBJECT_CLASS(goo_axis_parent_class)->finalize(Obj)
 
 TROUT("")
 END SUB
@@ -162,7 +162,8 @@ TRIN(Prop_id)
   CASE GOO_AXIS_PROP_TICKS       :    g_free(.TVal) : .TVal = g_value_dup_string(Value)
   CASE GOO_AXIS_PROP_TICKLEN     :    g_free(.TLen) : .TLen = g_value_dup_string(Value)
   CASE GOO_AXIS_PROP_OFFSET      '~ :  g_free(.Offset) : .Offset = g_value_dup_string(Value)
-/'* GooAxis:offset:
+/'*
+GooAxis:offset:
 
 The offset between the background box and the axis base line (and
 all elements of the axis).
@@ -184,8 +185,8 @@ goo_axis_set_ticks_properties().
 Since: 0.0
 '/
     VAR p = CAST(UBYTE PTR, g_value_get_string(Value))
-    .Along  = IIF(p, _goo_value(p), 0.0)
-    .Across = IIF(p, _goo_value(p), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
+    .Along  = IIF(p, goo_value(p), 0.0)
+    .Across = IIF(p, goo_value(p), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
   CASE GOO_AXIS_PROP_OFFS_ALONG  :     .Along = g_value_get_double(Value)
   CASE GOO_AXIS_PROP_OFFS_ACROSS :    .Across = g_value_get_double(Value)
   CASE GOO_AXIS_PROP_BORDERS     : g_free(.Borders) : .Borders = g_value_dup_string(Value)
@@ -227,8 +228,8 @@ TRIN("")
     .Bh = h
 
     '~ VAR t = .Offset
-    '~ .Along  = IIF(t, _goo_value(t), 0.0)
-    '~ .Across = IIF(t, _goo_value(t), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
+    '~ .Along  = IIF(t, goo_value(t), 0.0)
+    '~ .Across = IIF(t, goo_value(t), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
 
     SELECT CASE AS CONST AXIS_TYPE
     CASE GOO_AXIS_SOUTH
@@ -259,7 +260,8 @@ TRIN("")
     .TickHeight = 0.0
     .TickLabels = ""
 
-/'* GooAxis:tick-length:
+/'*
+GooAxis:tick-length:
 
 The length of the tick lines at the axis (or %NULL for default).
 This may contain
@@ -274,13 +276,14 @@ Since: 0.0
 '/
     VAR t = .TLen
     IF t THEN
-      .Tout = IIF(t, _goo_value(t), 0.0)
-      .Tin = IIF(t, _goo_value(t), 0.0)
+      .Tout = IIF(t, goo_value(t), 0.0)
+      .Tin = IIF(t, goo_value(t), 0.0)
     ELSE
       .Tout = 5.0
     END IF
 
-/'* GooAxis:range:
+/'*
+GooAxis:range:
 
 The borders of the axis (or %NULL to reset).
 This may contain
@@ -294,12 +297,13 @@ This may contain
 Since: 0.0
 '/
     t = .Borders
-    .SMin = IIF(t, _goo_value(t), 0.0)
-    .SMax = IIF(t, _goo_value(t), 0.0)
+    .SMin = IIF(t, goo_value(t), 0.0)
+    .SMax = IIF(t, goo_value(t), 0.0)
     IF .SMin = .SMax THEN .VScale = 0.0 : g_warning("Axis has no borders!") : RETURN 2
     IF t = 0 THEN IF .SMin > .SMax THEN SWAP .SMin, .SMax
 
-/'* GooAxis:logbasis:
+/'*
+GooAxis:logbasis:
 
 The basis of an logarithmic scale for the axis (or 0.0 for linear scale).
 When a basis is set and the #GooAxis:ticks property has no or one value, then
@@ -452,7 +456,7 @@ TRIN("")
     VAR nn = "", t = .TVal
     IF INSTR(*t, *s1) THEN '~                       single ticks defined
       DO
-        VAR r = _goo_value(t) : IF t THEN nn &= MKD(r) ELSE EXIT DO
+        VAR r = goo_value(t) : IF t THEN nn &= MKD(r) ELSE EXIT DO
         VAR a = INSTR(*t, *s1) + 1 : IF a <= 1 THEN EXIT DO '~ !!! unscaled
         VAR e = INSTR(*t, *s2) : IF e < a THEN EXIT DO
         .TickLabels &= MID(*t, a, e - a) & CHR(0)
@@ -461,7 +465,7 @@ TRIN("")
     END IF
 
     DO
-      VAR r = _goo_value(t) : IF t THEN nn &= MKD(r) ELSE EXIT DO
+      VAR r = goo_value(t) : IF t THEN nn &= MKD(r) ELSE EXIT DO
     LOOP : IF LEN(nn) > 8 THEN RETURN nn
 
 TROUT("")
@@ -469,7 +473,8 @@ TROUT("")
   END WITH
 END FUNCTION
 
-/'* GooAxis:ticks:
+/'*
+GooAxis:ticks:
 
 Where to set ticks at the axis (or %NULL for autoscale).
 This may contain
@@ -539,7 +544,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* GooAxis:subticks:
+/'*
+GooAxis:subticks:
 
 The number of subticks between the main ticks. Ie a value of 1 adds
 one subtick.
@@ -631,7 +637,8 @@ TRIN("")
     VAR hmax = 0.0, bmax = 0.0, tanchor = 0
     VAR small_angle = ABS(.Angle) < aeps, big_angle = 90 - ABS(.Angle) > aeps
 
-/'* GooAxis:tick-angle:
+/'*
+GooAxis:tick-angle:
 
 The rotation of the tick texts at the axis. By default the text is
 placed in horizontal direction for all axis positions. Using this property the
@@ -643,7 +650,8 @@ text.
 
 Since: 0.0
 '/
-/'* GooAxis:tick-offset:
+/'*
+GooAxis:tick-offset:
 
 Additional space between the ticks and the tick labels. By default
 the tick labels are placed next to the ticks. A positiv #GooAxis:tick-offset
@@ -652,7 +660,8 @@ tick labels towards the background box.
 
 Since: 0.0
 '/
-/'* GooAxis:format:
+/'*
+GooAxis:format:
 
 The format for the tick labels (defaults to "\%g" if #GooAxis:format is
 %NULL or ""). This can be used to putput customized tick labels, ie
@@ -726,14 +735,16 @@ Since: 0.0
 TROUT("")
 END SUB
 
-/'* GooAxis:text:
+/'*
+GooAxis:text:
 
 The label text to use at the axis (or %NULL to reset). #PangoMarkupFormat
 is used to format the text. Example: "tan (<i>theta</i>)"
 
 Since: 0.0
 '/
-/'* GooAxis:text-offset:
+/'*
+GooAxis:text-offset:
 
 Additional space between the tick labels and the axis text. By default
 the text is placed next to the tick labels. A positiv #GooAxis:text-offset
@@ -742,7 +753,8 @@ text towards the background box.
 
 Since: 0.0
 '/
-/'* GooAxis:text-align:
+/'*
+GooAxis:text-align:
 
 The allignment for the label text as
 a #PANGO_TYPE_ALIGNMENT value.
@@ -846,7 +858,7 @@ TRIN("")
 TROUT("")
 END SUB
 
-SUB _goo_axis_class_init CDECL( _
+SUB goo_axis_class_init CDECL( _
   BYVAL axis_class AS GooAxisClass PTR)
 TRIN("")
 
@@ -959,7 +971,7 @@ TROUT("")
 END SUB
 
 '~The standard object initialization function.
-SUB _goo_axis_init CDECL( _
+SUB goo_axis_init CDECL( _
   BYVAL Axis AS GooAxis PTR)
 TRIN("")
 
@@ -990,7 +1002,8 @@ TRIN("")
 TROUT("")
 END SUB
 
-/'* goo_axis_get_text_properties:
+/'*
+goo_axis_get_text_properties:
  @Axis: a #GooAxis
  @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -998,7 +1011,8 @@ Get one or more properties of the #GooCanvasGroup of ticklabels.
 
 Since: 0.0
 '/
-/'* goo_axis_set_text_properties:
+/'*
+goo_axis_set_text_properties:
  @Axis: a #GooAxis
  @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1008,7 +1022,8 @@ Since: 0.0
 '/
 _GOO_DEFINE_PROP(axis,Axis,AXIS,text,Textgr)
 
-/'* goo_axis_get_grid_properties:
+/'*
+goo_axis_get_grid_properties:
  @Axis: a #GooAxis
  @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1016,7 +1031,8 @@ Get one or more properties of the #GooCanvasPath of grid lines.
 
 Since: 0.0
 '/
-/'* goo_axis_set_grid_properties:
+/'*
+goo_axis_set_grid_properties:
  @Axis: a #GooAxis
  @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1026,7 +1042,8 @@ Since: 0.0
 '/
 _GOO_DEFINE_PROP(axis,Axis,AXIS,grid,Grid)
 
-/'* goo_axis_get_ticks_properties:
+/'*
+goo_axis_get_ticks_properties:
  @Axis: a #GooAxis
  @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1035,7 +1052,8 @@ connection lines if the second value of #GooAxis:offset is set).
 
 Since: 0.0
 '/
-/'* goo_axis_set_ticks_properties:
+/'*
+goo_axis_set_ticks_properties:
  @Axis: a #GooAxis
  @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1045,7 +1063,8 @@ Since: 0.0
 '/
 _GOO_DEFINE_PROP(axis,Axis,AXIS,ticks,Tick)
 
-/'* goo_axis_get_subticks_properties:
+/'*
+goo_axis_get_subticks_properties:
  @Axis: a #GooAxis
  @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1053,7 +1072,8 @@ Get one or more properties of the #GooCanvasPath of subtick lines.
 
 Since: 0.0
 '/
-/'* goo_axis_set_subticks_properties:
+/'*
+goo_axis_set_subticks_properties:
  @Axis: a #GooAxis
  @...: optional pairs of property names and values, and a terminating %NULL.
 
@@ -1065,7 +1085,8 @@ Since: 0.0
 _GOO_DEFINE_PROP(axis,Axis,AXIS,subticks,STick)
 
 
-/'* goo_axis_new:
+/'*
+goo_axis_new:
 @Parent: the parent item, or %NULL. If a parent is specified, it will assume
  ownership of the item, and the item will automatically be freed when it is
  removed from the parent. Otherwise call g_object_unref() to free it.
