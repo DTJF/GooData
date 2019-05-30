@@ -9,4 +9,4 @@
 #INCLUDE ONCE "Goo_Curve2d.bi"
 #INCLUDE ONCE "Goo_Pie2d.bi"
 #INCLUDE ONCE "Goo_Polax.bi"
-#INCLUDE ONCE "Goo_Simplycurve.bi"
+#INCLUDE ONCE "Goo_Simplecurve2d.bi"

@@ -15,7 +15,7 @@ TYPE GooPolax
   AS GooCanvasItem PTR Back, Grid, Tick, STick
   AS gchar PTR PSeg, PTxt
 
-  AS GooType Bx, By, Bb, Bh
+  AS GooFloat Bx, By, Bb, Bh
 END TYPE
 
 /'*
@@ -39,9 +39,9 @@ DECLARE FUNCTION goo_polax_get_type CDECL() AS GType
 
 DECLARE FUNCTION goo_polax_new CDECL( _
   BYVAL Parent AS GooCanvasItem PTR, _
-  BYVAL X AS GooType, _
-  BYVAL Y AS GooType, _
-  BYVAL Width_ AS GooType, _
-  BYVAL Height AS GooType, _
+  BYVAL X AS GooFloat, _
+  BYVAL Y AS GooFloat, _
+  BYVAL Width_ AS GooFloat, _
+  BYVAL Height AS GooFloat, _
   BYVAL Text AS gchar PTR, _
   ...) AS GooCanvasItem PTR

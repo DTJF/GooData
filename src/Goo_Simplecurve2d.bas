@@ -112,7 +112,7 @@ TRIN("")
         VAR s = .Dat->Dat, d = .Dat->Col, az = .Dat->Row, e = s + d * az - 1
         VAR sx = .Bb / az, sy = .Bh / az, x = - sx / 2, y = -sy / 2
         VAR a = .parent_instance.polyline_data->coords
-        FOR i AS GooType PTR = s TO e STEP d '~           set the points
+        FOR i AS GooFloat PTR = s TO e STEP d '~           set the points
           IF .ChX < 0 THEN x += sx ELSE x = .AxisX->Pos(i[.ChX])
           *a = x : a += 1
           IF .ChY < 0 THEN y += sy ELSE y = .AxisY->Pos(i[.ChY])

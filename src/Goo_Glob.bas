@@ -40,7 +40,7 @@ FUNCTION goo_set_decimal_separator CDECL(BYVAL V AS UBYTE = 0) AS UBYTE
   END SELECT : RETURN _GOO_NO_CHR[0]
 END FUNCTION
 
-FUNCTION _goo_palette CDECL(BYVAL Scale AS GooType, BYVAL Alpha_ AS UBYTE = &hFF) AS guint
+FUNCTION _goo_palette CDECL(BYVAL Scale AS GooFloat, BYVAL Alpha_ AS UBYTE = &hFF) AS guint
   STATIC AS UBYTE _
     r(...) = {255, 255, 0  ,   0, 255}, _
     g(...) = {  0, 255, 255,   0,   0}, _
@@ -99,7 +99,7 @@ SUB goo_data_points_unref CDECL(BYVAL Points AS GooDataPoints PTR)
   WITH *Points
     .RefCount -= 1
     IF .RefCount <= 0 THEN
-      IF .m_flag THEN g_slice_free1(.Row * .Col * SIZEOF(GooType), .Dat)
+      IF .m_flag THEN g_slice_free1(.Row * .Col * SIZEOF(GooFloat), .Dat)
       g_slice_free(GooDataPoints, Points)
     END IF
   END WITH
@@ -114,11 +114,11 @@ goo_data_points_new:
 @Rows : the number of rows to create in the array.
 @Columns: the number of columns to create in the array or nothing to create one column.
 @Array: an (optional) array with the given number of rows and columns
-of GooType values or %NULL to create a new internal array.
+of GooFloat values or %NULL to create a new internal array.
 
 Creates a new #GooDataPoints struct. The structure can either allocate
 space for the given number of values or can hold an previously created
-array of GooType values.
+array of GooFloat values.
 
 In the second case the memory must not be
 freed while the #GooDataPoints struct is in usage (its reference counter
@@ -138,7 +138,7 @@ Since: 0.0
 FUNCTION goo_data_points_new CDECL( _
   BYVAL Rows AS guint = 1, _
   BYVAL Columns AS guint = 1, _
-  BYVAL Array AS GooType PTR = 0) AS GooDataPoints PTR
+  BYVAL Array AS GooFloat PTR = 0) AS GooDataPoints PTR
 
   VAR points = g_slice_new(GooDataPoints)
   WITH *points
@@ -148,7 +148,7 @@ FUNCTION goo_data_points_new CDECL( _
       .Dat = Array
       .m_flag = 0
     ELSE
-      .Dat = g_slice_alloc(.Row * .Col * SIZEOF(GooType))
+      .Dat = g_slice_alloc(.Row * .Col * SIZEOF(GooFloat))
       .m_flag = 1
     END IF
     .RefCount = 1
@@ -169,7 +169,7 @@ Since: 0.0
 '/
 SUB goo_data_points_set_point CDECL(BYVAL Points AS GooDataPoints PTR, _
   BYVAL Row AS guint, BYVAL Column AS guint, _
-  BYVAL Value AS GooType)
+  BYVAL Value AS GooFloat)
   WITH *Points
     g_return_if_fail(Row < .Row)
     g_return_if_fail(Column < .Col)
@@ -190,7 +190,7 @@ Returns: the value to get from row and column.
 Since: 0.0
 '/
 FUNCTION goo_data_points_get_point CDECL(BYVAL Points AS GooDataPoints PTR, _
-  BYVAL Row AS guint, BYVAL Column AS guint) AS GooType
+  BYVAL Row AS guint, BYVAL Column AS guint) AS GooFloat
   WITH *Points
     g_return_val_if_fail(Row < .Row, 0.0)
     g_return_val_if_fail(Column < .Col, 0.0)
@@ -318,15 +318,8 @@ G_DEFINE_BOXED_TYPE(GooFiller, goo_filler, _
                                goo_filler_unref)
 
 
-''~ analyse a line, calculate angle and length
-'TYPE _GooLine
-  'AS GooType x, y, dx, dy, l, w
-  'DECLARE SUB init(BYVAL Xn AS GooType, BYVAL Yn AS GooType, _
-                   'BYVAL Xa AS GooType, BYVAL Ya AS GooType)
-'END TYPE
-
-SUB _GooLine.init(BYVAL Xn AS GooType, BYVAL Yn AS GooType, _
-                  BYVAL Xa AS GooType, BYVAL Ya AS GooType)
+SUB _goo_line.init(BYVAL Xn AS GooFloat, BYVAL Yn AS GooFloat, _
+                   BYVAL Xa AS GooFloat, BYVAL Ya AS GooFloat)
   x = Xn
   y = Yn
   dx = x - Xa
@@ -341,7 +334,7 @@ SUB _GooLine.init(BYVAL Xn AS GooType, BYVAL Yn AS GooType, _
 END SUB
 
 '~ read a value from a string (BIN, OCT, DEC, HEX with fractional digits)
-FUNCTION goo_value(BYREF T AS UBYTE PTR) AS GooType
+FUNCTION goo_value(BYREF T AS UBYTE PTR) AS GooFloat
   STATIC AS INTEGER a, e, b, x, y, d, f, v, c_deci = 10
   STATIC AS UBYTE PTR n
   STATIC AS DOUBLE r
@@ -546,8 +539,8 @@ SUB _goo_add_marker(BYVAL Path AS GArray PTR, _
   END SELECT
 END SUB
 
-'~ sort the index field of an array of GooType values
-SUB _Goo_Sort(BYVAL V AS GooType PTR PTR, BYVAL N AS UINTEGER)
+'~ sort the index field of an array of GooFloat values
+SUB _Goo_Sort(BYVAL V AS GooFloat PTR PTR, BYVAL N AS UINTEGER)
   VAR f = 0, l = N, p = 0
   DIM AS INTEGER QStack(l \ 5 + 10)
   DO
@@ -580,29 +573,12 @@ SUB _Goo_Sort(BYVAL V AS GooType PTR PTR, BYVAL N AS UINTEGER)
   LOOP
 END SUB
 
-''~ struct for polax and pie segments
-'TYPE _GooPolar
-  'AS GooType Cx, Cy, Rr, Rv, Ws, Wr, Gap, Cent
-  'AS gboolean GapFlag
-  'DECLARE FUNCTION init(BYVAL Obj AS gpointer, _
-                        'BYVAL X AS GooType, BYVAL Y AS GooType, _
-                        'BYVAL W AS GooType, BYVAL H AS GooType, _
-                        'BYVAL A AS GooType, BYVAL E AS GooType, _
-                        'BYVAL C AS GooType = 0.0) AS gboolean
-  'DECLARE FUNCTION init_gaps(BYVAL G AS GooType, BYVAL N AS UINTEGER) AS gboolean
-  'DECLARE SUB line(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
-  'DECLARE SUB circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
-  'DECLARE SUB segment(BYVAL Path AS GArray PTR, _
-                      'BYVAL Ri AS GooType, BYVAL Rd AS GooType, _
-                      'BYVAL Wa AS GooType, BYVAL Wd AS GooType)
-'END TYPE
-
 '~ set the drawing area
 FUNCTION GooPolar.init(BYVAL Obj AS gpointer, _
-                       BYVAL X AS GooType, BYVAL Y AS GooType, _
-                       BYVAL W AS GooType, BYVAL H AS GooType, _
-                       BYVAL A AS GooType, BYVAL R AS GooType, _
-                       BYVAL C AS GooType = 0.0) AS gboolean
+                       BYVAL X AS GooFloat, BYVAL Y AS GooFloat, _
+                       BYVAL W AS GooFloat, BYVAL H AS GooFloat, _
+                       BYVAL A AS GooFloat, BYVAL R AS GooFloat, _
+                       BYVAL C AS GooFloat = 0.0) AS gboolean
 
   Ws = A '~                             start angle
   Wr = IIF(R > GOO_EPS, R, _2GOO_PI) '~ angle range
@@ -636,7 +612,7 @@ FUNCTION GooPolar.init(BYVAL Obj AS gpointer, _
 END FUNCTION
 
 '~ set gaps for pie segments, if required
-FUNCTION GooPolar.init_gaps(BYVAL G AS GooType, BYVAL N AS UINTEGER) AS gboolean
+FUNCTION GooPolar.init_gaps(BYVAL G AS GooFloat, BYVAL N AS UINTEGER) AS gboolean
   Gap = G * ((Cent + Rr) * (Rv + 1)) * Wr / 2 '~   gaps between segments
   GapFlag = IIF(N > 1, 1, 0) '~                              radial gaps
   g_return_val_if_fail(Gap * N < Rr, TRUE) '~             gaps too large
@@ -644,14 +620,14 @@ FUNCTION GooPolar.init_gaps(BYVAL G AS GooType, BYVAL N AS UINTEGER) AS gboolean
 END FUNCTION
 
 '~ draw a radial line (polax grid)
-SUB GooPolar.line(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
+SUB GooPolar.line(BYVAL Pa AS GArray PTR, BYVAL P AS GooFloat)
   VAR ri = Cent, ra = ri + Rr, w = Ws + P * Wr, s = SIN(W) * Rv, c = COS(W)
   _goo_add_path(Pa, ASC("M"), Cx + c * ri, Cy - s * ri)
   _goo_add_path(Pa, ASC("L"), Cx + c * ra, Cy - s * ra)
 END SUB
 
 '~ draw a circular line (polax grid)
-SUB GooPolar.circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
+SUB GooPolar.circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooFloat)
   VAR rx = Cent + P * Rr, ry = rx * Rv
   IF Wr < _2GOO_PI THEN
     VAR we = Ws + Wr
@@ -667,8 +643,8 @@ END SUB
 
 '~ draw an area (pie segment, polax background)
 SUB GooPolar.segment(BYVAL Pa AS GArray PTR, _
-                     BYVAL Ri AS GooType, BYVAL Rd AS GooType, _
-                     BYVAL Wa AS GooType, BYVAL Wd AS GooType)
+                     BYVAL Ri AS GooFloat, BYVAL Rd AS GooFloat, _
+                     BYVAL Wa AS GooFloat, BYVAL Wd AS GooFloat)
   VAR xi = Cent + Ri * Rr, xa = xi + Rd * Rr
   IF GapFlag THEN IF xi > GOO_EPS THEN xi += Gap : IF xi > xa THEN EXIT SUB
   VAR ya = xa * Rv, yi = xi * Rv

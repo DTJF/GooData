@@ -317,10 +317,10 @@ SUB _curve2d CDECL( _
   ...)
 
   STATIC AS gdouble x, y, sx, sy, xa, ya, xn, yn, w, l, befa
-  STATIC AS _GooLine old_, new_
-  STATIC AS _GooLine PTR o = @old_, n = @new_
+  STATIC AS _goo_line old_, new_
+  STATIC AS _goo_line PTR o = @old_, n = @new_
   STATIC AS guint az, ch
-  STATIC AS GooType PTR s, e, i
+  STATIC AS GooFloat PTR s, e, i
   STATIC AS ANY PTR va
   STATIC AS gint PTR echa
   STATIC AS gint d, kx, ky

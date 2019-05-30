@@ -286,13 +286,13 @@ Since: 0.0
 
     VAR c = CAST(guint PTR, SADD(chno))
     VAR mid_i = az SHR 1, lbox_i = mid_i SHR 1, ubox_i = az - lbox_i
-    DIM AS GooType PTR v(az)
+    DIM AS GooFloat PTR v(az)
     VAR s = .Dat->Col, e = .Dat->Dat + .Dat->Row * s - 1
     VAR x = IIF(.Vertical, .Bx, .By) + 0.5 * o
 
     FOR chan AS INTEGER = 0 TO nchannels
       VAR z = @v(0)
-      FOR p AS GooType PTR = .Dat->Dat + c[chan] TO e STEP s
+      FOR p AS GooFloat PTR = .Dat->Dat + c[chan] TO e STEP s
         *z = p
         z += 1
       NEXT : _Goo_Sort(@v(0), az)

@@ -39,8 +39,8 @@ Since: 0.0
 TYPE GooAxis
   AS GooCanvasGroup parent_instance
 
-  DECLARE FUNCTION Pos(BYVAL V AS GooType) AS GooType
-  DECLARE SUB Geo(BYREF S AS GooType, BYREF L AS GooType)
+  DECLARE FUNCTION Pos(BYVAL V AS GooFloat) AS GooFloat
+  DECLARE SUB Geo(BYREF S AS GooFloat, BYREF L AS GooFloat)
   AS GooAxisType Mo
 
   AS GooCanvasItem PTR Parent, Back
@@ -51,13 +51,13 @@ TYPE GooAxis
   AS guint Tsub, TextAlign
 
   AS STRING TickLabels
-  AS GooType Smin, Smax, Basis
-  AS GooType Angle, TickOffs, TextOffs
-  AS GooType Alen, TickHeight, Tin, Tout
-  AS GooType Along, Across, X1, Y1, X2, Y2
-  AS GooType Voffs, VScale, POffs
-  AS GooType Bx, By, Bb, Bh
-  AS GooType eps
+  AS GooFloat Smin, Smax, Basis
+  AS GooFloat Angle, TickOffs, TextOffs
+  AS GooFloat Alen, TickHeight, Tin, Tout
+  AS GooFloat Along, Across, X1, Y1, X2, Y2
+  AS GooFloat Voffs, VScale, POffs
+  AS GooFloat Bx, By, Bb, Bh
+  AS GooFloat eps
   AS guint PoMo
 END TYPE
 

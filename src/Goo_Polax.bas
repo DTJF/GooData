@@ -215,10 +215,10 @@ Since: 0.0
 '~ * </programlisting></informalexample>
 FUNCTION goo_polax_new CDECL ALIAS "goo_polax_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
-  BYVAL X AS GooType, _
-  BYVAL Y AS GooType, _
-  BYVAL Width_ AS GooType, _
-  BYVAL Height AS GooType, _
+  BYVAL X AS GooFloat, _
+  BYVAL Y AS GooFloat, _
+  BYVAL Width_ AS GooFloat, _
+  BYVAL Height AS GooFloat, _
   BYVAL Text AS gchar PTR, _
   ...) AS GooCanvasItem PTR EXPORT
 TRIN("")

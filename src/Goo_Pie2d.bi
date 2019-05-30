@@ -14,7 +14,7 @@ TYPE GooPie2d
   AS GooFiller PTR GoFi
   '~ AS guint Alph
 
-  AS GooType Bx, By, Bb, Bh
+  AS GooFloat Bx, By, Bb, Bh
 END TYPE
 
 /'*
@@ -39,8 +39,8 @@ DECLARE FUNCTION goo_pie2d_get_type CDECL() AS GType
 DECLARE FUNCTION goo_pie2d_new CDECL( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL Dat AS GooDataPoints PTR, _
-  BYVAL X AS GooType, _
-  BYVAL Y AS GooType, _
-  BYVAL Width_ AS GooType, _
-  BYVAL Height AS GooType, _
+  BYVAL X AS GooFloat, _
+  BYVAL Y AS GooFloat, _
+  BYVAL Width_ AS GooFloat, _
+  BYVAL Height AS GooFloat, _
   ...) AS GooPie2d PTR

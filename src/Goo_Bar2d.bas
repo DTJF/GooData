@@ -298,7 +298,7 @@ Since: 0.0
       VAR y0 = .Axis->Pos(0)
       '~ VAR y = IIF(y0 < .By, .By, IIF(y0 > .By + .Bh, .By + .Bh, y0))
       VAR y = CLAMP(y0, .By, .By + .Bh)
-      FOR p AS GooType PTR = .Dat->Dat TO e STEP s
+      FOR p AS GooFloat PTR = .Dat->Dat TO e STEP s
         SELECT CASE AS CONST mo
         CASE GOO_BAR2D_SIMPLE
           FOR i AS INTEGER = 0 TO nchannels
@@ -364,7 +364,7 @@ Since: 0.0
       VAR y = .By + .Bh - 0.5 * (gap1 + gap2) - dy
       VAR x0 = .Axis->Pos(0)
       VAR x = CLAMP(x0, .Bx, .Bx + .Bb)
-      FOR p AS GooType PTR = .Dat->Dat TO e STEP s
+      FOR p AS GooFloat PTR = .Dat->Dat TO e STEP s
         SELECT CASE AS CONST mo
         CASE GOO_BAR2D_SIMPLE
           FOR i AS INTEGER = 0 TO nchannels

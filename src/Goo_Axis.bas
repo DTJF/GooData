@@ -54,13 +54,13 @@ DECLARE SUB _axis_update CDECL( _
 #DEFINE AXIS_DIRECTION .Mo AND &b11
 #DEFINE AXIS_GRID .Mo > GOO_AXIS_NORTH
 
-FUNCTION GooAxis.Pos(BYVAL V AS GooType) AS GooType
+FUNCTION GooAxis.Pos(BYVAL V AS GooFloat) AS GooFloat
   SELECT CASE AS CONST PoMo
     CASE 0, 1 : RETURN (V - VOffs) * VScale
   END SELECT  : RETURN (LOG(ABS(V)) - VOffs) * VScale
 END FUNCTION
 
-SUB GooAxis.Geo(BYREF P AS GooType, BYREF L AS GooType)
+SUB GooAxis.Geo(BYREF P AS GooFloat, BYREF L AS GooFloat)
   SELECT CASE AS CONST Mo AND &b11
   CASE GOO_AXIS_NORTH, GOO_AXIS_SOUTH : P = Bx : L = Bb
   CASE ELSE                           : P = By : L = Bh
@@ -345,7 +345,7 @@ Since: 0.0
 TROUT("")
 END FUNCTION
 
-FUNCTION _axis_autoscale(BYVAL Axis AS GooAxis PTR, BYVAL S AS GooType) AS STRING
+FUNCTION _axis_autoscale(BYVAL Axis AS GooAxis PTR, BYVAL S AS GooFloat) AS STRING
 TRIN("")
 
   WITH *Axis
@@ -588,7 +588,7 @@ END SUB
 SUB _axis_grid(BYVAL Axis AS GooAxis PTR, BYREF Nn AS STRING)
 TRIN("")
 
-  DIM AS GooType gu, go
+  DIM AS GooFloat gu, go
   WITH *Axis
     IF AXIS_VERTICAL THEN
       gu = .By + .Bh * .eps
@@ -628,7 +628,7 @@ END FUNCTION
 SUB _axis_ticklabels(BYVAL Axis AS GooAxis PTR, BYREF Nn AS STRING)
 TRIN("")
 
-  STATIC AS GooType aeps = 4.5, tx, ty
+  STATIC AS GooFloat aeps = 4.5, tx, ty
   WITH *Axis
     DIM AS PangoRectangle ir, lr
     VAR n = goo_canvas_text_new(NULL, ",", 30.0, 30.0, -1, 0, NULL)
@@ -764,7 +764,7 @@ Since: 0.0
 SUB _axis_label(BYVAL Axis AS GooAxis PTR)
 TRIN("")
 
-  STATIC AS GooType tx, ty, po
+  STATIC AS GooFloat tx, ty, po
   STATIC AS guint tanchor
   WITH *Axis
 
@@ -1094,7 +1094,7 @@ goo_axis_new:
  #GooCanvasImage, #GooCanvasGroup, ...).
  Note: to set the axis position and size, the properties
  #GooCanvasItemSimple:x, #GooCanvasItemSimple:y, #GooCanvasItemSimple:width and
- #GooCanvasItemSimple:height will be red (and therefore must be set in the
+ #GooCanvasItemSimple:height will be read (and therefore must be set in the
  background box item).
 @Modus: the position and type as a %GooAxisType value (like %GOO_AXIS_SOUTH
  or %GOO_GRIDAXIS_SOUTH, ...)
@@ -1133,9 +1133,10 @@ TRIN("")
   g_return_val_if_fail(Back > 0, NULL)
 
   VAR axis = g_object_new(GOO_TYPE_AXIS, NULL)
+  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
 
-  VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  IF arg THEN g_object_set_valist(axis, arg, VA_NEXT(va, ANY PTR))
+  'IF arg THEN g_object_set_valist(axis, arg, VA_NEXT(va, ANY PTR))
+  _GOO_SET_G_CVA(axis,Text)
 
   WITH *GOO_AXIS(axis)
     .Parent = Parent

@@ -16,7 +16,7 @@ TYPE GooSimplecurve2d
   AS GooDataPoints PTR Dat
 
   AS gint ChX, ChY
-  AS GooType Bx, By, Bb, Bh
+  AS GooFloat Bx, By, Bb, Bh
 END TYPE
 
 /'*

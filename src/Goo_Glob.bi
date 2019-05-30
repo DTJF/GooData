@@ -8,7 +8,7 @@ EXTERN AS GQuark goo_canvas_style_line_dash_id ALIAS "goo_canvas_style_line_dash
 
 
 #DEFINE GOO_EPS (1e-7)
-TYPE AS gdouble GooType
+TYPE AS gdouble GooFloat
 #DEFINE __(_T_) _T_
 '~ #DEFINE DBL_MAX 1.79e308
 '~ #IFDEF GOO_DEBUG
@@ -95,14 +95,14 @@ Since: 0.0
 '/
 TYPE GooDataPoints
   AS guint Row, Col
-  AS GooType PTR Dat
+  AS GooFloat PTR Dat
   AS gint RefCount, m_flag : 1
 END TYPE
 
 DECLARE FUNCTION goo_data_points_new CDECL( _
   BYVAL Rows AS guint, _
   BYVAL Columns AS guint, _
-  BYVAL Array AS GooType PTR = 0) AS GooDataPoints PTR
+  BYVAL Array AS GooFloat PTR = 0) AS GooDataPoints PTR
 DECLARE FUNCTION goo_data_points_ref CDECL( _
   BYVAL Points AS GooDataPoints PTR) AS GooDataPoints PTR
 DECLARE SUB goo_data_points_unref CDECL(BYVAL Points AS GooDataPoints PTR)
@@ -110,11 +110,11 @@ DECLARE SUB goo_data_points_set_point CDECL( _
   BYVAL Points AS GooDataPoints PTR, _
   BYVAL Row AS guint, _
   BYVAL Column AS guint, _
-  BYVAL Value AS GooType)
+  BYVAL Value AS GooFloat)
 DECLARE FUNCTION goo_data_points_get_point CDECL( _
   BYVAL Points AS GooDataPoints PTR, _
   BYVAL Row AS guint, _
-  BYVAL Column AS guint) AS GooType
+  BYVAL Column AS guint) AS GooFloat
 DECLARE FUNCTION goo_data_points_get_type CDECL() AS GType
 #DEFINE GOO_TYPE_DATA_POINTS (goo_data_points_get_type())
 '~ #DEFINE GOO_DATA_POINTS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GOO_TYPE_DATA_POINTS, GooDataPoints))
@@ -153,13 +153,13 @@ TYPE GooFiller
 END TYPE
 
 #DEFINE GOO_TYPE_FILLER (goo_filler_get_type())
-DECLARE FUNCTION goo_value(BYREF AS UBYTE PTR) AS GooType
+DECLARE FUNCTION goo_value(BYREF AS UBYTE PTR) AS GooFloat
 DECLARE SUB _goo_add_path(BYVAL AS GArray PTR, BYVAL AS UBYTE, ...)
-DECLARE SUB _Goo_Sort(BYVAL AS GooType PTR PTR, BYVAL AS UINTEGER)
+DECLARE SUB _goo_sort(BYVAL AS GooFloat PTR PTR, BYVAL AS UINTEGER)
 DECLARE SUB _goo_add_marker(BYVAL AS GArray PTR, _
-  BYVAL AS gdouble, BYVAL AS gdouble, _
+  BYVAL AS GooFloat, BYVAL AS GooFloat, _
   BYVAL AS GooDataMarkers = GOO_MARKER_CIRCLE, _
-  BYVAL AS gdouble = 8.0)
+  BYVAL AS GooFloat = 8.0)
 DECLARE FUNCTION goo_filler_get_type CDECL() AS GType
 DECLARE FUNCTION goo_filler_new CDECL(BYVAL Entries AS guint = 1) AS GooFiller PTR
 DECLARE SUB goo_filler_unref CDECL(BYVAL Filler AS GooFiller PTR)
@@ -171,27 +171,34 @@ DECLARE FUNCTION goo_filler_set CDECL( _
   BYVAL Value AS gpointer) AS gboolean
 
 '~ analyse a line, calculate angle and length
-TYPE _GooLine
-  AS GooType x, y, dx, dy, l, w
-  DECLARE SUB init(BYVAL Xn AS GooType, BYVAL Yn AS GooType, _
-                   BYVAL Xa AS GooType, BYVAL Ya AS GooType)
+TYPE _goo_line
+  AS GooFloat x, y, dx, dy, l, w
+  DECLARE SUB init(BYVAL Xn AS GooFloat, BYVAL Yn AS GooFloat, _
+                   BYVAL Xa AS GooFloat, BYVAL Ya AS GooFloat)
 END TYPE
 
-'~ struct for polax and pie segments
+/'*
+GooPolar:
+
+#GooPolar-struct struct is a container for polax and pie segments. It
+contains private data only.
+
+Since: 0.0
+'/
 TYPE GooPolar
-  AS GooType Cx, Cy, Rr, Rv, Ws, Wr, Gap, Cent
+  AS GooFloat Cx, Cy, Rr, Rv, Ws, Wr, Gap, Cent
   AS gboolean GapFlag
   DECLARE FUNCTION init(BYVAL Obj AS gpointer, _
-                        BYVAL X AS GooType, BYVAL Y AS GooType, _
-                        BYVAL W AS GooType, BYVAL H AS GooType, _
-                        BYVAL A AS GooType, BYVAL E AS GooType, _
-                        BYVAL C AS GooType = 0.0) AS gboolean
-  DECLARE FUNCTION init_gaps(BYVAL G AS GooType, BYVAL N AS UINTEGER) AS gboolean
-  DECLARE SUB line(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
-  DECLARE SUB circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooType)
+                        BYVAL X AS GooFloat, BYVAL Y AS GooFloat, _
+                        BYVAL W AS GooFloat, BYVAL H AS GooFloat, _
+                        BYVAL A AS GooFloat, BYVAL E AS GooFloat, _
+                        BYVAL C AS GooFloat = 0.0) AS gboolean
+  DECLARE FUNCTION init_gaps(BYVAL G AS GooFloat, BYVAL N AS UINTEGER) AS gboolean
+  DECLARE SUB line(BYVAL Pa AS GArray PTR, BYVAL P AS GooFloat)
+  DECLARE SUB circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooFloat)
   DECLARE SUB segment(BYVAL Path AS GArray PTR, _
-                      BYVAL Ri AS GooType, BYVAL Rd AS GooType, _
-                      BYVAL Wa AS GooType, BYVAL Wd AS GooType)
+                      BYVAL Ri AS GooFloat, BYVAL Rd AS GooFloat, _
+                      BYVAL Wa AS GooFloat, BYVAL Wd AS GooFloat)
 END TYPE
 
 
@@ -213,8 +220,8 @@ Returns: a color value for a rgba property (ie #GooCanvasItemSimple:fill-color-r
 
 Since: 0.0
 '/
-'typedef guint (* goo_palette_function) (gdouble Scale, char Alpha_);
-TYPE goo_palette_function AS FUNCTION CDECL(BYVAL Scale AS gdouble, BYVAL Alpha_ AS UBYTE = &hFF) AS guint
+'typedef guint (* goo_palette_function) (GooFloat Scale, char Alpha_);
+TYPE goo_palette_function AS FUNCTION CDECL(BYVAL Scale AS GooFloat, BYVAL Alpha_ AS UBYTE = &hFF) AS guint
 STATIC SHARED AS goo_palette_function goo_palette
 DECLARE SUB goo_palette_set_function CDECL(BYVAL Func AS goo_palette_function)
 goo_palette_set_function(NULL)
@@ -271,23 +278,38 @@ WITH _goo_filler_default
   .RefCount = 1
 END WITH
 
+#MACRO _GOO_SET_G_CVA(_N_,_T_)
+  VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+  IF arg THEN g_object_set_valist(G_OBJECT(_N_), arg, VA_NEXT(va, ANY PTR))
+  'DIM AS CVA_LIST args : CVA_START(args, _T_)
+  ''VAR arg = CVA_ARG(args, gchar PTR)
+  'VAR arg = @(CVA_ARG(args, ZSTRING PTR))
+  'IF arg THEN _
+    'g_object_set_valist(G_OBJECT(_N_), arg, @(CVA_ARG(args, ANY PTR)))
+  'CVA_END(args)
+#ENDMACRO
+
 #MACRO _GOO_DEFINE_PROP(_W_,_T_,_I_,_L_,_C_)
- SUB goo_##_W_##_get_##_L_##_properties CDECL(BYVAL _T_ AS Goo##_T_ PTR, ...)
- _GOO_DEFINE_PROP_(get,_W_,_T_,_I_,_L_,_C_)
- SUB goo_##_W_##_set_##_L_##_properties CDECL(BYVAL _T_ AS Goo##_T_ PTR, ...)
- _GOO_DEFINE_PROP_(set,_W_,_T_,_I_,_L_,_C_)
+  _GOO_DEFINE_PROP_(get,_W_,_T_,_I_,_L_,_C_)
+  _GOO_DEFINE_PROP_(set,_W_,_T_,_I_,_L_,_C_)
 #ENDMACRO
 
 '[
 #MACRO _GOO_DEFINE_PROP_(_M_,_W_,_T_,_I_,_L_,_C_)
+ SUB goo_##_W_##_M_##_L_##_properties CDECL ALIAS stringify(goo_##_W_##_M_##_L_##_properties) _
+   (BYVAL _T_ AS Goo##_T_ PTR, ...) EXPORT
  TRIN("")
 
    g_return_if_fail(GOO_IS_##_I_(_T_))
 
-   VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+   'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+   'IF arg THEN _
+     'g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, VA_NEXT(va, ANY PTR))
+   DIM AS CVA_LIST args : CVA_START(args, _T_)
+   VAR arg = CVA_ARG(args, gchar PTR)
    IF arg THEN _
-     g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, VA_NEXT(va, ANY PTR))
-
+     g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, CVA_ARG(args, ANY PTR))
+   CVA_END(args)
  TROUT("")
  END SUB
 #ENDMACRO

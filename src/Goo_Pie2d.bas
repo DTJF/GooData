@@ -395,7 +395,7 @@ Since: 0.0
     CASE GOO_PIE2D_GANTT
       IF gap THEN IF pie.init_gaps(gap, nchannels + 1) THEN EXIT SUB
       VAR dr = 1.0 / (nchannels + 1)
-      FOR p AS GooType PTR = .Dat->Dat TO e STEP s
+      FOR p AS GooFloat PTR = .Dat->Dat TO e STEP s
         FOR i AS INTEGER = 0 TO nchannels
           VAR r = i * dr
           VAR dw = FRAC(ABS(p[c[i]]))
@@ -414,7 +414,7 @@ Since: 0.0
     CASE GOO_PIE2D_PERCENT
       IF gap THEN IF pie.init_gaps(gap, nchannels + 1) THEN EXIT SUB
       VAR w = 0.0, dw = 1.0 / .Dat->Row
-      FOR p AS GooType PTR = .Dat->Dat TO e STEP s
+      FOR p AS GooFloat PTR = .Dat->Dat TO e STEP s
         VAR xm = 0.0
         FOR i AS INTEGER = 0 TO nchannels
           xm += ABS(p[c[i]])
@@ -434,7 +434,7 @@ Since: 0.0
     CASE GOO_PIE2D_STACK
       IF gap THEN IF pie.init_gaps(gap, nchannels + 1) THEN EXIT SUB
       VAR xm = 0.0
-      FOR p AS GooType PTR = .Dat->Dat TO e STEP s
+      FOR p AS GooFloat PTR = .Dat->Dat TO e STEP s
         VAR xn = 0.0
         FOR i AS INTEGER = 0 TO nchannels
           xn += ABS(p[c[i]])
@@ -444,7 +444,7 @@ Since: 0.0
       g_return_if_fail(xm > 0)
       xm = 1.0 / xm
       VAR w = 0.0, dw = 1.0 / .Dat->Row
-      FOR p AS GooType PTR = .Dat->Dat TO e STEP s
+      FOR p AS GooFloat PTR = .Dat->Dat TO e STEP s
         VAR r = 0.0
         FOR i AS INTEGER = 0 TO nchannels
           VAR dr = ABS(p[c[i]]) * xm
@@ -459,12 +459,12 @@ Since: 0.0
       VAR r = 0.0, dr = 1.0 / (nchannels + 1)
       FOR i AS INTEGER = 0 TO nchannels
         VAR sum = 0.0
-        FOR p AS GooType PTR = .Dat->Dat TO e STEP s
+        FOR p AS GooFloat PTR = .Dat->Dat TO e STEP s
           sum += ABS(p[c[i]])
         NEXT
         IF sum THEN
           VAR w = 0.0, col = 0
-          FOR p AS GooType PTR = .Dat->Dat TO e STEP s
+          FOR p AS GooFloat PTR = .Dat->Dat TO e STEP s
             VAR dw = ABS(p[c[i]]) / sum
             pie.segment(path(col), r, dr, w, dw)
             w += dw
@@ -632,10 +632,10 @@ Returns: (transfer full): a new pie item.
 FUNCTION goo_pie2d_new CDECL ALIAS "goo_pie2d_new"( _
   BYVAL Parent AS GooCanvasItem PTR, _
   BYVAL Dat AS GooDataPoints PTR, _
-  BYVAL X AS GooType, _
-  BYVAL Y AS GooType, _
-  BYVAL Width_ AS GooType, _
-  BYVAL Height AS GooType, _
+  BYVAL X AS GooFloat, _
+  BYVAL Y AS GooFloat, _
+  BYVAL Width_ AS GooFloat, _
+  BYVAL Height AS GooFloat, _
   ...) AS GooPie2d PTR EXPORT
 TRIN("")
 
