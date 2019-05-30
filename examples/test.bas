@@ -1,5 +1,7 @@
 #LIBPATH "../src"
 #INCLUDE ONCE "../src/Goo_Data.bi"
+#undef true
+#define TRUE 1
 
 'This handles button presses in item views. We simply output a message to
 'the console.
@@ -8,7 +10,7 @@ FUNCTION on_rect_button_press(BYVAL item AS GooCanvasItem PTR, _
                               BYVAL event AS GdkEventButton PTR, _
                               BYVAL data_ AS gpointer) AS gboolean
   ?!"\nRect item received button press event: ";item,
-  DIM AS GooType w
+  DIM AS GooFloat w
   'g_object_get(item, "width", @w, NULL)
 '?w,
   'w += 100.0
