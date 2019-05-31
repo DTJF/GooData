@@ -134,7 +134,7 @@ TRIN(Prop_id)
   END SELECT
   END WITH
 
-  goo_canvas_item_simple_changed(simple, TRUE)
+  goo_canvas_item_simple_changed(simple, TRUE1)
 
 TROUT("")
 END SUB
@@ -223,7 +223,10 @@ FUNCTION goo_polax_new CDECL ALIAS "goo_polax_new"( _
   ...) AS GooCanvasItem PTR EXPORT
 TRIN("")
 
-  VAR polax = g_object_new(GOO_TYPE_POLAX, NULL)
+  'VAR polax = g_object_new(GOO_TYPE_POLAX, NULL)
+  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+  'IF arg THEN g_object_set_valist(G_OBJECT(polax), arg, VA_NEXT(va, ANY PTR))
+  _GOO_NEW_OBJECT(POLAX,polax,Text)
 
   WITH *GOO_POLAX(polax)
     .Parent = Parent
@@ -236,7 +239,7 @@ TRIN("")
     .Textgr = goo_canvas_group_new(polax, NULL)
     .Label = goo_canvas_text_new(.Textgr, NULL, 0.0, 0.0, -1.0, 0, _
                                 "alignment", PANGO_ALIGN_CENTER, _
-                                "use-markup", TRUE, _
+                                "use-markup", TRUE1, _
                                 "wrap", PANGO_WRAP_WORD, _
                                 NULL)
     .Back = goo_canvas_path_new(polax, NULL, NULL)
@@ -250,9 +253,6 @@ TRIN("")
     g_object_set(.STick, "line-width", lw / 2, NULL)
 
   END WITH
-
-  VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  IF arg THEN g_object_set_valist(G_OBJECT(polax), arg, VA_NEXT(va, ANY PTR))
 
   IF Parent THEN
     goo_canvas_item_add_child(Parent, polax, -1)

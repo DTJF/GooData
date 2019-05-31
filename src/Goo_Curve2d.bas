@@ -175,7 +175,7 @@ TRIN(Prop_id)
     END SELECT
   END WITH
 
-  goo_canvas_item_simple_changed(simple, TRUE)
+  goo_canvas_item_simple_changed(simple, TRUE1)
 
 TROUT("")
 END SUB
@@ -329,35 +329,36 @@ SUB _curve2d CDECL( _
   WITH *Curve2d
     path = GOO_CANVAS_PATH(Item)->path_data->path_commands
     s = .Dat->Dat : d = .Dat->Col : az = .Dat->Row : e = s + d * az - 1
-    kx = .ChX : ky = .ChY : va = VA_FIRST()
+    kx = .ChX : ky = .ChY ': va = VA_FIRST()
+    DIM AS CVA_LIST args : CVA_START(args, Mo)
 
     SELECT CASE AS CONST Mo '~                      get extra parameters
-    CASE CURVE2D_PERPENS_H :   xn = .AxisX->Pos(VA_ARG(va, gdouble))
-    CASE CURVE2D_PERPENS_V :   yn = .AxisY->Pos(VA_ARG(va, gdouble))
-    CASE CURVE2D_MARKERS   :    l = ABS(VA_ARG(va, gdouble))
-    CASE CURVE2D_VECTORS   : echa = VA_ARG(va, gint PTR)
-    CASE CURVE2D_SLOPE     : echa = VA_ARG(va, gint PTR)
-      va = VA_NEXT(va, gint PTR) : l = VA_ARG(va, gdouble)
-    CASE CURVE2D_ERRORS    :   xa = VA_ARG(va, gdouble)
-      va = VA_NEXT(va, gdouble) : echa = VA_ARG(va, gint PTR)
+    CASE CURVE2D_PERPENS_H :   xn = .AxisX->Pos(CVA_ARG(args, gdouble))
+    CASE CURVE2D_PERPENS_V :   yn = .AxisY->Pos(CVA_ARG(args, gdouble))
+    CASE CURVE2D_MARKERS   :    l = ABS(CVA_ARG(args, gdouble))
+    CASE CURVE2D_VECTORS   : echa = CVA_ARG(args, gint PTR)
+    CASE CURVE2D_SLOPE     : echa = CVA_ARG(args, gint PTR)
+                           : l = CVA_ARG(args, gdouble)
+    CASE CURVE2D_ERRORS    :   xa = CVA_ARG(args, gdouble)
+                           : echa = CVA_ARG(args, gint PTR)
       l = xa / 2 : xa *= -1
     CASE CURVE2D_VAR_PERPENS_H, CURVE2D_VAR_PERPENS_V, CURVE2D_VAR_MARKERS
-      ch = VA_ARG(va, guint) : g_return_if_fail(Ch < .Dat->Col)
-    CASE CURVE2D_CUBIC     : befa = VA_ARG(va, gdouble)
+      ch = CVA_ARG(args, guint) : g_return_if_fail(Ch < .Dat->Col)
+    CASE CURVE2D_CUBIC     : befa = CVA_ARG(args, gdouble)
       befa = CLAMP(befa, 0.0, 1.0) / 2
     CASE CURVE2D_LINE_BACK TO CURVE2D_CUBIC_BACK_X '~     swap direction
       SWAP s, e : d = -d
       IF Mo >= CURVE2D_LINE_BACK_X THEN
-        kx = VA_ARG(va, gint) : g_return_if_fail(kx < .Dat->Col)
+        kx = CVA_ARG(args, gint) : g_return_if_fail(kx < .Dat->Col)
       ELSE
-        ky = VA_ARG(va, gint) : g_return_if_fail(ky < .Dat->Col)
+        ky = CVA_ARG(args, gint) : g_return_if_fail(ky < .Dat->Col)
       END IF
       SELECT CASE AS CONST Mo '~                and get extra parameters
       CASE CURVE2D_CUBIC_BACK, CURVE2D_CUBIC_BACK_X
-        va = VA_NEXT(va, gint) : befa = VA_ARG(va, gdouble)
+        befa = CVA_ARG(args, gdouble)
         befa = CLAMP(befa, 0.0, 1.0) / 2
       END SELECT
-    END SELECT
+    END SELECT : CVA_END(args)
 
     sx = IIF(kx < 0, .Bb / az, 0.0)
     sy = IIF(ky < 0, .Bh / az, 0.0)
@@ -1093,7 +1094,10 @@ TRIN("")
   g_return_val_if_fail(Dat > 0, NULL)
   '~ g_return_val_if_fail(Dat->Col_() >= 1, NULL)
 
-  VAR curve2d = g_object_new (GOO_TYPE_curve2d, NULL)
+  'VAR curve2d = g_object_new (GOO_TYPE_curve2d, NULL)
+  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+  'IF arg THEN g_object_set_valist(curve2d, arg, VA_NEXT(va, ANY PTR))
+  _GOO_NEW_OBJECT(CURVE2D,curve2d,Dat)
 
   WITH *GOO_CURVE2D(curve2d)
     .Parent = Parent
@@ -1120,9 +1124,6 @@ TRIN("")
     GOO_CANVAS_ITEM_SIMPLE(curve2d)->simple_data->transform = _
       GOO_CANVAS_ITEM_SIMPLE(.AxisX)->simple_data->transform
   END WITH
-
-  VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  IF arg THEN g_object_set_valist(curve2d, arg, VA_NEXT(va, ANY PTR))
 
   IF Parent THEN
     goo_canvas_item_add_child (Parent, curve2d, -1)

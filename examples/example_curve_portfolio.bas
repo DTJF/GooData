@@ -8,7 +8,7 @@
 
 '~ create the data
 CONST cols = 2
-DIM AS GooType datas(..., cols) = { _
+DIM AS GooFloat datas(..., cols) = { _
   {17, 3.9, 38} ,_
   {40, 0.8, 54} ,_
   {48, 3.7, 14} ,_
@@ -28,7 +28,7 @@ VAR title = goo_canvas_text_new(group, _
             "Portfolio, varible sized Markers" _
            !"</span>\n", _
              0.0, 0.0, wdth, GOO_CANVAS_ANCHOR_SW, _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
              NULL)
 

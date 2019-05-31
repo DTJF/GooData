@@ -7,7 +7,7 @@
 '~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 CONST cols = 2, az = 30, l = 4 * ATN(1)
-DIM AS GooType datas(az, cols)
+DIM AS GooFloat datas(az, cols)
 FOR i AS INTEGER = 0 TO az
   VAR x = -l + i / az * 2 * l
   datas(i, 0) = x
@@ -27,7 +27,7 @@ VAR title = goo_canvas_text_new(group, _
            !"</span>\n", _
             0.0, 0.0, wdth, GOO_CANVAS_ANCHOR_SW, _
             "font", "Purisa Bold Italic", _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
              NULL)
 
@@ -44,7 +44,7 @@ VAR image = goo_canvas_image_new(group, _
             0.0, 0.0, _
             "width", wdth, _
             "height", hght, _
-            "scale_to_fit", TRUE, _
+            "scale_to_fit", TRUE1, _
              NULL)
 
 VAR x = goo_axis_new(group, grid, GOO_AXIS_SOUTH, _

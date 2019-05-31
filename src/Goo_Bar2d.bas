@@ -114,7 +114,7 @@ TRIN(Prop_id)
   END SELECT
   END WITH
 
-  goo_canvas_item_simple_changed(simple, TRUE)
+  goo_canvas_item_simple_changed(simple, TRUE1)
 
 TROUT("")
 END SUB
@@ -545,7 +545,10 @@ TRIN("")
   g_return_val_if_fail(Dat > 0, NULL)
   g_return_val_if_fail(GOO_IS_AXIS(Axis), NULL)
 
-  VAR bar2d = g_object_new(GOO_TYPE_BAR2D, NULL)
+  'VAR bar2d = g_object_new(GOO_TYPE_BAR2D, NULL)
+  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+  'IF arg THEN g_object_set_valist(bar2d, arg, VA_NEXT(va, ANY PTR))
+  _GOO_NEW_OBJECT(BAR2D,bar2d,Dat)
 
   WITH *GOO_BAR2D(bar2d)
     .Parent = Parent
@@ -558,9 +561,6 @@ TRIN("")
     .BSegm = goo_canvas_group_new(bar2d, NULL)
     .BLabl = goo_canvas_group_new(bar2d, NULL)
   END WITH
-
-  VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  IF arg THEN g_object_set_valist(bar2d, arg, VA_NEXT(va, ANY PTR))
 
   IF Parent THEN
     goo_canvas_item_add_child(Parent, bar2d, -1)

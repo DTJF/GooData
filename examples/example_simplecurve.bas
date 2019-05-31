@@ -9,7 +9,7 @@
 '~ create the data
 RANDOMIZE TIMER
 CONST cols = 1, az = 69, l = 3, line_group = 1.0
-DIM AS GooType datas(az, cols)
+DIM AS GooFloat datas(az, cols)
 FOR i AS INTEGER = 0 TO az
   VAR a = i / az * l
   datas(i, 0) = a
@@ -31,7 +31,7 @@ VAR title = goo_canvas_text_new(group, _
             "Simple Curve (" & az + 1 & " Points)" _
            !"</span>\n", _
             0.0, 0.0, wdth, GOO_CANVAS_ANCHOR_SW, _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
             NULL)
 

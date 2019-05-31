@@ -189,10 +189,10 @@ Since: 0.0
     .Across = IIF(p, goo_value(p), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
   CASE GOO_AXIS_PROP_OFFS_ALONG  :     .Along = g_value_get_double(Value)
   CASE GOO_AXIS_PROP_OFFS_ACROSS :    .Across = g_value_get_double(Value)
-  CASE GOO_AXIS_PROP_BORDERS     : g_free(.Borders) : .Borders = g_value_dup_string(Value)
+  CASE GOO_AXIS_PROP_BORDERS     : g_free(.Borders) : .Borders = g_value_dup_string(Value) : ?*.Borders
   CASE GOO_AXIS_PROP_FORMAT      :    g_free(.Form) : .Form = g_value_dup_string(Value)
   CASE GOO_AXIS_PROP_TEXT_ALIGN  : .TextAlign = g_value_get_enum(Value)
-  CASE GOO_AXIS_PROP_SUBTICK     :      .Tsub = g_value_get_uint(Value)
+  CASE GOO_AXIS_PROP_SUBTICK     :      .Tsub = g_value_get_uint(Value) : ?.Tsub
   CASE GOO_AXIS_PROP_LOGBAS      :     .Basis = g_value_get_double(Value)
   CASE GOO_AXIS_PROP_TICKS_ANGLE :     .Angle = -g_value_get_double(Value)
   CASE GOO_AXIS_PROP_TICK_OFFSET :  .TickOffs = g_value_get_double(Value)
@@ -201,7 +201,7 @@ Since: 0.0
   END SELECT
   END WITH
 
-  goo_canvas_item_simple_changed(simple, TRUE)
+  goo_canvas_item_simple_changed(simple, TRUE1)
 
 TROUT("")
 END SUB
@@ -367,7 +367,7 @@ TRIN("")
       IF lr.width > w THEN w = lr.width
       IF lr.height > h THEN h = lr.height
       goo_canvas_item_remove(n)
-      g_string_free(x, TRUE)
+      g_string_free(x, TRUE1)
 
       S = IIF(AXIS_VERTICAL, .Angle, .Angle + 90.) * DEG_RAD
       VAR c = ABS(COS(S))
@@ -721,7 +721,7 @@ Since: 0.0
       IF .Angle THEN goo_canvas_item_rotate(n, .Angle, tx, ty)
       IF lr.width > bmax THEN bmax = lr.width
       IF lr.height > hmax THEN hmax = lr.height
-    NEXT : g_string_free(x, TRUE)
+    NEXT : g_string_free(x, TRUE1)
     IF AXIS_VERTICAL THEN
       o = (90 - ABS(.Angle)) * DEG_RAD
       .TickHeight = 1.5
@@ -1132,11 +1132,12 @@ TRIN("")
 
   g_return_val_if_fail(Back > 0, NULL)
 
-  VAR axis = g_object_new(GOO_TYPE_AXIS, NULL)
-  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+  'VAR axis = g_object_new(GOO_TYPE_AXIS, NULL)
+  ''VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
 
-  'IF arg THEN g_object_set_valist(axis, arg, VA_NEXT(va, ANY PTR))
-  _GOO_SET_G_CVA(axis,Text)
+  ''IF arg THEN g_object_set_valist(axis, arg, VA_NEXT(va, ANY PTR))
+  '_GOO_SET_G_CVA(axis,Text)
+  _GOO_NEW_OBJECT(AXIS,axis,Text)
 
   WITH *GOO_AXIS(axis)
     .Parent = Parent
@@ -1147,7 +1148,7 @@ TRIN("")
     .Textgr = goo_canvas_group_new(axis, NULL)
     .Label = goo_canvas_text_new(.Textgr, NULL, 0.0, 0.0, -1.0, 0, _
                                 "alignment", PANGO_ALIGN_CENTER, _
-                                "use-markup", TRUE, _
+                                "use-markup", TRUE1, _
                                 "wrap", PANGO_WRAP_WORD, _
                                 NULL)
     .BLine = goo_canvas_path_new(axis, NULL, NULL)

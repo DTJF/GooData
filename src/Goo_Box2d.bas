@@ -116,14 +116,14 @@ TRIN(Prop_id)
 
   WITH *GOO_BOX2D(Obj)
   SELECT CASE AS CONST Prop_id
-  CASE GOO_BOX2D_PROP_CHAN : g_free(.Chan) : .Chan = g_value_dup_string(Value)
-  CASE GOO_BOX2D_PROP_BOXS : g_free(.Boxs) : .Boxs = g_value_dup_string(Value)
-  CASE GOO_BOX2D_PROP_OUTL : g_free(.Outl) : .Outl = g_value_dup_string(Value)
+  CASE GOO_BOX2D_PROP_CHAN : g_free(.Chan) : .Chan = g_value_dup_string(Value) : ?*.Chan
+  CASE GOO_BOX2D_PROP_BOXS : g_free(.Boxs) : .Boxs = g_value_dup_string(Value) : ?*.Boxs
+  CASE GOO_BOX2D_PROP_OUTL : g_free(.Outl) : .Outl = g_value_dup_string(Value) : ?*.Outl
   CASE ELSE : G_OBJECT_WARN_INVALID_PROPERTY_ID(Obj, Prop_id, Pspec)
   END SELECT
   END WITH
 
-  goo_canvas_item_simple_changed(simple, TRUE)
+  goo_canvas_item_simple_changed(simple, TRUE1)
 
 TROUT("")
 END SUB
@@ -563,7 +563,10 @@ TRIN("")
   g_return_val_if_fail(Dat > 0, NULL)
   g_return_val_if_fail(GOO_IS_AXIS(Axis), NULL)
 
-  VAR box2d = g_object_new(GOO_TYPE_BOX2D, NULL)
+  'VAR box2d = g_object_new(GOO_TYPE_BOX2D, NULL)
+  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+  'IF arg THEN g_object_set_valist(box2d, arg, VA_NEXT(va, ANY PTR))
+  _GOO_NEW_OBJECT(BOX2D,box2d,Dat)
 
   WITH *GOO_BOX2D(box2d)
     .Parent = Parent
@@ -576,9 +579,6 @@ _               "fill-rule", CAIRO_FILL_RULE_EVEN_ODD, _
                NULL)
     .POut = goo_canvas_path_new(box2d, NULL, NULL)
   END WITH
-
-  VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  IF arg THEN g_object_set_valist(box2d, arg, VA_NEXT(va, ANY PTR))
 
   IF Parent THEN
     goo_canvas_item_add_child(Parent, box2d, -1)

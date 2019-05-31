@@ -13,7 +13,7 @@ VAR title = goo_canvas_text_new(root, _
            !"</span>\n", _
             0.0, 0.0, W, GOO_CANVAS_ANCHOR_SW, _
             "font", "Purisa Bold Italic", _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
              NULL)
 
@@ -30,7 +30,7 @@ VAR image = goo_canvas_image_new(root, _
             0.0, 0.0, _
             "width", W, _
             "height", H, _
-            "scale-to-fit", TRUE, _
+            "scale-to-fit", TRUE1, _
              NULL)
 
 VAR x = goo_axis_new(root, grid, GOO_AXIS_SOUTH, Tx, _

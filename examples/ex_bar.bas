@@ -12,7 +12,7 @@ VAR title = goo_canvas_text_new(root, _
             "Bar Graph" _
            !"</span>\n", _
             0.0, 0.0, W, GOO_CANVAS_ANCHOR_SW, _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
              NULL)
 

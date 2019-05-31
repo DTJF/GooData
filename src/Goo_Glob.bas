@@ -291,7 +291,7 @@ Set one #GooFiller property and value. All fill properties of
 #GooCanvasItemSimple:fill-pattern,
 #GooCanvasItemSimple:fill-pixbuf).
 
-Returns: %TRUE if the new filler is set, otherwise %FALSE.
+Returns: %TRUE1 if the new filler is set, otherwise %FALSE.
 
 Since: 0.0
 '/
@@ -301,9 +301,9 @@ FUNCTION goo_filler_set CDECL( _
   BYVAL Prop AS gchar PTR, _
   BYVAL Value AS gpointer) AS gboolean
   WITH *Filler
-    g_return_val_if_fail(Index < .Entries, TRUE)
-    g_return_val_if_fail(Prop > NULL, TRUE)
-    g_return_val_if_fail(Value > NULL, TRUE)
+    g_return_val_if_fail(Index < .Entries, TRUE1)
+    g_return_val_if_fail(Prop > NULL, TRUE1)
+    g_return_val_if_fail(Value > NULL, TRUE1)
     WITH .Values[Index]
       IF .Prop THEN g_free(.Prop)
       .Prop = g_strdup(Prop)
@@ -401,58 +401,59 @@ END FUNCTION
 '~ add drawing statements to an GArray (GooCanvasPath)
 SUB _goo_add_path(BYVAL Path AS GArray PTR, BYVAL Mo AS UBYTE, ...)
   STATIC AS GooCanvasPathCommand cmd
-  STATIC AS ANY PTR va
+  'STATIC AS ANY PTR va
+  DIM AS CVA_LIST args : CVA_START(args, Mo)
   SELECT CASE AS CONST Mo
-  CASE ASC("M"), ASC("m")     : cmd.simple.relative = IIF(Mo = ASC("m"), 1, 0)
-    va = VA_FIRST()           : cmd.simple.x = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.simple.y = VA_ARG(va, gdouble)
+  CASE ASC("M"), ASC("m") : cmd.simple.relative = IIF(Mo = ASC("m"), 1, 0)
+                          : cmd.simple.x = CVA_ARG(args, gdouble)
+                          : cmd.simple.y = CVA_ARG(args, gdouble)
     cmd.simple.type = GOO_CANVAS_PATH_MOVE_TO
-  CASE ASC("L"), ASC("l")     : cmd.simple.relative = IIF(Mo = ASC("l"), 1, 0)
-    va = VA_FIRST()           : cmd.simple.x = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.simple.y = VA_ARG(va, gdouble)
+  CASE ASC("L"), ASC("l") : cmd.simple.relative = IIF(Mo = ASC("l"), 1, 0)
+                          : cmd.simple.x = CVA_ARG(args, gdouble)
+                          : cmd.simple.y = CVA_ARG(args, gdouble)
     cmd.simple.type = GOO_CANVAS_PATH_LINE_TO
-  CASE ASC("H"), ASC("h")     : cmd.simple.relative = IIF(Mo = ASC("h"), 1, 0)
-    va = VA_FIRST()           : cmd.simple.x = VA_ARG(va, gdouble)
+  CASE ASC("H"), ASC("h") : cmd.simple.relative = IIF(Mo = ASC("h"), 1, 0)
+                          : cmd.simple.x = CVA_ARG(args, gdouble)
     cmd.simple.type = GOO_CANVAS_PATH_HORIZONTAL_LINE_TO
-  CASE ASC("V"), ASC("v")     : cmd.simple.relative = IIF(Mo = ASC("v"), 1, 0)
-    va = VA_FIRST()           : cmd.simple.y = VA_ARG(va, gdouble)
+  CASE ASC("V"), ASC("v") : cmd.simple.relative = IIF(Mo = ASC("v"), 1, 0)
+                          : cmd.simple.y = CVA_ARG(args, gdouble)
     cmd.simple.type = GOO_CANVAS_PATH_VERTICAL_LINE_TO
-  CASE ASC("T"), ASC("t")     : cmd.simple.relative = IIF(Mo = ASC("t"), 1, 0)
-    va = VA_FIRST()           : cmd.curve.x = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.y = VA_ARG(va, gdouble)
+  CASE ASC("T"), ASC("t") : cmd.simple.relative = IIF(Mo = ASC("t"), 1, 0)
+                          : cmd.curve.x = CVA_ARG(args, gdouble)
+                          : cmd.curve.y = CVA_ARG(args, gdouble)
     cmd.simple.type = GOO_CANVAS_PATH_SMOOTH_QUADRATIC_CURVE_TO
-  CASE ASC("Q"), ASC("q")     : cmd.simple.relative = IIF(Mo = ASC("q"), 1, 0)
-    va = VA_FIRST()           : cmd.curve.x1 = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.y1 = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.x = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.y = VA_ARG(va, gdouble)
+  CASE ASC("Q"), ASC("q") : cmd.simple.relative = IIF(Mo = ASC("q"), 1, 0)
+                          : cmd.curve.x1 = CVA_ARG(args, gdouble)
+                          : cmd.curve.y1 = CVA_ARG(args, gdouble)
+                          : cmd.curve.x = CVA_ARG(args, gdouble)
+                          : cmd.curve.y = CVA_ARG(args, gdouble)
     cmd.simple.type = GOO_CANVAS_PATH_QUADRATIC_CURVE_TO
-  CASE ASC("S"), ASC("s")     : cmd.simple.relative = IIF(Mo = ASC("s"), 1, 0)
-    va = VA_FIRST()           : cmd.curve.x2 = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.y2 = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.x = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.y = VA_ARG(va, gdouble)
+  CASE ASC("S"), ASC("s") : cmd.simple.relative = IIF(Mo = ASC("s"), 1, 0)
+                          : cmd.curve.x2 = CVA_ARG(args, gdouble)
+                          : cmd.curve.y2 = CVA_ARG(args, gdouble)
+                          : cmd.curve.x = CVA_ARG(args, gdouble)
+                          : cmd.curve.y = CVA_ARG(args, gdouble)
     cmd.simple.type = GOO_CANVAS_PATH_SMOOTH_CURVE_TO
-  CASE ASC("C"), ASC("c")     : cmd.simple.relative = IIF(Mo = ASC("c"), 1, 0)
-    va = VA_FIRST()           : cmd.curve.x1 = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.y1 = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.x2 = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.y2 = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.x = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.curve.y = VA_ARG(va, gdouble)
+  CASE ASC("C"), ASC("c") : cmd.simple.relative = IIF(Mo = ASC("c"), 1, 0)
+                          : cmd.curve.x1 = CVA_ARG(args, gdouble)
+                          : cmd.curve.y1 = CVA_ARG(args, gdouble)
+                          : cmd.curve.x2 = CVA_ARG(args, gdouble)
+                          : cmd.curve.y2 = CVA_ARG(args, gdouble)
+                          : cmd.curve.x = CVA_ARG(args, gdouble)
+                          : cmd.curve.y = CVA_ARG(args, gdouble)
     cmd.simple.type = GOO_CANVAS_PATH_CURVE_TO
-  CASE ASC("A"), ASC("a")     : cmd.simple.relative = IIF(Mo = ASC("a"), 1, 0)
-    va = VA_FIRST()           : cmd.arc.rx = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.arc.ry = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.arc.x_axis_rotation = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.arc.large_arc_flag = VA_ARG(va, gint)
-    va = VA_NEXT(va, gint)    : cmd.arc.sweep_flag = VA_ARG(va, gint)
-    va = VA_NEXT(va, gint)    : cmd.arc.x = VA_ARG(va, gdouble)
-    va = VA_NEXT(va, gdouble) : cmd.arc.y = VA_ARG(va, gdouble)
+  CASE ASC("A"), ASC("a") : cmd.simple.relative = IIF(Mo = ASC("a"), 1, 0)
+                          : cmd.arc.rx = CVA_ARG(args, gdouble)
+                          : cmd.arc.ry = CVA_ARG(args, gdouble)
+                          : cmd.arc.x_axis_rotation = CVA_ARG(args, gdouble)
+                          : cmd.arc.large_arc_flag = CVA_ARG(args, gint)
+                          : cmd.arc.sweep_flag = CVA_ARG(args, gint)
+                          : cmd.arc.x = CVA_ARG(args, gdouble)
+                          : cmd.arc.y = CVA_ARG(args, gdouble)
     cmd.simple.type = GOO_CANVAS_PATH_ELLIPTICAL_ARC
   CASE ELSE
     cmd.simple.type = GOO_CANVAS_PATH_CLOSE_PATH
-  END SELECT
+  END SELECT : CVA_END(args)
   g_array_append_val(Path, cmd)
 END SUB
 
@@ -600,8 +601,8 @@ FUNCTION GooPolar.init(BYVAL Obj AS gpointer, _
   v *= C     : IF v > ym THEN  ym = v  ELSE IF v < yn THEN  yn = v
 
   g_object_get(Obj, "line_width", @lw, NULL)
-  VAR rx = (W - lw) / (xm - xn) : g_return_val_if_fail(rx > 0, TRUE)
-  VAR ry = (H - lw) / (ym - yn) : g_return_val_if_fail(ry > 0, TRUE)
+  VAR rx = (W - lw) / (xm - xn) : g_return_val_if_fail(rx > 0, TRUE1)
+  VAR ry = (H - lw) / (ym - yn) : g_return_val_if_fail(ry > 0, TRUE1)
 
   Rr = rx * (1 - C) '~                 radius range
   Rv = ry / rx '~                      radius ratio
@@ -615,7 +616,7 @@ END FUNCTION
 FUNCTION GooPolar.init_gaps(BYVAL G AS GooFloat, BYVAL N AS UINTEGER) AS gboolean
   Gap = G * ((Cent + Rr) * (Rv + 1)) * Wr / 2 '~   gaps between segments
   GapFlag = IIF(N > 1, 1, 0) '~                              radial gaps
-  g_return_val_if_fail(Gap * N < Rr, TRUE) '~             gaps too large
+  g_return_val_if_fail(Gap * N < Rr, TRUE1) '~             gaps too large
   RETURN FALSE
 END FUNCTION
 

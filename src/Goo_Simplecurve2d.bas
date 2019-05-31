@@ -239,9 +239,12 @@ FUNCTION goo_simplecurve2d_new CDECL ALIAS "goo_simplecurve2d_new"( _
   ...) AS GooCanvasItem PTR EXPORT
 TRIN("")
 
-  VAR poly = g_object_new(GOO_TYPE_SIMPLECURVE2D, NULL)
+  'VAR poly = g_object_new(GOO_TYPE_SIMPLECURVE2D, NULL)
+  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+  'IF arg THEN g_object_set_valist(G_OBJECT(poly), arg, VA_NEXT(va, ANY PTR))
+  _GOO_NEW_OBJECT(SIMPLECURVE2D,simplecurve2d,Chy)
 
-  WITH *GOO_SIMPLECURVE2D(poly)
+  WITH *GOO_SIMPLECURVE2D(simplecurve2d)
     .Parent = Parent
     .AxisX = AxisX : g_object_ref(.AxisX)
     .AxisY = AxisY : g_object_ref(.AxisY)
@@ -249,20 +252,17 @@ TRIN("")
     .ChX = ChX
     .ChY = ChY
     VAR points = goo_canvas_points_new(.Dat->Row)
-    g_object_set(G_OBJECT(poly), "points", points, NULL)
+    g_object_set(G_OBJECT(simplecurve2d), "points", points, NULL)
     goo_canvas_points_unref(points)
   END WITH
 
-  VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  IF arg THEN g_object_set_valist(G_OBJECT(poly), arg, VA_NEXT(va, ANY PTR))
-
   IF Parent THEN
-    goo_canvas_item_add_child(Parent, poly, -1)
-    g_object_unref(poly)
+    goo_canvas_item_add_child(Parent, simplecurve2d, -1)
+    g_object_unref(simplecurve2d)
   END IF
 
 TROUT("")
-  RETURN poly
+  RETURN simplecurve2d
 
 END FUNCTION
 

@@ -140,7 +140,7 @@ TRIN(Prop_id)
   END SELECT
   END WITH
 
-  goo_canvas_item_simple_changed(simple, TRUE)
+  goo_canvas_item_simple_changed(simple, TRUE1)
 
 TROUT("")
 END SUB
@@ -644,7 +644,10 @@ TRIN("")
   '~ g_return_val_if_fail(GOO_IS_DATA_POINTS(Dat), NULL)
   g_return_val_if_fail(Dat > 0, NULL)
 
-  VAR pie2d = g_object_new(GOO_TYPE_PIE2D, NULL)
+  'VAR pie2d = g_object_new(GOO_TYPE_PIE2D, NULL)
+  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
+  'IF arg THEN g_object_set_valist(pie2d, arg, VA_NEXT(va, ANY PTR))
+  _GOO_NEW_OBJECT(PIE2D,pie2d,Height)
 
   WITH *GOO_PIE2D(pie2d)
     .Parent = Parent
@@ -663,9 +666,6 @@ TRIN("")
     .PSegm = goo_canvas_group_new(pie2d, NULL)
     .PLabl = goo_canvas_group_new(pie2d, NULL)
   END WITH
-
-  VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  IF arg THEN g_object_set_valist(pie2d, arg, VA_NEXT(va, ANY PTR))
 
   IF Parent THEN
     goo_canvas_item_add_child(Parent, pie2d, -1)

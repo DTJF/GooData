@@ -5,7 +5,7 @@
 
 '~ create the data
 CONST cols = 5
-DIM AS GooType datas(..., cols) = _
+DIM AS GooFloat datas(..., cols) = _
   { _
     {0.1, 0.1 , 0.25, 0.4 , 0.0, 1.0 - GOO_EPS} _
   , {0.3, 0.05, 0.7 , 0.05, 0.0, 0.0} _
@@ -27,7 +27,7 @@ VAR title = goo_canvas_text_new(group, _
             "Horizontal Stacked Bar Graph" _
            !"</span>\n", _
             0.0, 0.0, wdth, GOO_CANVAS_ANCHOR_SW, _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
              NULL)
 

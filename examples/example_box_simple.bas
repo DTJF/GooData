@@ -9,7 +9,7 @@
 '~ create the data
 RANDOMIZE TIMER
 CONST cols = 5, rows = 30
-DIM AS GooType datas(rows, cols)
+DIM AS GooFloat datas(rows, cols)
 FOR r AS INTEGER = 0 TO rows
   FOR c AS INTEGER = 0 TO cols
     datas(r, c) = RND() * 6.20 + 1
@@ -29,7 +29,7 @@ VAR title = goo_canvas_text_new(group, _
             "Box Plot" _
            !"</span>\n", _
             0.0, 0.0, wdth, GOO_CANVAS_ANCHOR_SW, _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
              NULL)
 

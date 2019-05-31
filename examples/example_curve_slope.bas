@@ -9,9 +9,9 @@
 ' generate data
 CONST cols = 2, l = 4 * ATN(1)
 VAR i = 0
-DIM AS GooType datas(168, cols)
-FOR x AS GooType = -3 TO 3.1 STEP 0.5
-  FOR y AS GooType = -3 TO 3.1 STEP 0.5
+DIM AS GooFloat datas(168, cols)
+FOR x AS GooFloat = -3 TO 3.1 STEP 0.5
+  FOR y AS GooFloat = -3 TO 3.1 STEP 0.5
     datas(i, 0) = x
     datas(i, 1) = y
     datas(i, 2) = COS(x) * SIN(y)
@@ -32,7 +32,7 @@ VAR title = goo_canvas_text_new(group, _
             "Slope Field in a Grid Box" _
            !"</span>\n", _
             0.0, 0.0, wdth, GOO_CANVAS_ANCHOR_SW, _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
              NULL)
 

@@ -7,7 +7,7 @@
 '~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 CONST cols = 1, az = 7, l = 10 * ATN(1)
-DIM AS GooType datas(az, cols)
+DIM AS GooFloat datas(az, cols)
 FOR i AS INTEGER = 0 TO az
   VAR a = i / az * l
   datas(i, 0) = SIN(a) * a / 4
@@ -26,7 +26,7 @@ VAR title = goo_canvas_text_new(group, _
             "Smooth Lines by Bezier Curves" _
            !"</span>\n", _
             0.0, 0.0, wdth, GOO_CANVAS_ANCHOR_SW, _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
             NULL)
 

@@ -3,7 +3,7 @@ CHDIR "/home/tom/Projekte/GooData/examples"
 CONST az = 5, cols = 5
 VAR line_group = 2.0, l = 4 * ATN(1)
 VAR f = 2 * l / IIF(az, az, 1)
-dim as GooType datas(az, cols)
+dim as GooFloat datas(az, cols)
 var dat = @datas(0, 0)
 FOR i AS INTEGER = 0 TO az
   VAR x = -l + i * f

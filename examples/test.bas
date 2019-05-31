@@ -1,7 +1,5 @@
 #LIBPATH "../src"
 #INCLUDE ONCE "../src/Goo_Data.bi"
-#undef true
-#define TRUE 1
 
 'This handles button presses in item views. We simply output a message to
 'the console.
@@ -18,7 +16,8 @@ FUNCTION on_rect_button_press(BYVAL item AS GooCanvasItem PTR, _
   'g_object_set(item, "width", w, NULL)
   goo_canvas_item_translate(item, 10.0, 7.0)
   goo_canvas_item_scale(item, 1.3, 0.7)
-  RETURN TRUE
+  'RETURN TRUE1
+  RETURN 1
 END FUNCTION
 
 
@@ -46,7 +45,7 @@ gtk_container_add (GTK_CONTAINER (scrolled_win), canvas)
 
 VAR glob = goo_canvas_get_root_item(GOO_CANVAS (canvas))
 
-'g_object_set(canvas, "automatic_bounds", TRUE, NULL)
+'g_object_set(canvas, "automatic_bounds", TRUE1, NULL)
 
 'CONST az = 30
 'VAR line_group = 1.0, l = 4 * ATN(1)
@@ -62,7 +61,7 @@ VAR glob = goo_canvas_get_root_item(GOO_CANVAS (canvas))
     'Ty = !"sin(<i>φ</i>)\ncos(<i>φ</i>)"
 
 'CONST W = 422, H = 322
-'#INCLUDE "example_simplecurve.bas"
+#INCLUDE "example_simplecurve.bas"
 '#INCLUDE "example_curve_markers.bas"
 '#INCLUDE "example_curve_perpens.bas"
 '#INCLUDE "example_curve_areas.bas"
@@ -84,7 +83,7 @@ VAR glob = goo_canvas_get_root_item(GOO_CANVAS (canvas))
 '#INCLUDE "example_pie_stacked.bas"
 '#INCLUDE "example_pie_percent.bas"
 
-#INCLUDE "ex_pie_gantt.bas"
+'#INCLUDE "ex_pie_gantt.bas"
 '#INCLUDE "ex_polax.bas"
 '#INCLUDE "all.bas"
 '#INCLUDE "test_pie.bas"

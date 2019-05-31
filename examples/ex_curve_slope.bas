@@ -10,7 +10,7 @@
 
 
 CONST cols = 2, az = 30, l = 4 * ATN(1)
-DIM AS GooType datas(az, cols)
+DIM AS GooFloat datas(az, cols)
 FOR i AS INTEGER = 0 TO az
   VAR x = -l + i / az * 2 * l
   datas(i, 0) = x
@@ -31,7 +31,7 @@ VAR title = goo_canvas_text_new(group, _
             "Areas in a Grid Box" _
            !"</span>\n", _
             0.0, 0.0, W, GOO_CANVAS_ANCHOR_SW, _
-            "use_markup", TRUE, _
+            "use_markup", TRUE1, _
             "alignment", PANGO_ALIGN_CENTER, _
              NULL)
 
