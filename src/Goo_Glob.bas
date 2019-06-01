@@ -198,9 +198,6 @@ FUNCTION goo_data_points_get_point CDECL(BYVAL Points AS GooDataPoints PTR, _
   END WITH
 END FUNCTION
 
-
-
-
 PROPERTY GooFiller.Prop(BYVAL Index AS guint) AS gchar PTR
   RETURN values[IIF(Index < Entries, Index, Index MOD Entries)].Prop
 END PROPERTY
@@ -400,8 +397,7 @@ END FUNCTION
 
 '~ add drawing statements to an GArray (GooCanvasPath)
 SUB _goo_add_path(BYVAL Path AS GArray PTR, BYVAL Mo AS UBYTE, ...)
-  STATIC AS GooCanvasPathCommand cmd
-  'STATIC AS ANY PTR va
+  DIM AS GooCanvasPathCommand cmd
   DIM AS CVA_LIST args : CVA_START(args, Mo)
   SELECT CASE AS CONST Mo
   CASE ASC("M"), ASC("m") : cmd.simple.relative = IIF(Mo = ASC("m"), 1, 0)

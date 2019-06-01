@@ -116,9 +116,9 @@ TRIN(Prop_id)
 
   WITH *GOO_BOX2D(Obj)
   SELECT CASE AS CONST Prop_id
-  CASE GOO_BOX2D_PROP_CHAN : g_free(.Chan) : .Chan = g_value_dup_string(Value) : ?*.Chan
-  CASE GOO_BOX2D_PROP_BOXS : g_free(.Boxs) : .Boxs = g_value_dup_string(Value) : ?*.Boxs
-  CASE GOO_BOX2D_PROP_OUTL : g_free(.Outl) : .Outl = g_value_dup_string(Value) : ?*.Outl
+  CASE GOO_BOX2D_PROP_CHAN : g_free(.Chan) : .Chan = g_value_dup_string(Value)
+  CASE GOO_BOX2D_PROP_BOXS : g_free(.Boxs) : .Boxs = g_value_dup_string(Value)
+  CASE GOO_BOX2D_PROP_OUTL : g_free(.Outl) : .Outl = g_value_dup_string(Value)
   CASE ELSE : G_OBJECT_WARN_INVALID_PROPERTY_ID(Obj, Prop_id, Pspec)
   END SELECT
   END WITH
@@ -158,7 +158,7 @@ TRIN("")
     g_object_set(.POut, "data", NULL, NULL)
     VAR outli = GOO_CANVAS_PATH(.POut)->path_data->path_commands
     VAR az = .Dat->Row - 1 : g_return_if_fail(az >= 4)
-
+TRIN("1")
 /'*
 GooBox2d:channels:
 
@@ -188,7 +188,7 @@ Since: 0.0
       WEND : g_return_if_fail(nchannels > 0)
       nchannels -= 1
     END IF
-
+TRIN("2")
 /'*
 GooBox2d:boxes:
 
@@ -228,7 +228,7 @@ Since: 0.0
       v = goo_value(p) : IF p THEN wb = bb * CLAMP(v, 0.0, 1.0)
       IF ABS(bw) < GOO_EPS THEN bw = 0.0
     END IF
-
+TRIN("3")
 /'*
 GooBox2d:outliers:
 
@@ -283,12 +283,14 @@ Since: 0.0
         v = goo_value(p) : IF p THEN ms = bb * CLAMP(v, 0.0, 1.0) : _
         mt = CINT(goo_value(p))
     END IF
+TRIN("4")
 
     VAR c = CAST(guint PTR, SADD(chno))
     VAR mid_i = az SHR 1, lbox_i = mid_i SHR 1, ubox_i = az - lbox_i
     DIM AS GooFloat PTR v(az)
     VAR s = .Dat->Col, e = .Dat->Dat + .Dat->Row * s - 1
     VAR x = IIF(.Vertical, .Bx, .By) + 0.5 * o
+TRIN("5")
 
     FOR chan AS INTEGER = 0 TO nchannels
       VAR z = @v(0)

@@ -25,6 +25,9 @@ ENDFUNCTION()
 IF(NOT CMAKE_Fbc_COMPILER_WORKS)
   MSG_LOG("!! no targets <all> <examples> (fbc compiler problem)")
   RETURN()
+ELSEIF(${CMAKE_Fbc_COMPILER_ID} VERSION_LESS "1.07.0")
+  MSG_LOG("!! no targets <all> <examples> (fbc compiler 1.07 required (found ${CMAKE_Fbc_COMPILER_ID})")
+  RETURN()
 ENDIF()
 
 ADD_SUBDIRECTORY(src)
@@ -32,7 +35,7 @@ ADD_SUBDIRECTORY(src)
 ADD_LIBRARY(GooData SHARED $<TARGET_OBJECTS:GooDatafbcode>)
 ADD_DEPENDENCIES(GooData GooDatafbcode)
 SET_TARGET_PROPERTIES(GooData PROPERTIES
-  LINK_FLAGS "-Wl -z,relro -arch 32"
+  LINK_FLAGS "-Wl -z,relro"
   SOVERSION "o" # adapt <Package: ...> in debian/control
   #NO_SONAME "YES"
   )

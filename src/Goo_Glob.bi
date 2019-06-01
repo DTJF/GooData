@@ -227,13 +227,6 @@ STATIC SHARED AS goo_palette_function goo_palette
 DECLARE SUB goo_palette_set_function CDECL(BYVAL Func AS goo_palette_function)
 goo_palette_set_function(NULL)
 
-'#INCLUDE ONCE "Goo_Axis.bi"
-'#INCLUDE ONCE "Goo_Polax.bi"
-'#INCLUDE ONCE "Goo_Curve2d.bi"
-'#INCLUDE ONCE "Goo_Simplecurve2d.bi"
-'#INCLUDE ONCE "Goo_Pie2d.bi"
-'#INCLUDE ONCE "Goo_Bar2d.bi"
-'#INCLUDE ONCE "Goo_Box2d.bi"
 STATIC SHARED AS GooFillerValue _goo_fillers(15)
 _goo_fillers( 0) = TYPE(@"fill-color", @"red1")
 _goo_fillers( 1) = TYPE(@"fill-color", @"blue1")
@@ -281,29 +274,17 @@ END WITH
 
 #MACRO _GOO_NEW_OBJECT(_U_,_N_,_T_)
   VAR _N_ = g_object_new(GOO_TYPE_##_U_, NULL)
-  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  'IF arg THEN g_object_set_valist(G_OBJECT(_N_), arg, VA_NEXT(va, ANY PTR))
   DIM AS CVA_LIST args : CVA_START(args, _T_)
   VAR arg = CVA_ARG(args, gchar PTR)
   IF arg THEN g_object_set_valist(G_OBJECT(_N_), arg, args)
   CVA_END(args)
 #ENDMACRO
 
-'#MACRO _GOO_SET_G_CVA(_N_,_T_)
-  ''VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  ''IF arg THEN g_object_set_valist(G_OBJECT(_N_), arg, VA_NEXT(va, ANY PTR))
-  'DIM AS CVA_LIST args : CVA_START(args, _T_)
-  'VAR arg = CVA_ARG(args, gchar PTR)
-  'IF arg THEN g_object_set_valist(G_OBJECT(_N_), arg, args)
-    ''g_object_set_valist(G_OBJECT(_N_), arg, @(CVA_ARG(args, ANY PTR)))
-  'CVA_END(args)
-'#ENDMACRO
-
 #MACRO _GOO_DEFINE_PROP(_W_,_T_,_I_,_L_,_C_)
- SUB goo_##_W_##_get_##_L_##_properties CDECL ALIAS stringify(goo_##_W_##_get_##_L_##_properties) _
+ SUB goo_##_W_##_get_##_L_##_properties CDECL ALIAS G_STRINGIFY(goo_##_W_##_get_##_L_##_properties) _
    (BYVAL _T_ AS Goo##_T_ PTR, ...) EXPORT
   _GOO_DEFINE_PROP_(get,_T_,_I_,_C_)
- SUB goo_##_W_##_set_##_L_##_properties CDECL ALIAS stringify(goo_##_W_##_set_##_L_##_properties) _
+ SUB goo_##_W_##_set_##_L_##_properties CDECL ALIAS G_STRINGIFY(goo_##_W_##_set_##_L_##_properties) _
    (BYVAL _T_ AS Goo##_T_ PTR, ...) EXPORT
   _GOO_DEFINE_PROP_(set,_T_,_I_,_C_)
 #ENDMACRO
@@ -314,9 +295,6 @@ END WITH
 
    g_return_if_fail(GOO_IS_##_I_(_T_))
 
-   'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-   'IF arg THEN _
-     'g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, VA_NEXT(va, ANY PTR))
    DIM AS CVA_LIST args : CVA_START(args, _T_)
    VAR arg = CVA_ARG(args, gchar PTR)
    IF arg THEN _
@@ -325,32 +303,6 @@ END WITH
  TROUT("")
  END SUB
 #ENDMACRO
-'#MACRO _GOO_DEFINE_PROP(_W_,_T_,_I_,_L_,_C_)
- 'SUB goo_##_W_##_get_##_L_##_properties CDECL ALIAS stringify(goo_##_W_##_M_##_L_##_properties) _
-   '(BYVAL _T_ AS Goo##_T_ PTR, ...) EXPORT
-  '_GOO_DEFINE_PROP_(get,_T_,_I_,_C_)
- 'SUB goo_##_W_##_set_##_L_##_properties CDECL ALIAS stringify(goo_##_W_##_M_##_L_##_properties) _
-   '(BYVAL _T_ AS Goo##_T_ PTR, ...) EXPORT
-  '_GOO_DEFINE_PROP_(set,_T_,_I_,_C_)
-'#ENDMACRO
-
-''[
-'#MACRO _GOO_DEFINE_PROP_(_M_,_T_,_I_,_C_)
- 'TRIN("")
-
-   'g_return_if_fail(GOO_IS_##_I_(_T_))
-
-   'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-   'IF arg THEN _
-     'g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, VA_NEXT(va, ANY PTR))
-   ''DIM AS CVA_LIST args : CVA_START(args, _T_)
-   ''VAR arg = CVA_ARG(args, gchar PTR)
-   ''IF arg THEN _
-     ''g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, CVA_ARG(args, ANY PTR))
-   ''CVA_END(args)
- 'TROUT("")
- 'END SUB
-'#ENDMACRO
 ']
 
 '{

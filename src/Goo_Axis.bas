@@ -189,10 +189,10 @@ Since: 0.0
     .Across = IIF(p, goo_value(p), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
   CASE GOO_AXIS_PROP_OFFS_ALONG  :     .Along = g_value_get_double(Value)
   CASE GOO_AXIS_PROP_OFFS_ACROSS :    .Across = g_value_get_double(Value)
-  CASE GOO_AXIS_PROP_BORDERS     : g_free(.Borders) : .Borders = g_value_dup_string(Value) : ?*.Borders
+  CASE GOO_AXIS_PROP_BORDERS     : g_free(.Borders) : .Borders = g_value_dup_string(Value)
   CASE GOO_AXIS_PROP_FORMAT      :    g_free(.Form) : .Form = g_value_dup_string(Value)
   CASE GOO_AXIS_PROP_TEXT_ALIGN  : .TextAlign = g_value_get_enum(Value)
-  CASE GOO_AXIS_PROP_SUBTICK     :      .Tsub = g_value_get_uint(Value) : ?.Tsub
+  CASE GOO_AXIS_PROP_SUBTICK     :      .Tsub = g_value_get_uint(Value)
   CASE GOO_AXIS_PROP_LOGBAS      :     .Basis = g_value_get_double(Value)
   CASE GOO_AXIS_PROP_TICKS_ANGLE :     .Angle = -g_value_get_double(Value)
   CASE GOO_AXIS_PROP_TICK_OFFSET :  .TickOffs = g_value_get_double(Value)

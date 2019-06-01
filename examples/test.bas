@@ -38,13 +38,14 @@ gtk_widget_show (scrolled_win)
 gtk_container_add (GTK_CONTAINER (win), scrolled_win)
 
 VAR canvas = goo_canvas_new ()
+g_object_set(G_OBJECT(canvas), "background-color", "white", NULL)
+
 gtk_widget_set_size_request (canvas, 600, 450)
 goo_canvas_set_bounds (GOO_CANVAS (canvas), 0, 0, 1000, 1000)
 gtk_widget_show (canvas)
 gtk_container_add (GTK_CONTAINER (scrolled_win), canvas)
 
 VAR glob = goo_canvas_get_root_item(GOO_CANVAS (canvas))
-
 'g_object_set(canvas, "automatic_bounds", TRUE1, NULL)
 
 'CONST az = 30
@@ -61,9 +62,9 @@ VAR glob = goo_canvas_get_root_item(GOO_CANVAS (canvas))
     'Ty = !"sin(<i>φ</i>)\ncos(<i>φ</i>)"
 
 'CONST W = 422, H = 322
-#INCLUDE "example_simplecurve.bas"
+'#INCLUDE "example_simplecurve.bas"
 '#INCLUDE "example_curve_markers.bas"
-'#INCLUDE "example_curve_perpens.bas"
+#INCLUDE "example_curve_perpens.bas"
 '#INCLUDE "example_curve_areas.bas"
 '#INCLUDE "example_curve_helix.bas"
 '#INCLUDE "example_curve_portfolio.bas"
@@ -76,7 +77,7 @@ VAR glob = goo_canvas_get_root_item(GOO_CANVAS (canvas))
 '#INCLUDE "example_box_simple.bas"
 '#INCLUDE "example_box_outliers.bas"
 
-'#INCLUDE "example_pie_segments.bas"
+'''#INCLUDE "example_pie_segments.bas"
 '#INCLUDE "example_pie_simple.bas"
 '#INCLUDE "example_pie_rings.bas"
 '#INCLUDE "example_pie_avarage.bas"
@@ -105,6 +106,7 @@ var xxx = goo_canvas_rect_new(glob, 0.0, 0.0, w, h, _
 g_signal_connect(group, "button_press_event", _
                  G_CALLBACK(@on_rect_button_press), NULL)
 
+'goo_canvas_update(GOO_CANVAS (canvas))
 
 '~ Pass control to the GTK+ main event loop.
 gtk_main ()
