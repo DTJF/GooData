@@ -281,28 +281,27 @@ END WITH
   CVA_END(args)
 #ENDMACRO
 
-#MACRO _GOO_DEFINE_PROP(_W_,_T_,_I_,_L_,_C_)
- SUB goo_##_W_##_get_##_L_##_properties CDECL ALIAS G_STRINGIFY(goo_##_W_##_get_##_L_##_properties) _
-   (BYVAL _T_ AS Goo##_T_ PTR, ...) EXPORT
-  _GOO_DEFINE_PROP_(get,_T_,_I_,_C_)
- SUB goo_##_W_##_set_##_L_##_properties CDECL ALIAS G_STRINGIFY(goo_##_W_##_set_##_L_##_properties) _
-   (BYVAL _T_ AS Goo##_T_ PTR, ...) EXPORT
-  _GOO_DEFINE_PROP_(set,_T_,_I_,_C_)
+#MACRO _GOO_DEFINE_PROP(_L_,_C_,_U_,_P_,_M_) 'L=lower case, C=camelcase, U=uppercase, P=property, M=member
+ 'SUB goo_##_L_##_get_##_P_##_properties CDECL ALIAS G_STRINGIFY(goo_##_L_##_get_##_P_##_properties) _
+   '(BYVAL _C_ AS Goo##_C_ PTR, ...) EXPORT
+  '_GOO_DEFINE_PROP_(get,_C_,_U_,_M_)
+ 'SUB goo_##_L_##_set_##_P_##_properties CDECL ALIAS G_STRINGIFY(goo_##_L_##_set_##_P_##_properties) _
+   '(BYVAL _C_ AS Goo##_C_ PTR, ...) EXPORT
+  '_GOO_DEFINE_PROP_(set,_C_,_U_,_M_)
 #ENDMACRO
 
 '[
-#MACRO _GOO_DEFINE_PROP_(_M_,_T_,_I_,_C_)
- TRIN("")
+#MACRO _GOO_DEFINE_PROP_(_MODE_,_C_,_U_,_M_) 'C=camelcase, U=uppercase, M=member
+ 'TRIN("")
 
-   g_return_if_fail(GOO_IS_##_I_(_T_))
+   'g_return_if_fail(GOO_IS_##_U_(_C_))
 
-   DIM AS CVA_LIST args
-   CVA_START(args, _T_)
-   VAR arg = CVA_ARG(args, gchar PTR)
-   IF arg THEN _
-     g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, args)
-   CVA_END(args)
- TROUT("")
+   'DIM AS CVA_LIST args
+   'CVA_START(args, _C_)
+   'VAR arg = CVA_ARG(args, gchar PTR)
+   'IF arg THEN g_object_##_MODE_##_valist(G_OBJECT(_C_##->##_M_), arg, args)
+   'CVA_END(args)
+ 'TROUT("")
  END SUB
 #ENDMACRO
 ']
