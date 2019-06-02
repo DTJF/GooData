@@ -330,7 +330,8 @@ SUB _curve2d CDECL( _
     path = GOO_CANVAS_PATH(Item)->path_data->path_commands
     s = .Dat->Dat : d = .Dat->Col : az = .Dat->Row : e = s + d * az - 1
     kx = .ChX : ky = .ChY ': va = VA_FIRST()
-    DIM AS CVA_LIST args : CVA_START(args, Mo)
+    DIM AS CVA_LIST args
+    CVA_START(args, Mo)
 
     SELECT CASE AS CONST Mo '~                      get extra parameters
     CASE CURVE2D_PERPENS_H :   xn = .AxisX->Pos(CVA_ARG(args, gdouble))
