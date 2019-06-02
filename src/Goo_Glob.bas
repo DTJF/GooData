@@ -398,7 +398,8 @@ END FUNCTION
 '~ add drawing statements to an GArray (GooCanvasPath)
 SUB _goo_add_path(BYVAL Path AS GArray PTR, BYVAL Mo AS UBYTE, ...)
   DIM AS GooCanvasPathCommand cmd
-  DIM AS CVA_LIST args : CVA_START(args, Mo)
+  DIM AS CVA_LIST args
+  CVA_START(args, Mo)
   SELECT CASE AS CONST Mo
   CASE ASC("M"), ASC("m") : cmd.simple.relative = IIF(Mo = ASC("m"), 1, 0)
                           : cmd.simple.x = CVA_ARG(args, gdouble)

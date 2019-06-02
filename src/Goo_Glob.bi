@@ -274,7 +274,8 @@ END WITH
 
 #MACRO _GOO_NEW_OBJECT(_U_,_N_,_T_)
   VAR _N_ = g_object_new(GOO_TYPE_##_U_, NULL)
-  DIM AS CVA_LIST args : CVA_START(args, _T_)
+  DIM AS CVA_LIST args
+  CVA_START(args, _T_)
   VAR arg = CVA_ARG(args, gchar PTR)
   IF arg THEN g_object_set_valist(G_OBJECT(_N_), arg, args)
   CVA_END(args)
@@ -295,7 +296,8 @@ END WITH
 
    g_return_if_fail(GOO_IS_##_I_(_T_))
 
-   DIM AS CVA_LIST args : CVA_START(args, _T_)
+   DIM AS CVA_LIST args
+   CVA_START(args, _T_)
    VAR arg = CVA_ARG(args, gchar PTR)
    IF arg THEN _
      g_object_##_M_##_valist(G_OBJECT(_T_->##_C_), arg, args)
