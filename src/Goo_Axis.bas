@@ -38,16 +38,26 @@ after creating the #GooAxis. Instead put the background box and the
 #INCLUDE ONCE "Goo_Glob.bi"
 #INCLUDE ONCE "Goo_Axis.bi"
 
-STATIC SHARED _axis__update AS SUB CDECL( _
-  BYVAL AS GooCanvasItem PTR, _
-  BYVAL AS gboolean, _
-  BYVAL AS cairo_t PTR, _
-  BYVAL AS GooCanvasBounds PTR)
-DECLARE SUB _axis_update CDECL( _
-  BYVAL AS GooCanvasItem PTR, _
-  BYVAL AS gboolean, _
-  BYVAL AS cairo_t PTR, _
-  BYVAL AS GooCanvasBounds PTR)
+'STATIC SHARED _axis__update AS SUB CDECL( _
+  'BYVAL AS GooCanvasItem PTR, _
+  'BYVAL AS gboolean, _
+  'BYVAL AS cairo_t PTR, _
+  'BYVAL AS GooCanvasBounds PTR)
+'DECLARE SUB _axis_update CDECL( _
+  'BYVAL AS GooCanvasItem PTR, _
+  'BYVAL AS gboolean, _
+  'BYVAL AS cairo_t PTR, _
+  'BYVAL AS GooCanvasBounds PTR)
+
+'SUB _axis_item_interface_init CDECL( _
+  'BYVAL iface AS GooCanvasItemIface PTR) STATIC
+  '_axis__update = iface->update
+  'iface->update = @_axis_update
+'END SUB
+GOO_ITEM_CONNECT(axis)
+
+G_DEFINE_TYPE_WITH_CODE(GooAxis, goo_axis, GOO_TYPE_CANVAS_GROUP, _
+       G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _goo_axis_item_interface_init))
 
 #DEFINE AXIS_VERTICAL 0 = BIT(.Mo, 0)
 #DEFINE AXIS_TYPE .Mo AND &b11
@@ -66,15 +76,6 @@ SUB GooAxis.Geo(BYREF P AS GooFloat, BYREF L AS GooFloat)
   CASE ELSE                           : P = By : L = Bh
   END SELECT
 END SUB
-
-SUB _axis_item_interface_init CDECL( _
-  BYVAL iface AS GooCanvasItemIface PTR) STATIC
-  _axis__update = iface->update
-  iface->update = @_axis_update
-END SUB
-
-G_DEFINE_TYPE_WITH_CODE(GooAxis, goo_axis, GOO_TYPE_CANVAS_GROUP, _
-       G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _axis_item_interface_init))
 
 SUB _axis_finalize CDECL( _
   BYVAL Obj AS GObject PTR)
@@ -185,8 +186,8 @@ goo_axis_set_ticks_properties().
 Since: 0.0
 '/
     VAR p = CAST(UBYTE PTR, g_value_get_string(Value))
-    .Along  = IIF(p, goo_value(p), 0.0)
-    .Across = IIF(p, goo_value(p), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
+    .Along  = IIF(p, _goo_value(p), 0.0)
+    .Across = IIF(p, _goo_value(p), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
   CASE GOO_AXIS_PROP_OFFS_ALONG  :     .Along = g_value_get_double(Value)
   CASE GOO_AXIS_PROP_OFFS_ACROSS :    .Across = g_value_get_double(Value)
   CASE GOO_AXIS_PROP_BORDERS     : g_free(.Borders) : .Borders = g_value_dup_string(Value)
@@ -228,8 +229,8 @@ TRIN("")
     .Bh = h
 
     '~ VAR t = .Offset
-    '~ .Along  = IIF(t, goo_value(t), 0.0)
-    '~ .Across = IIF(t, goo_value(t), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
+    '~ .Along  = IIF(t, _goo_value(t), 0.0)
+    '~ .Across = IIF(t, _goo_value(t), 0.0) : IF AXIS_VERTICAL THEN .Across *= -1
 
     SELECT CASE AS CONST AXIS_TYPE
     CASE GOO_AXIS_SOUTH
@@ -276,8 +277,8 @@ Since: 0.0
 '/
     VAR t = .TLen
     IF t THEN
-      .Tout = IIF(t, goo_value(t), 0.0)
-      .Tin = IIF(t, goo_value(t), 0.0)
+      .Tout = IIF(t, _goo_value(t), 0.0)
+      .Tin = IIF(t, _goo_value(t), 0.0)
     ELSE
       .Tout = 5.0
     END IF
@@ -297,8 +298,8 @@ This may contain
 Since: 0.0
 '/
     t = .Borders
-    .SMin = IIF(t, goo_value(t), 0.0)
-    .SMax = IIF(t, goo_value(t), 0.0)
+    .SMin = IIF(t, _goo_value(t), 0.0)
+    .SMax = IIF(t, _goo_value(t), 0.0)
     IF .SMin = .SMax THEN .VScale = 0.0 : g_warning("Axis has no borders!") : RETURN 2
     IF t = 0 THEN IF .SMin > .SMax THEN SWAP .SMin, .SMax
 
@@ -317,7 +318,7 @@ Since: 0.0
     IF .Basis THEN
       IF .SMin = 0.0 ORELSE .SMax = 0.0 THEN _
           .VScale = 0.0 : g_warning("Log axis, zero border ==> axis unscaled!") : RETURN 3
-      IF .Basis < 0 ORELSE ABS(.Basis - 1) < GOO_EPS THEN _
+      IF .Basis < 0 ORELSE ABS(.Basis - 1) < _GOO_EPS THEN _
           .VScale = 0.0 : g_warning("Log axis, logbasis < 0 or = 1 ==> axis unscaled!") : RETURN 3
       IF .Smax < 0.0 THEN g_warning("Log axis, swaping negative right border!") : .Smax = -.Smax
       IF .Smin < 0.0 THEN g_warning("Log axis, swaping negative left border!") : .Smin = -.Smin
@@ -351,7 +352,7 @@ TRIN("")
   WITH *Axis
     IF .Basis ORELSE S < .eps * ABS(.Smax - .Smin) THEN '~find tic~ positions
       VAR x = g_string_new(""), t = .Form
-      IF 0 = t ORELSE t[0] = 0 THEN t = GOO_DEFAULT_FORM
+      IF 0 = t ORELSE t[0] = 0 THEN t = _GOO_DEFAULT_FORMAT
 
       DIM AS PangoRectangle ir, lr
       g_string_printf(x, t, .SMin)
@@ -369,7 +370,7 @@ TRIN("")
       goo_canvas_item_remove(n)
       g_string_free(x, TRUE1)
 
-      S = IIF(AXIS_VERTICAL, .Angle, .Angle + 90.) * DEG_RAD
+      S = IIF(AXIS_VERTICAL, .Angle, .Angle + 90.) * _DEG_RAD
       VAR c = ABS(COS(S))
       S = ABS(SIN(S))
       VAR l = IIF(w * S < h * c, h / c, w / S) / PANGO_SCALE, az = .Alen / l
@@ -456,7 +457,7 @@ TRIN("")
     VAR nn = "", t = .TVal
     IF INSTR(*t, *s1) THEN '~                       single ticks defined
       DO
-        VAR r = goo_value(t) : IF t THEN nn &= MKD(r) ELSE EXIT DO
+        VAR r = _goo_value(t) : IF t THEN nn &= MKD(r) ELSE EXIT DO
         VAR a = INSTR(*t, *s1) + 1 : IF a <= 1 THEN EXIT DO '~ !!! unscaled
         VAR e = INSTR(*t, *s2) : IF e < a THEN EXIT DO
         .TickLabels &= MID(*t, a, e - a) & CHR(0)
@@ -465,7 +466,7 @@ TRIN("")
     END IF
 
     DO
-      VAR r = goo_value(t) : IF t THEN nn &= MKD(r) ELSE EXIT DO
+      VAR r = _goo_value(t) : IF t THEN nn &= MKD(r) ELSE EXIT DO
     LOOP : IF LEN(nn) > 8 THEN RETURN nn
 
 TROUT("")
@@ -702,7 +703,7 @@ Since: 0.0
     .Ticktext = goo_canvas_group_new(.Textgr, NULL)
 
     VAR x = g_string_new(""), y = .Form
-    IF 0 = y ORELSE y[0] = 0 THEN y = GOO_DEFAULT_FORM
+    IF 0 = y ORELSE y[0] = 0 THEN y = _GOO_DEFAULT_FORMAT
     VAR p = SADD(.TickLabels), l = LEN(.TickLabels)
     VAR e = p + l, t = y, o = .POffs + .Across
 
@@ -723,10 +724,10 @@ Since: 0.0
       IF lr.height > hmax THEN hmax = lr.height
     NEXT : g_string_free(x, TRUE1)
     IF AXIS_VERTICAL THEN
-      o = (90 - ABS(.Angle)) * DEG_RAD
+      o = (90 - ABS(.Angle)) * _DEG_RAD
       .TickHeight = 1.5
     ELSE
-      o = ABS(.Angle) * DEG_RAD
+      o = ABS(.Angle) * _DEG_RAD
       .TickHeight = 1.1
     END IF
     .TickHeight *= (SIN(o) * bmax + COS(o) * hmax) / PANGO_SCALE
@@ -800,7 +801,7 @@ TRIN("")
 TROUT("")
 END SUB
 
-SUB _axis_update CDECL( _
+SUB _goo_axis_update CDECL( _
   BYVAL item AS GooCanvasItem PTR, _
   BYVAL entire_tree AS gboolean, _
   BYVAL cr AS cairo_t PTR, _
@@ -853,7 +854,7 @@ TRIN("")
 
     END IF
   END WITH
-  _axis__update(item, entire_tree, cr, bounds)
+  _chainup_update_item_axis(item, entire_tree, cr, bounds)
 
 TROUT("")
 END SUB
@@ -1132,13 +1133,7 @@ TRIN("")
 
   g_return_val_if_fail(Back > 0, NULL)
 
-  'VAR axis = g_object_new(GOO_TYPE_AXIS, NULL)
-  ''VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-
-  ''IF arg THEN g_object_set_valist(axis, arg, VA_NEXT(va, ANY PTR))
-  '_GOO_SET_G_CVA(axis,Text)
-  _GOO_NEW_OBJECT(AXIS,axis,Text)
-
+  VAR axis = g_object_new(GOO_TYPE_AXIS, NULL)
   WITH *GOO_AXIS(axis)
     .Parent = Parent
     .Back = Back : g_object_ref(.Back)
@@ -1165,10 +1160,7 @@ TRIN("")
   GOO_CANVAS_ITEM_SIMPLE(axis)->simple_data->transform = _
     GOO_CANVAS_ITEM_SIMPLE(.Back)->simple_data->transform
 
-  IF Parent THEN
-    goo_canvas_item_add_child(Parent, axis, -1)
-    g_object_unref(axis)
-  END IF
+  _GOO_END_NEW_FUNC(axis,Text,item)
 
 TROUT("")
   RETURN axis

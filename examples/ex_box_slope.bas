@@ -1,7 +1,7 @@
 '~This is file ex_box_area.bas
 '
 '~Licence: GPLv3
-'~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2020 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 'VAR line_group = 1.0, l = 4 * ATN(1)
 'VAR da = LA_M(az + 1, 3), f = 2 * l / IIF(az, az, 1)

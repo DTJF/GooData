@@ -28,25 +28,26 @@ The #GooBar2d group contains these childs:
 #INCLUDE ONCE "Goo_Axis.bi"
 #INCLUDE ONCE "Goo_Bar2d.bi"
 
-STATIC SHARED _Bar2d__update AS SUB CDECL( _
-  BYVAL AS GooCanvasItem PTR, _
-  BYVAL AS gboolean, _
-  BYVAL AS cairo_t PTR, _
-  BYVAL AS GooCanvasBounds PTR)
-DECLARE SUB _bar2d_update CDECL( _
-  BYVAL AS GooCanvasItem PTR, _
-  BYVAL AS gboolean, _
-  BYVAL AS cairo_t PTR, _
-  BYVAL AS GooCanvasBounds PTR)
+'STATIC SHARED _Bar2d__update AS SUB CDECL( _
+  'BYVAL AS GooCanvasItem PTR, _
+  'BYVAL AS gboolean, _
+  'BYVAL AS cairo_t PTR, _
+  'BYVAL AS GooCanvasBounds PTR)
+'DECLARE SUB _bar2d_update CDECL( _
+  'BYVAL AS GooCanvasItem PTR, _
+  'BYVAL AS gboolean, _
+  'BYVAL AS cairo_t PTR, _
+  'BYVAL AS GooCanvasBounds PTR)
 
-SUB _bar2d_item_interface_init CDECL( _
-  BYVAL iface AS GooCanvasItemIface PTR) STATIC
-  _Bar2d__update = iface->update
-  iface->update = @_bar2d_update
-END SUB
+'SUB _bar2d_item_interface_init CDECL( _
+  'BYVAL iface AS GooCanvasItemIface PTR) STATIC
+  '_Bar2d__update = iface->update
+  'iface->update = @_bar2d_update
+'END SUB
+GOO_ITEM_CONNECT(bar2d)
 
 G_DEFINE_TYPE_WITH_CODE(GooBar2d, goo_bar2d, GOO_TYPE_CANVAS_GROUP, _
-       G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _bar2d_item_interface_init))
+       G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _goo_bar2d_item_interface_init))
 
 SUB _bar2d_finalize CDECL( _
   BYVAL Obj AS GObject PTR)
@@ -214,9 +215,9 @@ Note: in case of stacked graphs (#GooBar2d:channels with start letter
 Since: 0.0
 '/
     VAR p = .Gaps, nchannels = 0, chno = "", mo = GOO_BAR2D_SIMPLE, offset = 0.0
-    VAR gap1 = IIF(p, ABS(goo_value(p)), 0.1)
+    VAR gap1 = IIF(p, ABS(_goo_value(p)), 0.1)
     IF gap1 > 0.5 THEN gap1 = 0.5
-    VAR gap2 = IIF(p, ABS(goo_value(p)), 0.0)
+    VAR gap2 = IIF(p, ABS(_goo_value(p)), 0.0)
     IF gap2 > 0.5 THEN gap2 = 0.5
 
 /'*
@@ -271,10 +272,10 @@ Since: 0.0
       CASE ASC("G"), ASC("g") : mo = GOO_BAR2D_GANTT   : gap2 = 0.0
       CASE ASC("P"), ASC("p") : mo = GOO_BAR2D_PERCENT : gap2 = 0.0
       CASE ASC("S"), ASC("s") : mo = GOO_BAR2D_STACK   : gap2 = 0.0
-      CASE ASC("V"), ASC("v") : mo = GOO_BAR2D_VALUE : offset = goo_value(p)
+      CASE ASC("V"), ASC("v") : mo = GOO_BAR2D_VALUE : offset = _goo_value(p)
       END SELECT
       WHILE p
-        VAR channel = CUINT(goo_value(p)) : IF 0 = p THEN EXIT WHILE
+        VAR channel = CUINT(_goo_value(p)) : IF 0 = p THEN EXIT WHILE
         g_return_if_fail(channel < .Dat->Col)
         IF mo = GOO_BAR2D_GANTT THEN g_return_if_fail(channel > 0)
         chno &= MKI(channel)
@@ -431,7 +432,7 @@ Since: 0.0
 TROUT("")
 END SUB
 
-SUB _bar2d_update CDECL( _
+SUB _goo_bar2d_update CDECL( _
   BYVAL item AS GooCanvasItem PTR, _
   BYVAL entire_tree AS gboolean, _
   BYVAL cr AS cairo_t PTR, _
@@ -443,7 +444,7 @@ TRIN("")
 
   WITH *bar2d
     IF _bar2d_calc(bar2d) ORELSE entire_tree ORELSE simple->need_update THEN _bar2d_draw(bar2d)
-    _Bar2d__update(item, entire_tree, cr, bounds)
+    _chainup_update_item_bar2d(item, entire_tree, cr, bounds)
   END WITH
 
 TROUT("")
@@ -545,11 +546,7 @@ TRIN("")
   g_return_val_if_fail(Dat > 0, NULL)
   g_return_val_if_fail(GOO_IS_AXIS(Axis), NULL)
 
-  'VAR bar2d = g_object_new(GOO_TYPE_BAR2D, NULL)
-  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  'IF arg THEN g_object_set_valist(bar2d, arg, VA_NEXT(va, ANY PTR))
-  _GOO_NEW_OBJECT(BAR2D,bar2d,Dat)
-
+  VAR bar2d = g_object_new(GOO_TYPE_BAR2D, NULL)
   WITH *GOO_BAR2D(bar2d)
     .Parent = Parent
     .Axis = Axis : g_object_ref(.Axis)
@@ -562,10 +559,7 @@ TRIN("")
     .BLabl = goo_canvas_group_new(bar2d, NULL)
   END WITH
 
-  IF Parent THEN
-    goo_canvas_item_add_child(Parent, bar2d, -1)
-    g_object_unref(bar2d)
-  END IF
+  _GOO_END_NEW_FUNC(bar2d,Dat,item)
 
 TROUT("")
   RETURN bar2d

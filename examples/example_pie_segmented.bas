@@ -4,13 +4,13 @@
 ' pie charts can can get reduced to a limited area by <link linkend="GooPie2d--segmented">>setting a start ankle and an ankle range</link>.
 '
 '~Licence: GPLv3
-'~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2020 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 '~ create the data
 CONST cols = 5
 DIM AS gdouble datas(..., cols) = _
   { _
-    {0.1, 0.1 , 0.25, 0.4 , 0.0, 1.0 - GOO_EPS} _
+    {0.1, 0.1 , 0.25, 0.4 , 0.0, 1.0 - _GOO_EPS} _
   , {0.3, 0.05, 0.7 , 0.05, 0.0, 0.0} _
   , {0.6, 0.1 , 0.8 , 0.05, 0.0, 0.0} _
   , {0.9, 0.05, 0.9 , 0.3 , 0.0, 0.0} _

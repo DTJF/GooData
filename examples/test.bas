@@ -64,7 +64,7 @@ VAR glob = goo_canvas_get_root_item(GOO_CANVAS (canvas))
 'CONST W = 422, H = 322
 '#INCLUDE "example_simplecurve.bas"
 '#INCLUDE "example_curve_markers.bas"
-#INCLUDE "example_curve_perpens.bas"
+'#INCLUDE "example_curve_perpens.bas"
 '#INCLUDE "example_curve_areas.bas"
 '#INCLUDE "example_curve_helix.bas"
 '#INCLUDE "example_curve_portfolio.bas"
@@ -90,6 +90,27 @@ VAR glob = goo_canvas_get_root_item(GOO_CANVAS (canvas))
 '#INCLUDE "test_pie.bas"
 '#INCLUDE "test_bar.bas"
 '#INCLUDE "test_polax.bas"
+'#INCLUDE "test_back.bas"
+
+
+VAR wdth = 422.0, hght = 240.0, line_group = 2.0
+
+VAR pixbuf = gdk_pixbuf_new_from_file("background.png", 0)
+VAR group = goo_canvas_group_new(Glob)
+VAR cback = goo_back_new(group, 10.0, 10.0, wdth, hght, _
+            "line_width", line_group, _
+            "font", "Arial", _
+            "fill-pixbuf", pixbuf, _
+_            "polar", "315 0", _
+_            "polar", "315 0.5", _
+            "polar", "315 0.2 270", _
+             NULL)
+VAR rback = goo_back_new(group, 10.0, 250.0, wdth, hght, _
+            "line_width", line_group, _
+            "font", "Arial", _
+            "fill-pixbuf", pixbuf, _
+             NULL)
+
 
 
 goo_canvas_update(GOO_CANVAS (canvas))

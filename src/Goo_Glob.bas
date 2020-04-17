@@ -2,7 +2,7 @@
 '~A library to present technical data
 '~
 '~Licence: LGPLv2
-'~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2020 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 /'*
 SECTION:Goo_Data
@@ -322,16 +322,16 @@ SUB _goo_line.init(BYVAL Xn AS GooFloat, BYVAL Yn AS GooFloat, _
   dx = x - Xa
   dy = y - Ya
   l = SQR(dx * dx + dy * dy)
-  IF ABS(dx) > GOO_EPS THEN
+  IF ABS(dx) > _GOO_EPS THEN
     w = ATN(dy / dx)
-    IF dx < 0 THEN w += GOO_PI
+    IF dx < 0 THEN w += _GOO_PI
   ELSE
-    w = IIF(dy < 0, -1, 1) * GOO_PI_2
+    w = IIF(dy < 0, -1, 1) * _GOO_PI_2
   END IF
 END SUB
 
 '~ read a value from a string (BIN, OCT, DEC, HEX with fractional digits)
-FUNCTION goo_value(BYREF T AS UBYTE PTR) AS GooFloat
+FUNCTION _goo_value(BYREF T AS UBYTE PTR) AS GooFloat
   STATIC AS INTEGER a, e, b, x, y, d, f, v, c_deci = 10
   STATIC AS UBYTE PTR n
   STATIC AS DOUBLE r
@@ -396,7 +396,7 @@ FUNCTION goo_value(BYREF T AS UBYTE PTR) AS GooFloat
 END FUNCTION
 
 '~ add drawing statements to an GArray (GooCanvasPath)
-SUB _goo_add_path(BYVAL Path AS GArray PTR, BYVAL Mo AS UBYTE, ...)
+SUB _goo_add_path(BYREF Path AS GArray PTR, BYVAL Mo AS UBYTE, ...)
   DIM AS GooCanvasPathCommand cmd
   DIM AS CVA_LIST args
   CVA_START(args, Mo)
@@ -451,7 +451,7 @@ SUB _goo_add_path(BYVAL Path AS GArray PTR, BYVAL Mo AS UBYTE, ...)
   CASE ELSE
     cmd.simple.type = GOO_CANVAS_PATH_CLOSE_PATH
   END SELECT : CVA_END(args)
-  g_array_append_val(Path, cmd)
+  Path = g_array_append_val(Path, cmd)
 END SUB
 
 '~ add a marker to an GArray (GooCanvasPath)
@@ -579,19 +579,19 @@ FUNCTION GooPolar.init(BYVAL Obj AS gpointer, _
                        BYVAL C AS GooFloat = 0.0) AS gboolean
 
   Ws = A '~                             start angle
-  Wr = IIF(R > GOO_EPS, R, _2GOO_PI) '~ angle range
+  Wr = IIF(R > _GOO_EPS, R, _2GOO_PI) '~ angle range
 
   DIM AS gdouble xn, xm, yn, ym, v, e = Ws + Wr, lw
   v = COS(A) : IF v > 0 THEN xm = v : xn = v * C ELSE xm = v * C : xn = v
   v = SIN(A) : IF v > 0 THEN ym = v : yn = v * C ELSE ym = v * C : yn = v
-  IF ABS(A) < GOO_EPS ORELSE _
+  IF ABS(A) < _GOO_EPS ORELSE _
       e > _2GOO_PI THEN                                     xm =  1.0
-  IF (A < GOO_PI_2  ANDALSO e > GOO_PI_2) ORELSE _
-      e > GOO_PI_2 * 5 THEN                                 ym =  1.0
-  IF (A < GOO_PI    ANDALSO e > GOO_PI) ORELSE _
-      e > GOO_PI_2 * 6 THEN                                 xn = -1.0
-  IF (A < GOO_PI_32 ANDALSO e > GOO_PI_32) ORELSE _
-      e > GOO_PI_2 * 7 THEN                                 yn = -1.0
+  IF (A < _GOO_PI_2  ANDALSO e > _GOO_PI_2) ORELSE _
+      e > _GOO_PI_2 * 5 THEN                                 ym =  1.0
+  IF (A < _GOO_PI    ANDALSO e > _GOO_PI) ORELSE _
+      e > _GOO_PI_2 * 6 THEN                                 xn = -1.0
+  IF (A < _GOO_PI_32 ANDALSO e > _GOO_PI_32) ORELSE _
+      e > _GOO_PI_2 * 7 THEN                                 yn = -1.0
   v = COS(e) : IF v > xm THEN  xm = v  ELSE IF v < xn THEN  xn = v
   v *= C     : IF v > xm THEN  xm = v  ELSE IF v < xn THEN  xn = v
   v = SIN(e) : IF v > ym THEN  ym = v  ELSE IF v < yn THEN  yn = v
@@ -630,7 +630,7 @@ SUB GooPolar.circle(BYVAL Pa AS GArray PTR, BYVAL P AS GooFloat)
   IF Wr < _2GOO_PI THEN
     VAR we = Ws + Wr
     _goo_add_path(Pa, ASC("M"), COS(Ws) * rx + Cx, Cy - ry * SIN(Ws))
-    _goo_add_path(Pa, ASC("A"), rx, ry, 0.0, IIF(Wr > GOO_PI, 1, 0), 0, _
+    _goo_add_path(Pa, ASC("A"), rx, ry, 0.0, IIF(Wr > _GOO_PI, 1, 0), 0, _
                                 COS(we) * rx + Cx, Cy - ry * SIN(we))
   ELSE '~                                                    full circle
     _goo_add_path(Pa, ASC("M"), rx + Cx, Cy)
@@ -644,10 +644,10 @@ SUB GooPolar.segment(BYVAL Pa AS GArray PTR, _
                      BYVAL Ri AS GooFloat, BYVAL Rd AS GooFloat, _
                      BYVAL Wa AS GooFloat, BYVAL Wd AS GooFloat)
   VAR xi = Cent + Ri * Rr, xa = xi + Rd * Rr
-  IF GapFlag THEN IF xi > GOO_EPS THEN xi += Gap : IF xi > xa THEN EXIT SUB
+  IF GapFlag THEN IF xi > _GOO_EPS THEN xi += Gap : IF xi > xa THEN EXIT SUB
   VAR ya = xa * Rv, yi = xi * Rv
   VAR aa = Ws + Wa * Wr, ae = aa + Wd * Wr, ad2 = (ae - aa) / 2
-  IF ad2 >= GOO_PI - GOO_EPS THEN '~                 full circle outside
+  IF ad2 >= _GOO_PI - _GOO_EPS THEN '~                full circle outside
     _goo_add_path(Pa, ASC("M"), xa + Cx, Cy)
     _goo_add_path(Pa, ASC("A"), xa, ya, 0.0, 0, 0, Cx - xa, Cy)
     _goo_add_path(Pa, ASC("A"), xa, ya, 0.0, 0, 0, Cx + xa, Cy)
@@ -660,7 +660,7 @@ SUB GooPolar.segment(BYVAL Pa AS GArray PTR, _
     EXIT SUB
   END IF
 
-  VAR siz = IIF(ad2 > GOO_PI_2, 1, 0)
+  VAR siz = IIF(ad2 > _GOO_PI_2, 1, 0)
   IF 0 = Gap THEN '~                                             no gaps
     VAR sa = SIN(aa), ca = COS(aa)
     VAR se = SIN(ae), ce = COS(ae)
@@ -682,7 +682,7 @@ SUB GooPolar.segment(BYVAL Pa AS GArray PTR, _
   _goo_add_path(Pa, ASC("A"), xa, ya, 0.0, siz, 0, _
                               Cx + xa * COS(w), Cy - ya * SIN(w))
 
-  IF xi > Gap THEN dw = ASIN(Gap / xi / 2) ELSE dw = GOO_PI_2 : siz = 0
+  IF xi > Gap THEN dw = ASIN(Gap / xi / 2) ELSE dw = _GOO_PI_2 : siz = 0
   IF ad2 < dw THEN '~                              inner segment point
     VAR l = Gap / SIN(ad2) / 2 : IF l > 0.9 * xa THEN l = 0.9 * xa
     w = aa + ad2

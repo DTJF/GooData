@@ -239,11 +239,7 @@ FUNCTION goo_simplecurve2d_new CDECL ALIAS "goo_simplecurve2d_new"( _
   ...) AS GooCanvasItem PTR EXPORT
 TRIN("")
 
-  'VAR poly = g_object_new(GOO_TYPE_SIMPLECURVE2D, NULL)
-  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  'IF arg THEN g_object_set_valist(G_OBJECT(poly), arg, VA_NEXT(va, ANY PTR))
-  _GOO_NEW_OBJECT(SIMPLECURVE2D,simplecurve2d,Chy)
-
+  VAR simplecurve2d = g_object_new(GOO_TYPE_SIMPLECURVE2D, NULL)
   WITH *GOO_SIMPLECURVE2D(simplecurve2d)
     .Parent = Parent
     .AxisX = AxisX : g_object_ref(.AxisX)
@@ -256,10 +252,7 @@ TRIN("")
     goo_canvas_points_unref(points)
   END WITH
 
-  IF Parent THEN
-    goo_canvas_item_add_child(Parent, simplecurve2d, -1)
-    g_object_unref(simplecurve2d)
-  END IF
+  _GOO_END_NEW_FUNC(simplecurve2d,Chy,item)
 
 TROUT("")
   RETURN simplecurve2d

@@ -223,11 +223,7 @@ FUNCTION goo_polax_new CDECL ALIAS "goo_polax_new"( _
   ...) AS GooCanvasItem PTR EXPORT
 TRIN("")
 
-  'VAR polax = g_object_new(GOO_TYPE_POLAX, NULL)
-  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  'IF arg THEN g_object_set_valist(G_OBJECT(polax), arg, VA_NEXT(va, ANY PTR))
-  _GOO_NEW_OBJECT(POLAX,polax,Text)
-
+  VAR polax = g_object_new(GOO_TYPE_POLAX, NULL)
   WITH *GOO_POLAX(polax)
     .Parent = Parent
     .Bx = X
@@ -254,10 +250,7 @@ TRIN("")
 
   END WITH
 
-  IF Parent THEN
-    goo_canvas_item_add_child(Parent, polax, -1)
-    g_object_unref(polax)
-  END IF
+  _GOO_END_NEW_FUNC(polax,Text)
 
 TROUT("")
   RETURN polax

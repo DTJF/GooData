@@ -251,7 +251,7 @@ END FUNCTION
 '~ draw slope lines
 #MACRO _slope_lines(_C_)
   xn = _C_[echa[0]]
-  IF ABS(xn) <> GOO_DINF THEN
+  IF ABS(xn) <> _GOO_DINF THEN
     yn = ATN(xn)
     xn = COS(yn) * l
     yn = SIN(yn) * l
@@ -278,7 +278,7 @@ END FUNCTION
     IF sx THEN x += sx ELSE x = .AxisX->Pos(s[kx])
     IF sy THEN y += sy ELSE y = .AxisY->Pos(s[ky])
 
-    IF ABS(x - xa) > GOO_EPS ORELSE ABS(y - ya) > GOO_EPS THEN
+    IF ABS(x - xa) > _GOO_EPS ORELSE ABS(y - ya) > _GOO_EPS THEN
       IF i THEN EXIT DO
       xn = xa : xa = x : yn = ya : ya = y : i = s
     END IF
@@ -287,7 +287,7 @@ END FUNCTION
   SELECT CASE AS CONST Mo '~                    start line drawing OUADR
   CASE CURVE2D_QUADR, CURVE2D_QUADR_BACK, CURVE2D_QUADR_BACK_X
     n->init(x, y, xa, ya)
-    w = (o->w + n->w) / 2 + IIF(ABS(o->w - n->w) > GOO_PI, GOO_PI, 0.0)
+    w = (o->w + n->w) / 2 + IIF(ABS(o->w - n->w) > _GOO_PI, _GOO_PI, 0.0)
     l = IIF(n->l > o->l, o->l, n->l) / 2
     _goo_add_path(path, ASC("Q"), xa - COS(w) * l, ya - SIN(w) * l, xa, ya)
   END SELECT
@@ -297,7 +297,7 @@ END FUNCTION
 
 #MACRO _bezier_cubic()
   n->init(x, y, o->x, o->y) '~                     continue line drawing
-  w = (o->w + n->w) / 2 : IF ABS(o->w - n->w) > GOO_PI THEN w += GOO_PI
+  w = (o->w + n->w) / 2 : IF ABS(o->w - n->w) > _GOO_PI THEN w += _GOO_PI
   yn = SIN(w) * befa
   xn = COS(w) * befa
   _goo_add_path(path, ASC("C"), _
@@ -410,13 +410,13 @@ SUB _curve2d CDECL( _
       CASE CURVE2D_LINE, CURVE2D_LINE_BACK, CURVE2D_LINE_BACK_X
         _goo_add_path(path, ASC("L"), x, y)
       CASE CURVE2D_QUADR, CURVE2D_QUADR_BACK, CURVE2D_QUADR_BACK_X
-        IF ABS(x - xa) > GOO_EPS ORELSE ABS(y - ya) > GOO_EPS THEN
+        IF ABS(x - xa) > _GOO_EPS ORELSE ABS(y - ya) > _GOO_EPS THEN
           xa = x
           ya = y
           _goo_add_path(path, ASC("T"), x, y)
         END IF
       CASE CURVE2D_CUBIC, CURVE2D_CUBIC_BACK, CURVE2D_CUBIC_BACK_X
-        IF ABS(x - o->x) > GOO_EPS ORELSE ABS(y - o->y) > GOO_EPS THEN
+        IF ABS(x - o->x) > _GOO_EPS ORELSE ABS(y - o->y) > _GOO_EPS THEN
           _bezier_cubic()
         END IF
       CASE ELSE : g_return_if_reached()
@@ -473,7 +473,7 @@ TRIN("")
       CASE ASC("H"), ASC("h") : _curve2d(curve2d, .CLine, CURVE2D_LINE_HISTO_H)
       CASE ASC("V"), ASC("v") : _curve2d(curve2d, .CLine, CURVE2D_LINE_HISTO_V)
       CASE ASC("B"), ASC("b")
-        VAR v = goo_value(p)
+        VAR v = _goo_value(p)
         IF p THEN _curve2d(curve2d, .CLine, CURVE2D_CUBIC, v) _
              ELSE _curve2d(curve2d, .CLine, CURVE2D_QUADR)
       CASE ELSE
@@ -535,7 +535,7 @@ SUB _curve2d_area(BYVAL Curve2d AS GooCurve2d PTR)
 
     VAR typ = CURVE2D_LINE, befa = 0.0
     IF .ATyp <> 0 ANDALSO .ATyp[0] <> 0 THEN
-      VAR p = .ATyp : befa = goo_value(p)
+      VAR p = .ATyp : befa = _goo_value(p)
       SELECT CASE AS CONST .ATyp[0]
       CASE ASC("H"), ASC("h") : typ = CURVE2D_LINE_HISTO_H
       CASE ASC("V"), ASC("v") : typ = CURVE2D_LINE_HISTO_V
@@ -544,7 +544,7 @@ SUB _curve2d_area(BYVAL Curve2d AS GooCurve2d PTR)
     END IF
     _curve2d(curve2d, .CArea, typ, befa)
 
-    VAR d = 2 * .Dat->Row, p = .ADir, v = goo_value(p)
+    VAR d = 2 * .Dat->Row, p = .ADir, v = _goo_value(p)
     VAR path = GOO_CANVAS_PATH(.CArea)->path_data->path_commands
     SELECT CASE AS CONST .ADir[0]
     CASE ASC("H"), ASC("h"), ASC("V"), ASC("v")
@@ -607,7 +607,7 @@ TRIN("")
     g_object_set(.CPerp, "data", NULL, NULL)
     IF 0 = .Pers ORELSE .Pers[0] = 0 THEN EXIT SUB
 
-    VAR x = .Pers, v = goo_value(x)
+    VAR x = .Pers, v = _goo_value(x)
     SELECT CASE AS CONST .Pers[0]
     CASE ASC("H"), ASC("h") : _curve2d(curve2d, .CPerp, CURVE2D_VAR_PERPENS_H, CUINT(v))
     CASE ASC("V"), ASC("v") : _curve2d(curve2d, .CPerp, CURVE2D_VAR_PERPENS_V, CUINT(v))
@@ -671,10 +671,10 @@ TRIN("")
     g_object_set(.CErrs, "data", NULL, NULL)
     IF 0 = .Erro ORELSE .Erro[0] = 0 THEN EXIT SUB
 
-    VAR fl = 0, p = .Erro, v = ABS(goo_value(p))
+    VAR fl = 0, p = .Erro, v = ABS(_goo_value(p))
     DIM AS gint c(3)
     FOR i AS INTEGER = 0 TO 3
-      c(i) = IIF(p, CINT(goo_value(p)), -1)
+      c(i) = IIF(p, CINT(_goo_value(p)), -1)
       IF p THEN IF c(i) < .Dat->Col THEN fl += 1 ELSE c(i) = -1
     NEXT
     SELECT CASE AS CONST fl
@@ -683,7 +683,7 @@ TRIN("")
     CASE 1 : c(1) = c(0)
     CASE 3 : c(3) = c(2)
     END SELECT
-    IF v < GOO_EPS THEN v = 8.0
+    IF v < _GOO_EPS THEN v = 8.0
     _curve2d(curve2d, .CErrs, CURVE2D_ERRORS, v, @c(0))
   END WITH
 
@@ -721,15 +721,15 @@ TRIN("")
 
     VAR p = .Vect
     DIM AS gint c(1)
-    c(0) = CINT(goo_value(p))
+    c(0) = CINT(_goo_value(p))
     IF c(0) < .Dat->Col THEN
       SELECT CASE AS CONST .Vect[0]
       CASE ASC("S"), ASC("s")
-        VAR l = goo_value(p) : IF l <= 0 THEN l = 8.0
+        VAR l = _goo_value(p) : IF l <= 0 THEN l = 8.0
         _curve2d(curve2d, .CVect, CURVE2D_SLOPE, @c(0), l)
         EXIT SUB
       CASE ELSE
-        c(1) = CINT(goo_value(p)) : IF c(1) >= .Dat->Col THEN EXIT SELECT
+        c(1) = CINT(_goo_value(p)) : IF c(1) >= .Dat->Col THEN EXIT SELECT
         _curve2d(curve2d, .CVect, CURVE2D_VECTORS, @c(0))
         EXIT SUB
       END SELECT
@@ -782,18 +782,18 @@ TRIN("")
     VAR p = .Mark
     SELECT CASE AS CONST .Mark[0]
     CASE ASC("C"), ASC("c")
-      VAR ch = CINT(goo_value(p)) : g_return_if_fail(ch >= 0)
-      .MType = IIF(p, CINT(goo_value(p)), GOO_MARKER_CIRCLE)
-      .MScal = IIF(p, ABS(goo_value(p)), 1.0)
-      IF p = 0 THEN .MScal = 1.0 ELSE g_return_if_fail(.MScal > GOO_EPS)
+      VAR ch = CINT(_goo_value(p)) : g_return_if_fail(ch >= 0)
+      .MType = IIF(p, CINT(_goo_value(p)), GOO_MARKER_CIRCLE)
+      .MScal = IIF(p, ABS(_goo_value(p)), 1.0)
+      IF p = 0 THEN .MScal = 1.0 ELSE g_return_if_fail(.MScal > _GOO_EPS)
       _curve2d(curve2d, .CMark, CURVE2D_VAR_MARKERS, ch)
     CASE ASC("D"), ASC("d")
-      .MType = CINT(goo_value(p))
+      .MType = CINT(_goo_value(p))
       _curve2d(curve2d, .CMark, CURVE2D_MARKERS, 8.0)
     CASE ELSE
-      VAR size = ABS(goo_value(p))
-      IF p THEN .MType = CINT(goo_value(p)) ELSE size = 8.0
-      g_return_if_fail(size > GOO_EPS)
+      VAR size = ABS(_goo_value(p))
+      IF p THEN .MType = CINT(_goo_value(p)) ELSE size = 8.0
+      g_return_if_fail(size > _GOO_EPS)
       _curve2d(curve2d, .CMark, CURVE2D_MARKERS, size)
     END SELECT
   END WITH
@@ -835,8 +835,8 @@ Since: 0.0
       IF 0 = p ORELSE 0 = p[0] THEN '~                           default
         IF .Dat->Col = 1 THEN .ChX = -1 : .ChY = 0 ELSE .ChX = 0 : .ChY = 1
       ELSE
-        .ChY = CINT(goo_value(p))
-        .ChX = IIF(p, CINT(goo_value(p)), -1)
+        .ChY = CINT(_goo_value(p))
+        .ChX = IIF(p, CINT(_goo_value(p)), -1)
         IF p THEN SWAP .ChX, .ChY
       END IF
 
@@ -1095,11 +1095,7 @@ TRIN("")
   g_return_val_if_fail(Dat > 0, NULL)
   '~ g_return_val_if_fail(Dat->Col_() >= 1, NULL)
 
-  'VAR curve2d = g_object_new (GOO_TYPE_curve2d, NULL)
-  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  'IF arg THEN g_object_set_valist(curve2d, arg, VA_NEXT(va, ANY PTR))
-  _GOO_NEW_OBJECT(CURVE2D,curve2d,Dat)
-
+  VAR curve2d = g_object_new(GOO_TYPE_CURVE2D, NULL)
   WITH *GOO_CURVE2D(curve2d)
     .Parent = Parent
     .AxisX = AxisX : g_object_ref(.AxisX)
@@ -1126,10 +1122,7 @@ TRIN("")
       GOO_CANVAS_ITEM_SIMPLE(.AxisX)->simple_data->transform
   END WITH
 
-  IF Parent THEN
-    goo_canvas_item_add_child (Parent, curve2d, -1)
-    g_object_unref (curve2d)
-  END IF
+  _GOO_END_NEW_FUNC(curve2d,Dat,item)
 
 TROUT("")
   RETURN curve2d

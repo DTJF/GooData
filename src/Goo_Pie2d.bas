@@ -30,7 +30,7 @@ The #GooPie2d group contains these childs:
 '~ '* is contolled directly by the #GooPie2d properties.
 
 #INCLUDE ONCE "Goo_Glob.bi"
-#INCLUDE ONCE "Goo_Polax.bi"
+'#INCLUDE ONCE "Goo_Polax.bi"
 #INCLUDE ONCE "Goo_Pie2d.bi"
 
 STATIC SHARED _Pie2d__update AS SUB CDECL( _
@@ -285,14 +285,14 @@ Since: 0.0
       CASE ASC("A"), ASC("a") : mo = GOO_PIE2D_MIDDLE
       CASE ASC("B"), ASC("b") : mo = GOO_PIE2D_BAR
       CASE ASC("C"), ASC("c") : mo = GOO_PIE2D_CHANNEL
-        ch = CUINT(goo_value(p)) : g_return_if_fail(ch < .Dat->Col)
+        ch = CUINT(_goo_value(p)) : g_return_if_fail(ch < .Dat->Col)
       CASE ASC("G"), ASC("g") : mo = GOO_PIE2D_GANTT
       CASE ASC("P"), ASC("p") : mo = GOO_PIE2D_PERCENT
       CASE ASC("S"), ASC("s") : mo = GOO_PIE2D_STACK
-      CASE ASC("V"), ASC("v") : mo = GOO_PIE2D_VALUE : offset = goo_value(p)
+      CASE ASC("V"), ASC("v") : mo = GOO_PIE2D_VALUE : offset = _goo_value(p)
       END SELECT
       WHILE p
-        VAR channel = CUINT(goo_value(p)) : IF 0 = p THEN EXIT WHILE
+        VAR channel = CUINT(_goo_value(p)) : IF 0 = p THEN EXIT WHILE
         g_return_if_fail(channel < .Dat->Col)
         IF mo = GOO_PIE2D_GANTT THEN g_return_if_fail(channel > 0)
         chno &= MKI(channel)
@@ -324,9 +324,9 @@ Since: 0.0
     p = .Gaps
     VAR gap = 0.0, cent = 0.0
     IF p ANDALSO p[0] <> 0 THEN
-      gap = goo_value(p)
+      gap = _goo_value(p)
       gap = CLAMP(gap, 0.0, 0.08)
-      cent = IIF(p, ABS(goo_value(p)), 0.0)
+      cent = IIF(p, ABS(_goo_value(p)), 0.0)
       cent = CLAMP(cent, 0.0, 1.0)
     END IF
 
@@ -386,7 +386,7 @@ Since: 0.0
           FOR i AS INTEGER = 0 TO nchannels
             r = p[c[i]] * xm - xn
             IF r <= r0 THEN dr = r0 - r ELSE dr = r - r0 : r = r0
-            IF ABS(dr) > GOO_EPS THEN pie.segment(path(i), r, dr, w, dw)
+            IF ABS(dr) > _GOO_EPS THEN pie.segment(path(i), r, dr, w, dw)
             w += dw
           NEXT
         NEXT
@@ -399,7 +399,7 @@ Since: 0.0
         FOR i AS INTEGER = 0 TO nchannels
           VAR r = i * dr
           VAR dw = FRAC(ABS(p[c[i]]))
-          IF dw > GOO_EPS THEN
+          IF dw > _GOO_EPS THEN
             VAR w = FRAC(ABS(p[c[i] - 1]))
             IF range < _2GOO_PI ANDALSO w + dw > 1.0 THEN
               pie.segment(path(i), r, dr, w, 1.0 - w)
@@ -424,7 +424,7 @@ Since: 0.0
           VAR r = 0.0
           FOR i AS INTEGER = 0 TO nchannels
             VAR dr = ABS(p[c[i]]) * xm
-            IF dr > GOO_EPS THEN pie.segment(path(i), r, dr, w, dw)
+            IF dr > _GOO_EPS THEN pie.segment(path(i), r, dr, w, dw)
             r += dr
           NEXT
         END IF
@@ -448,7 +448,7 @@ Since: 0.0
         VAR r = 0.0
         FOR i AS INTEGER = 0 TO nchannels
           VAR dr = ABS(p[c[i]]) * xm
-          IF dr > GOO_EPS THEN pie.segment(path(i), r, dr, w, dw)
+          IF dr > _GOO_EPS THEN pie.segment(path(i), r, dr, w, dw)
           r += dr
         NEXT
         w += dw
@@ -483,11 +483,11 @@ By default only the pie segments are drawn.
 Since: 0.0
 '/
     '~ VAR tt = g_string_new(""), z = .Form
-    '~ IF 0 = z ORELSE z[0] = 0 THEN z = GOO_DEFAULT_FORM
+    '~ IF 0 = z ORELSE z[0] = 0 THEN z = _GOO_DEFAULT_FORMAT
     '~ FOR i AS INTEGER = 0 TO nval
       '~ IF 1 THEN
         '~ VAR anchor = 0
-        '~ SELECT CASE ww / GOO_PI
+        '~ SELECT CASE ww / _GOO_PI
         '~ CASE 0.05 TO 0.45 : anchor = GOO_CANVAS_ANCHOR_SW
         '~ CASE 0.45 TO 0.55 : anchor = GOO_CANVAS_ANCHOR_S
         '~ CASE 0.55 TO 0.95 : anchor = GOO_CANVAS_ANCHOR_SE
@@ -644,11 +644,7 @@ TRIN("")
   '~ g_return_val_if_fail(GOO_IS_DATA_POINTS(Dat), NULL)
   g_return_val_if_fail(Dat > 0, NULL)
 
-  'VAR pie2d = g_object_new(GOO_TYPE_PIE2D, NULL)
-  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  'IF arg THEN g_object_set_valist(pie2d, arg, VA_NEXT(va, ANY PTR))
-  _GOO_NEW_OBJECT(PIE2D,pie2d,Height)
-
+  VAR pie2d = g_object_new(GOO_TYPE_PIE2D, NULL)
   WITH *GOO_PIE2D(pie2d)
     .Parent = Parent
     .Dat = Dat : goo_data_points_ref(.Dat)
@@ -667,10 +663,7 @@ TRIN("")
     .PLabl = goo_canvas_group_new(pie2d, NULL)
   END WITH
 
-  IF Parent THEN
-    goo_canvas_item_add_child(Parent, pie2d, -1)
-    g_object_unref(pie2d)
-  END IF
+  _GOO_END_NEW_FUNC(pie2d,Height,item)
 
 TROUT("")
   RETURN pie2d

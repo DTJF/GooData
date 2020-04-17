@@ -38,25 +38,26 @@ is contolled directly by the #GooBox2d properties.
 #INCLUDE ONCE "Goo_Axis.bi"
 #INCLUDE ONCE "Goo_Box2d.bi"
 
-STATIC SHARED _Box2d__update AS SUB CDECL( _
-  BYVAL AS GooCanvasItem PTR, _
-  BYVAL AS gboolean, _
-  BYVAL AS cairo_t PTR, _
-  BYVAL AS GooCanvasBounds PTR)
-DECLARE SUB _box2d_update CDECL( _
-  BYVAL AS GooCanvasItem PTR, _
-  BYVAL AS gboolean, _
-  BYVAL AS cairo_t PTR, _
-  BYVAL AS GooCanvasBounds PTR)
+'STATIC SHARED _Box2d__update AS SUB CDECL( _
+  'BYVAL AS GooCanvasItem PTR, _
+  'BYVAL AS gboolean, _
+  'BYVAL AS cairo_t PTR, _
+  'BYVAL AS GooCanvasBounds PTR)
+'DECLARE SUB _box2d_update CDECL( _
+  'BYVAL AS GooCanvasItem PTR, _
+  'BYVAL AS gboolean, _
+  'BYVAL AS cairo_t PTR, _
+  'BYVAL AS GooCanvasBounds PTR)
 
-SUB _box2d_item_interface_init CDECL( _
-  BYVAL iface AS GooCanvasItemIface PTR) STATIC
-  _Box2d__update = iface->update
-  iface->update = @_box2d_update
-END SUB
+'SUB _box2d_item_interface_init CDECL( _
+  'BYVAL iface AS GooCanvasItemIface PTR) STATIC
+  '_Box2d__update = iface->update
+  'iface->update = @_box2d_update
+'END SUB
+GOO_ITEM_CONNECT(box2d)
 
 G_DEFINE_TYPE_WITH_CODE(GooBox2d, goo_box2d, GOO_TYPE_CANVAS_GROUP, _
-       G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _box2d_item_interface_init))
+       G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM, _goo_box2d_item_interface_init))
 
 SUB _box2d_finalize CDECL( _
   BYVAL Obj AS GObject PTR)
@@ -181,7 +182,7 @@ Since: 0.0
       chno = MKI(0)
     ELSE
       WHILE p
-        VAR channel = CUINT(goo_value(p)) : IF 0 = p THEN EXIT WHILE
+        VAR channel = CUINT(_goo_value(p)) : IF 0 = p THEN EXIT WHILE
         g_return_if_fail(channel < .Dat->Col)
         chno &= MKI(channel)
         nchannels += 1
@@ -223,10 +224,10 @@ Since: 0.0
     VAR bb = 0.8 * o, bw = 0.0, wb = bb
     p = .Boxs
     IF p <> 0 ANDALSO p[0] <> 0 THEN
-      VAR v = goo_value(p) : IF p THEN bb = o * CLAMP(v, 0.1, 1.0) : _
-      v = goo_value(p) : IF p THEN bw = bb * (1 - CLAMP(v, 0.0, 1.0)) * 0.5 : _
-      v = goo_value(p) : IF p THEN wb = bb * CLAMP(v, 0.0, 1.0)
-      IF ABS(bw) < GOO_EPS THEN bw = 0.0
+      VAR v = _goo_value(p) : IF p THEN bb = o * CLAMP(v, 0.1, 1.0) : _
+      v = _goo_value(p) : IF p THEN bw = bb * (1 - CLAMP(v, 0.0, 1.0)) * 0.5 : _
+      v = _goo_value(p) : IF p THEN wb = bb * CLAMP(v, 0.0, 1.0)
+      IF ABS(bw) < _GOO_EPS THEN bw = 0.0
     END IF
 TRIN("3")
 /'*
@@ -278,10 +279,10 @@ Since: 0.0
     p = .Outl
     IF p <> 0 ANDALSO p[0] <> 0 THEN
       VAR f = IIF(p[0] = ASC("P") ORELSE p[0] = ASC("p"), 1, -1)
-      VAR v = goo_value(p)
-      IF p THEN wf = IIF(ABS(v) > GOO_EPS, CLAMP(v, 0.0, 0.5) * f, 0.0) : _
-        v = goo_value(p) : IF p THEN ms = bb * CLAMP(v, 0.0, 1.0) : _
-        mt = CINT(goo_value(p))
+      VAR v = _goo_value(p)
+      IF p THEN wf = IIF(ABS(v) > _GOO_EPS, CLAMP(v, 0.0, 0.5) * f, 0.0) : _
+        v = _goo_value(p) : IF p THEN ms = bb * CLAMP(v, 0.0, 1.0) : _
+        mt = CINT(_goo_value(p))
     END IF
 TRIN("4")
 
@@ -432,7 +433,7 @@ TRIN("5")
 TROUT("")
 END SUB
 
-SUB _box2d_update CDECL( _
+SUB _goo_box2d_update CDECL( _
   BYVAL item AS GooCanvasItem PTR, _
   BYVAL entire_tree AS gboolean, _
   BYVAL cr AS cairo_t PTR, _
@@ -444,7 +445,7 @@ TRIN("")
 
   WITH *box2d
     IF _box2d_calc(box2d) ORELSE entire_tree ORELSE simple->need_update THEN _box2d_draw(box2d)
-    _Box2d__update(item, entire_tree, cr, bounds)
+    _chainup_update_item_box2d(item, entire_tree, cr, bounds)
   END WITH
 
 TROUT("")
@@ -565,11 +566,7 @@ TRIN("")
   g_return_val_if_fail(Dat > 0, NULL)
   g_return_val_if_fail(GOO_IS_AXIS(Axis), NULL)
 
-  'VAR box2d = g_object_new(GOO_TYPE_BOX2D, NULL)
-  'VAR va = VA_FIRST(), arg = VA_ARG(va, ZSTRING PTR)
-  'IF arg THEN g_object_set_valist(box2d, arg, VA_NEXT(va, ANY PTR))
-  _GOO_NEW_OBJECT(BOX2D,box2d,Dat)
-
+  VAR box2d = g_object_new(GOO_TYPE_BOX2D, NULL)
   WITH *GOO_BOX2D(box2d)
     .Parent = Parent
     .Axis = Axis : g_object_ref(.Axis)
@@ -582,10 +579,7 @@ _               "fill-rule", CAIRO_FILL_RULE_EVEN_ODD, _
     .POut = goo_canvas_path_new(box2d, NULL, NULL)
   END WITH
 
-  IF Parent THEN
-    goo_canvas_item_add_child(Parent, box2d, -1)
-    g_object_unref(box2d)
-  END IF
+  _GOO_END_NEW_FUNC(box2d,Dat,item)
 
 TROUT("")
   RETURN box2d

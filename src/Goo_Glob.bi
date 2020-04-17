@@ -8,7 +8,6 @@ EXTERN AS GQuark goo_canvas_style_line_dash_id ALIAS "goo_canvas_style_line_dash
 
 #DEFINE TRUE1 (1)
 
-#DEFINE GOO_EPS (1e-7)
 TYPE AS gdouble GooFloat
 #DEFINE __(_T_) _T_
 '~ #DEFINE DBL_MAX 1.79e308
@@ -22,22 +21,30 @@ TYPE AS gdouble GooFloat
  #DEFINE TROUT(_T_)
 #ENDIF
 
-#DEFINE GOO_DEFAULT_FORM @"%g"
-#DEFINE GOO_SINF CVS(MKI(&b01111111100000000000000000000000uL))
-#DEFINE GOO_DINF CVD(MKLONGINT(&b0111111111110000000000000000000000000000000000000000000000000000uLL))
+#DEFINE _GOO_DEFAULT_FORMAT @"%g"
+#DEFINE _GOO_SINF CVS(MKI(&b01111111100000000000000000000000uL))
+#DEFINE _GOO_DINF CVD(MKLONGINT(&b0111111111110000000000000000000000000000000000000000000000000000uLL))
 
-CONST GOO_PI = 4 * ATN(1)
-CONST _2GOO_PI = GOO_PI * 2
-CONST GOO_PI_2 = GOO_PI / 2
-CONST GOO_PI_32 = GOO_PI_2 * 3
-CONST DEG_RAD = GOO_PI / 180
+CONST _GOO_EPS = 1e-7
+CONST _GOO_PI = 4 * ATN(1)
+CONST _2GOO_PI = _GOO_PI * 2
+CONST _GOO_PI_2 = _GOO_PI / 2
+CONST _GOO_PI_32 = _GOO_PI_2 * 3
+CONST _DEG_RAD = _GOO_PI / 180
 
 
 
-'~ don't change the order, important for goo_value()!
+'~ don't change the order, important for _goo_value()!
 STATIC SHARED AS STRING*23 _GOO_NO_CHR = ".0123456789DEdeABCFabcf"
 STATIC SHARED AS UBYTE _GOO_NO_VAL(...) = {0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, _
                                           13, 14, 13, 14, 10, 11, 12, 15, 10, 11, 12, 15}
+
+TYPE GooScaleFunc AS FUNCTION(BYVAL AS GooFloat) AS GooFloat
+TYPE GooItemUpdateFunc AS SUB CDECL( _
+  BYVAL AS GooCanvasItem PTR, _
+  BYVAL AS gboolean, _
+  BYVAL AS cairo_t PTR, _
+  BYVAL AS GooCanvasBounds PTR)
 
 /'*
 GooDataMarkers:
@@ -154,8 +161,8 @@ TYPE GooFiller
 END TYPE
 
 #DEFINE GOO_TYPE_FILLER (goo_filler_get_type())
-DECLARE FUNCTION goo_value(BYREF AS UBYTE PTR) AS GooFloat
-DECLARE SUB _goo_add_path(BYVAL AS GArray PTR, BYVAL AS UBYTE, ...)
+DECLARE FUNCTION _goo_value(BYREF AS UBYTE PTR) AS GooFloat
+DECLARE SUB _goo_add_path(BYREF AS GArray PTR, BYVAL AS UBYTE, ...)
 DECLARE SUB _goo_sort(BYVAL AS GooFloat PTR PTR, BYVAL AS UINTEGER)
 DECLARE SUB _goo_add_marker(BYVAL AS GArray PTR, _
   BYVAL AS GooFloat, BYVAL AS GooFloat, _
@@ -272,8 +279,7 @@ WITH _goo_filler_default
   .RefCount = 1
 END WITH
 
-#MACRO _GOO_NEW_OBJECT(_U_,_N_,_T_)
-  VAR _N_ = g_object_new(GOO_TYPE_##_U_, NULL)
+#MACRO _GOO_GET_VA(_N_,_T_)
   DIM AS CVA_LIST args
   CVA_START(args, _T_)
   VAR arg = CVA_ARG(args, gchar PTR)
@@ -281,27 +287,39 @@ END WITH
   CVA_END(args)
 #ENDMACRO
 
+#MACRO _GOO_END_NEW_FUNC(_N_,_T_,_M_) 'N=item name, T=terminating var, M=mode for add child
+  DIM AS CVA_LIST args
+  CVA_START(args, _T_)
+  VAR arg = CVA_ARG(args, gchar PTR)
+  IF arg THEN g_object_set_valist(G_OBJECT(_N_), arg, args)
+  CVA_END(args)
+  IF Parent THEN
+    goo_canvas_##_M_##_add_child(Parent, _N_, -1)
+    g_object_unref(_N_)
+  END IF
+#ENDMACRO
+
 #MACRO _GOO_DEFINE_PROP(_L_,_C_,_U_,_P_,_M_) 'L=lower case, C=camelcase, U=uppercase, P=property, M=member
- 'SUB goo_##_L_##_get_##_P_##_properties CDECL ALIAS G_STRINGIFY(goo_##_L_##_get_##_P_##_properties) _
-   '(BYVAL _C_ AS Goo##_C_ PTR, ...) EXPORT
-  '_GOO_DEFINE_PROP_(get,_C_,_U_,_M_)
- 'SUB goo_##_L_##_set_##_P_##_properties CDECL ALIAS G_STRINGIFY(goo_##_L_##_set_##_P_##_properties) _
-   '(BYVAL _C_ AS Goo##_C_ PTR, ...) EXPORT
-  '_GOO_DEFINE_PROP_(set,_C_,_U_,_M_)
+ SUB goo_##_L_##_get_##_P_##_properties CDECL ALIAS G_STRINGIFY(goo_##_L_##_get_##_P_##_properties) _
+   (BYVAL _C_ AS Goo##_C_ PTR, ...) EXPORT
+  _GOO_DEFINE_PROP_(get,_C_,_U_,_M_)
+ SUB goo_##_L_##_set_##_P_##_properties CDECL ALIAS G_STRINGIFY(goo_##_L_##_set_##_P_##_properties) _
+   (BYVAL _C_ AS Goo##_C_ PTR, ...) EXPORT
+  _GOO_DEFINE_PROP_(set,_C_,_U_,_M_)
 #ENDMACRO
 
 '[
 #MACRO _GOO_DEFINE_PROP_(_MODE_,_C_,_U_,_M_) 'C=camelcase, U=uppercase, M=member
- 'TRIN("")
+ TRIN("")
 
-   'g_return_if_fail(GOO_IS_##_U_(_C_))
+   g_return_if_fail(GOO_IS_##_U_(_C_))
 
-   'DIM AS CVA_LIST args
-   'CVA_START(args, _C_)
-   'VAR arg = CVA_ARG(args, gchar PTR)
-   'IF arg THEN g_object_##_MODE_##_valist(G_OBJECT(_C_##->##_M_), arg, args)
-   'CVA_END(args)
- 'TROUT("")
+   DIM AS CVA_LIST args
+   CVA_START(args, _C_)
+   VAR arg = CVA_ARG(args, gchar PTR)
+   IF arg THEN g_object_##_MODE_##_valist(G_OBJECT(_C_##->##_M_), arg, args)
+   CVA_END(args)
+ TROUT("")
  END SUB
 #ENDMACRO
 ']
@@ -311,12 +329,51 @@ END WITH
  VAR _A_ = 0.0, _R_ = 0.0
  IF _P_ ANDALSO _P_[0] <> 0 THEN
    VAR p = _P_
-   _A_ = ABS(goo_value(p)) * DEG_RAD
+   _A_ = ABS(_goo_value(p)) * _DEG_RAD
    IF p THEN
      IF _A_ >= _2GOO_PI THEN _A_ = FRAC(_A_ / _2GOO_PI) * _2GOO_PI
-     _R_ = ABS(goo_value(p)) * DEG_RAD
+     _R_ = ABS(_goo_value(p)) * _DEG_RAD
      IF p THEN IF _R_ >= _2GOO_PI THEN _R_ = FRAC(_R_ / _2GOO_PI) * _2GOO_PI
    END IF
  END IF
 #ENDMACRO
 '}
+
+#MACRO GOO_ITEM_CONNECT(NAM)
+ STATIC SHARED AS GooItemUpdateFunc _chainup_update_item_##NAM
+
+ DECLARE SUB _goo_##NAM##_update CDECL( _
+   BYVAL AS GooCanvasItem PTR, _
+   BYVAL AS gboolean, _
+   BYVAL AS cairo_t PTR, _
+   BYVAL AS GooCanvasBounds PTR)
+
+ SUB _goo_##NAM##_item_interface_init CDECL( _
+   BYVAL Iface AS GooCanvasItemIface PTR) STATIC
+   _chainup_update_item_##NAM = iface->update
+   iface->update = @_goo_##NAM##_update
+   'Iface->set_model = @_goo_##NAM##_set_model
+ END SUB
+#ENDMACRO
+
+#MACRO GOO_ITEM_CONNECT2(NAM)
+ STATIC SHARED AS GooItemUpdateFunc _chainup_update_item
+ STATIC SHARED AS GooCanvasItemIface PTR _chainup_parent_iface
+
+ DECLARE SUB canvas_item_interface_init CDECL(BYVAL AS GooCanvasItemIface PTR)
+
+ DECLARE SUB goo_##NAM##_update CDECL( _
+   BYVAL AS GooCanvasItem PTR, _
+   BYVAL AS gboolean, _
+   BYVAL AS cairo_t PTR, _
+   BYVAL AS GooCanvasBounds PTR)
+
+ SUB goo_##NAM##_item_interface_init CDECL( _
+   BYVAL Iface AS GooCanvasItemIface PTR) STATIC
+ TRIN("")
+   _chainup_update_item = iface->update
+   Iface->update = @goo_##NAM##_update
+   'Iface->set_model = @_goo_##NAM##_set_model
+ TROUT("")
+ END SUB
+#ENDMACRO

@@ -4,7 +4,7 @@
 ' areas can be drawn to a fixed value in any direction or to a second curve. Transparent colors (alpha) make the overlapping part visible and the grid shine through.
 '
 '~Licence: GPLv3
-'~(C) 2012-2019 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2020 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 CONST cols = 2, az = 30, l = 4 * ATN(1), line_group = 2.0
 DIM AS GooFloat datas(az, cols)

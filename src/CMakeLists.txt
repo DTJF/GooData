@@ -1,16 +1,18 @@
 SET(SRC_BAS
+  "Goo_Back.bas"
   "Goo_Axis.bas"
   "Goo_Bar2d.bas"
   "Goo_Box2d.bas"
   "Goo_Curve2d.bas"
   "Goo_Glob.bas"
   "Goo_Pie2d.bas"
-  "Goo_Polax.bas"
+  #"Goo_Polax.bas"
   "Goo_Simplecurve2d.bas"
   CACHE FILEPATH "BASIC source files" FORCE
   )
 
 SET(SRC_BI
+  "Goo_Back.bi"
   "Goo_Axis.bi"
   "Goo_Bar2d.bi"
   "Goo_Box2d.bi"
@@ -18,7 +20,7 @@ SET(SRC_BI
   "Goo_Data.bi"
   "Goo_Glob.bi"
   "Goo_Pie2d.bi"
-  "Goo_Polax.bi"
+  #"Goo_Polax.bi"
   "Goo_Simplecurve2d.bi"
   CACHE FILEPATH "BASIC header files" FORCE
   )
