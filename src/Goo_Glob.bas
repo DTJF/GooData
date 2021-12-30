@@ -2,7 +2,7 @@
 '~A library to present technical data
 '~
 '~Licence: LGPLv2
-'~(C) 2012-2020 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2022 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 /'*
 SECTION:Goo_Data

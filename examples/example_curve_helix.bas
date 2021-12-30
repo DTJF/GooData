@@ -4,7 +4,7 @@
 ' points can get connected by smooth curves with quadratic or cubic bezier lines.
 '
 '~Licence: GPLv3
-'~(C) 2012-2020 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2022 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 CONST cols = 1, az = 7, l = 10 * ATN(1)
 DIM AS GooFloat datas(az, cols)

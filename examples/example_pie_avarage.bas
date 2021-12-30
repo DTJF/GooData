@@ -4,7 +4,7 @@
 ' pie segments are drawn like the recangles in an avarage bar chart.
 '
 '~Licence: GPLv3
-'~(C) 2012-2020 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2022 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 '~ create the data
 CONST cols = 5

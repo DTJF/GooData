@@ -4,7 +4,7 @@
 ' a classic pie chart from one channel in Dat.
 '
 '~Licence: GPLv3
-'~(C) 2012-2020 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
+'~(C) 2012-2022 Thomas[ dot ]Freiherr[ at ]gmx[ dot ]net
 
 '~ create the data
 CONST cols = 5
